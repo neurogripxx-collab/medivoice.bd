@@ -1,58 +1,41 @@
-<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MediVoice BD - SMART</title>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#f8fafc}
-.h{background:linear-gradient(135deg,#0f172a,#059669);color:#fff;padding:20px;text-align:center;border-radius:0 0 26px 26px}
-.c{background:#fff;margin:12px;border-radius:18px;padding:14px;box-shadow:0 4px 14px #0001}
-.btn{width:100%;padding:13px;border:none;border-radius:11px;font-weight:bold;color:#fff;background:#0f172a;margin-top:7px}
-.btn-g{background:#059669}.btn-y{background:#f59e0b}
-input,select,textarea{width:100%;padding:11px;margin:5px 0;border:1.5px solid #e2e8f0;border-radius:9px}
-.row{display:flex;gap:6px}
-.chip{padding:6px 11px;background:#e0e7ff;border-radius:20px;font-size:12px;font-weight:bold;margin:2px;display:inline-block;cursor:pointer}
-.chip.active{background:#0f172a;color:#fff}
-.ai{background:linear-gradient(135deg,#fef9c3,#fde68a);border:2px solid #f59e0b;border-radius:14px;padding:12px}
-</style>
-</head><body>
-<div class="h"><h2 style="margin:0">❤️ MediVoice BD SMART</h2><p style="font-size:12px;margin:6px 0">ডাক্তার লিখবে + রিপোর্টে শুধু রোগ + অর্ডার + ভয়েস</p></div>
+<html>
+<head>
+  <title>medivoice.bd</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body{font-family:sans-serif;background:#f8fbff;margin:0;padding:15px}
+    #q{width:90%;max-width:360px;padding:12px 16px;border-radius:25px;border:1px solid #ddd;display:block;margin:20px auto;outline:none}
+    #list{max-width:360px;margin:0 auto}
+    #list div{padding:10px;background:#fff;margin:3px 0;border-radius:10px;text-align:center}
+  </style>
+</head>
+<body>
 
-<div class="c"><h3>👨‍⚕️ ডাক্তার যেভাবে লিখে</h3>
-<div class="row"><input id="pName" placeholder="রোগীর নাম"><input id="pAge" placeholder="বয়স" style="width:80px"></div>
-<div class="row"><input id="medName" list="bdList" placeholder="ওষুধ - যেমন Napa"><button onclick="addMed()" style="width:80px;background:#059669;color:#fff;border:none;border-radius:9px">+ যোগ</button></div>
-<datalist id="bdList"></datalist>
-<div id="doseBox"><small>ডোজ:</small><br>
-<span class="chip active" onclick="setDose(this,'1+0+1')">1+0+1</span>
-<span class="chip" onclick="setDose(this,'1+1+1')">1+1+1</span>
-<span class="chip" onclick="setDose(this,'0+0+1')">0+0+1</span>
-<span class="chip" onclick="setDose(this,'1+0+0')">1+0+0</span>
-</div>
-<div class="row"><select id="medWhen"><option value="পরে">ভাত খাওয়ার পরে</option><option value="আগে">ভাত খাওয়ার আগে</option><option value="খালি পেটে">খালি পেটে</option></select><input id="medDays" placeholder="৭ দিন" style="width:90px"></div>
-<div id="medList" style="margin-top:8px"></div>
-</div>
-
-<div class="c ai"><h3>🧪 রিপোর্ট - AI শুধু রোগ বলবে</h3>
-<label style="display:block;background:#fff;padding:12px;text-align:center;border-radius:10px;border:2px dashed #f59e0b">📷 রিপোর্টের ছবি দিন<input type="file" accept="image/*" hidden onchange="scanReport(this)"></label>
-<div id="reportAI" style="display:none;margin-top:10px;background:#fff;padding:10px;border-radius:10px"></div>
-</div>
-
-<div class="c"><h3>🔊 ভয়েস</h3><div id="voiceText" style="font-size:13px;background:#f1f5f9;padding:8px;border-radius:8px">রেডি...</div><button class="btn btn-y" onclick="speakAll()">🔊 ডাক্তারের লেখা শুনুন</button></div>
-
-<div class="c" style="border:2px solid #059669;background:#ecfdf5"><h3>🛒 ওষুধ অর্ডার</h3>
-<div id="cartList">🛒 কার্ট খালি - ডাক্তার ওষুধ লিখলে এখানে আসবে</div>
-<div class="row"><input id="orderMed" list="bdList" placeholder="আর কি লাগবে?"><input id="orderQty" type="number" value="1" style="width:70px"><button onclick="addToCart()" style="background:#059669;color:#fff;border:none;border-radius:9px;padding:10px">+</button></div>
-<input id="custName" placeholder="নাম"><input id="custAddr" placeholder="ঠিকানা - বরুড়া, কুমিল্লা"><button class="btn" style="background:#25D366" onclick="orderWA()">📱 WhatsApp এ অর্ডার পাঠান</button>
-</div>
+<input id="q" placeholder="ওষুধ খুঁজুন..." autocomplete="off">
+<div id="list"></div>
 
 <script>
-const MEDICINE_LIST=["Napa 500mg","Napa Extra","Ace 500mg","Seclo 20mg","Sergel 20mg","Maxpro 20mg","Losectil 20mg","Pantobex 20mg","Metformin 500mg","Comet 500mg","Amaryl 2mg","Daomin 5mg","Atorva 10mg","Rosuva 10mg","Losartan 50mg","Amlodipine 5mg","Zimax 500mg","Cefixime 200mg","Montelukast 10mg","Fexo 120mg","Alatrol","Deslor","Mixtard 30/70","Insulin R","Lantus","Esonix 20mg","Gatison Eye Drop","Ciprocin Eye Drop","Napa Syrup","Alatrol Syrup","Filmet 400mg"];
-let dl=document.getElementById('bdList'); MEDICINE_LIST.forEach(m=>{let o=document.createElement('option');o.value=m;dl.appendChild(o);});
-let meds=JSON.parse(localStorage.getItem('meds')||'[]'), cart=JSON.parse(localStorage.getItem('cart')||'[]'), curDose="1+0+1", lastDisease="";
-function setDose(el,d){document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active');curDose=d;}
-function addMed(){let n=document.getElementById('medName').value; if(!n) return alert('ওষুধের নাম লিখুন'); let w=document.getElementById('medWhen'); let days=document.getElementById('medDays').value||'৭ দিন'; meds.push({n,d:curDose,wText:w.options[w.selectedIndex].text,days}); localStorage.setItem('meds',JSON.stringify(meds)); render(); cart.push({m:n,q:1}); localStorage.setItem('cart',JSON.stringify(cart)); renderCart(); document.getElementById('medName').value='';}
-function render(){let h=meds.length==0?'কোন ওষুধ নাই':'';meds.forEach((m,i)=>{h+=`<div style="display:flex;justify-content:space-between;background:#f9fafb;padding:7px;margin:4px 0;border-radius:8px;font-size:13px"><span><b>${i+1}. ${m.n}</b> ${m.d} - ${m.wText} - ${m.days}</span><span onclick="meds.splice(${i},1);localStorage.setItem('meds',JSON.stringify(meds));render()" style="cursor:pointer">❌</span></div>`;});document.getElementById('medList').innerHTML=h;}
-function renderCart(){let h=cart.length==0?'🛒 কার্ট খালি':'';cart.forEach((c,i)=>{h+=`<div style="display:flex;justify-content:space-between;background:#fff;padding:6px;margin:3px 0;border-radius:6px"><span>${c.m} x ${c.q}</span><span onclick="cart.splice(${i},1);localStorage.setItem('cart',JSON.stringify(cart));renderCart()">❌</span></div>`;});document.getElementById('cartList').innerHTML=h;}
-function addToCart(){let m=document.getElementById('orderMed').value,q=document.getElementById('orderQty').value||1; if(!m) return; cart.push({m,q}); localStorage.setItem('cart',JSON.stringify(cart)); renderCart();}
-async function scanReport(input){let file=input.files[0]; let box=document.getElementById('reportAI'); box.style.display='block'; box.innerHTML='⏳ AI পড়ছে... ৫ সেকেন্ড'; try{let {data:{text}} = await Tesseract.recognize(file,'eng'); let t=text.toLowerCase(); let disease="রিপোর্টে সমস্যা আছে - ডাক্তারকে দেখান"; if(t.includes('sugar')||t.includes('glucose')||t.includes('hba1c')) disease="ডায়াবেটিস - সুগার বেশি"; else if(t.includes('creatinine')||t.includes('urea')) disease="কিডনি সমস্যা"; else if(t.includes('hemoglobin')||t.includes('hb')||t.includes('cbc')) disease="রক্তস্বল্পতা / ইনফেকশন"; else if(t.includes('cholesterol')||t.includes('triglyceride')) disease="কোলেস্টেরল বেশি"; else if(t.includes('sgpt')||t.includes('sgot')) disease="লিভার সমস্যা"; lastDisease=disease; box.innerHTML=`🔴 <b>রোগ:</b> <span style="font-size:18px;font-weight:bold">${disease}</span><br><small>টেক্সট: ${text.substring(0,100)}...</small>`; let u=new SpeechSynthesisUtterance(`রিপোর্টে পাওয়া গেছে ${disease}`); u.lang='bn-BD'; speechSynthesis.speak(u);}catch(e){box.innerHTML='❌ ছবি পড়া যায়নি, আরেকটা ছবি দিন';}}
-function speakAll(){let name=document.getElementById('pName').value||'রোগী'; let full=`আসসালামু আলাইকুম ${name}। ${lastDisease?`আপনার রোগ হলো ${lastDisease}।`:''} ডাক্তার লিখেছেন। `; meds.forEach((m,i)=>{full+=`${i+1} নম্বর ${m.n}, ${m.d}, ${m.wText}, ${m.days}। `;}); full+=` আল্লাহ সুস্থ রাখুক।`; let u=new SpeechSynthesisUtterance(full); u.lang='bn-BD'; u.rate=0.9; speechSynthesis.speak(u); document.getElementById('voiceText').innerText=full;}
-function orderWA(){if(cart.length==0) return alert('কার্ট খালি'); let name=document.getElementById('custName').value||'রোগী', addr=document.getElementById('custAddr').value||''; let msg=`*MediVoice BD অর্ডার*%0Aনাম:${name}%0Aঠিকানা:${addr}%0Aরোগ:${lastDisease}%0A%0A`; cart.forEach(c=>{msg+=`${c.m} x ${c.q}%0A`;}); window.open(`https://wa.me/8801812345678?text=${msg}`,'_blank');}
-render(); renderCart();
-</script></body></html>
+let meds = JSON.parse(localStorage.getItem('meds') || '["Napa 500","Napa Extra","Seclo 20","Fexo 120","Azithrocin 500","Entacyd Plus","Maxpro 20","Montair 10"]');
+let q = document.getElementById('q'), list = document.getElementById('list');
+
+q.addEventListener('input', ()=>{
+  let v = q.value.trim().toLowerCase();
+  if(!v){list.innerHTML="";return}
+  let f = meds.filter(m=>m.toLowerCase().includes(v)).slice(0,6);
+  list.innerHTML = f.map(m=>`<div onclick="q.value='${m}';list.innerHTML=''">${m}</div>`).join('');
+});
+
+q.addEventListener('keydown', e=>{
+  if(e.key==='Enter'){
+    let v = q.value.trim();
+    if(v && !meds.some(m=>m.toLowerCase()===v.toLowerCase())){
+      meds.push(v);
+      localStorage.setItem('meds', JSON.stringify(meds));
+    }
+    list.innerHTML="";
+  }
+});
+</script>
+
+</body>
+</html>
