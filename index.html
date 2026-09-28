@@ -3,72 +3,108 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medivoice.bd - SGH Prescription Pad</title>
+<title>Medivoice.bd - SGH Voice Prescription</title>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:#e9eef5}
-.header{background:#fff;padding:12px 18px;border-bottom:2px solid #0b5ed7;font-weight:800;color:#0b5ed7}
-.pad{max-width:920px;margin:12px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)}
-.sec{padding:14px;border-bottom:1px solid #eee}
-.search{width:100%;padding:12px;border:1.5px solid #0b5ed7;border-radius:10px;outline:none}
-.item{padding:8px;background:#f5f8ff;margin:3px 0;border-radius:8px;cursor:pointer}
-.c{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.card{background:#f8fbff;padding:12px;border-radius:12px;border:1px solid #dce6ff}
+*{box-sizing:border-box;font-family:system-ui}
+body{margin:0;background:#e9eef5}
+.header{background:#fff;padding:14px 18px;border-bottom:3px solid #0b5ed7;font-weight:800;color:#0b5ed7;font-size:18px}
+.pad{max-width:920px;margin:12px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.sec{padding:16px;border-bottom:1px solid #eee}
+.search{width:100%;padding:13px;border:1.5px solid #0b5ed7;border-radius:12px;outline:none;font-size:15px}
+.item{padding:10px;background:#f0f6ff;margin:4px 0;border-radius:10px;cursor:pointer;border:1px solid #d0ddff}
+.card{background:#f8fbff;padding:14px;border-radius:14px;border:1px solid #dce6ff}
+.voiceBox{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #10b981;padding:16px;border-radius:14px}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;color:#fff;background:#059669;margin-top:8px;font-size:15px}
 </style>
 </head>
 <body>
-<div class="header">Medivoice.bd • Digital Prescription • SGH Style</div>
+<div class="header">Medivoice.bd • SGH Digital Prescription • Voice Guide</div>
 
 <div class="pad">
 <div class="sec" style="display:flex;justify-content:space-between"><b>Digital Prescription RX-2026-147</b><span>28 Sep 2026</span></div>
 
-<div class="c sec">
+<div class="sec c" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 <div class="card">
-<h4>💊 ১. মেডিসিন লিস্ট - তোর ১০০০ লিস্ট</h4>
-<input id="q" class="search" placeholder="Napa লিখো - না থাকলে Enter চাপো, অটো যোগ হবে">
+<h4>💊 মেডিসিন লিস্ট - স্মার্ট সার্চ</h4>
+<input id="q" class="search" placeholder="Napa লিখুন - না থাকলে Enter এ অটো যোগ হবে">
 <div id="list"></div>
-<table style="width:100%;margin-top:8px;font-size:13px"><tbody id="rxbody"></tbody></table>
+<div style="margin-top:10px;display:flex;gap:6px">
+<select id="dose" style="flex:1;padding:8px;border-radius:8px"><option>1+0+1</option><option>1+1+1</option><option>0+0+1</option><option>1+0+0</option><option>ইন্সুলিন 20 IU</option></select>
+<select id="when" style="flex:1;padding:8px;border-radius:8px"><option value="ভাত খাওয়ার পরে">ভাত খাওয়ার পরে</option><option value="ভাত খাওয়ার 5 মিনিট আগে">ভাত খাওয়ার 5 মিনিট আগে</option><option value="নাস্তা করার 5 মিনিট আগে">নাস্তা করার 5 মিনিট আগে</option><option value="খালি পেটে">খালি পেটে</option><option value="ঘুমানোর আগে">ঘুমানোর আগে</option></select>
+</div>
+<table style="width:100%;margin-top:10px;font-size:14px"><tbody id="rxbody"></tbody></table>
 </div>
 
 <div class="card">
-<h4>🧪 ২. রিপোর্ট চেক - শুধু রোগ বলবে</h4>
-<label style="display:block;background:#fff;padding:10px;border:2px dashed #f59e0b;border-radius:10px;text-align:center">📷 রিপোর্টের ছবি দাও<input type="file" hidden accept="image/*" onchange="scan(this)"></label>
-<div id="report" style="margin-top:8px;font-weight:bold"></div>
+<h4>🧪 রিপোর্ট চেক - শুধু রোগ বলবে</h4>
+<label style="display:block;background:#fff;padding:12px;border:2px dashed #f59e0b;border-radius:12px;text-align:center">📷 রিপোর্টের ছবি দিন<input type="file" hidden accept="image/*" onchange="scan(this)"></label>
+<div id="report" style="margin-top:10px;font-weight:700;color:#b45309"></div>
 </div>
 </div>
 
-<div class="sec card" style="margin:12px;background:#ecfdf5;border-color:#10b981">
-<h4>⏰ ৩. এলার্ম - ওষুধ খাওয়ার রিমাইন্ডার</h4>
-<div style="display:flex;gap:6px"><input id="alarmMed" placeholder="কোন ওষুধ?" style="flex:1;padding:8px"><input id="alarmTime" type="time" style="padding:8px"><button onclick="setAlarm()" style="background:#059669;color:#fff;border:none;padding:8px 12px;border-radius:8px">SET</button></div>
-<div id="alarmList" style="margin-top:8px;font-size:13px">কোনো এলার্ম নাই</div>
+<div class="sec voiceBox">
+<h3>🔊 ডাঃ এর ভয়েস গাইড - রোগীকে বলে দিবে</h3>
+<p style="font-size:13px;color:#065f46">ডাঃ যা লিখবে, রোগীকে সালাম দিয়ে সময় মতো আদর করে বলে দিবে</p>
+<div id="voicePreview" style="background:#fff;padding:12px;border-radius:10px;margin:10px 0;font-size:14px;color:#333;min-height:60px">এখনো কোনো ওষুধ যোগ হয়নি</div>
+<button class="btn" onclick="speakProfessional()">▶️ আসসালামু আলাইকুম মা, এখন শুনুন - ভয়েস গাইড</button>
+<button class="btn" style="background:#0b5ed7" onclick="startAutoVoice()">⏰ অটো এলার্ম চালু - সময় হলে নিজে বলে দিবে</button>
+<div id="alarmStatus" style="margin-top:8px;font-size:12px;color:#065f46"></div>
 </div>
 
 </div>
 
 <script>
-let meds=JSON.parse(localStorage.getItem('meds')||'["Napa 500mg","Seclo 20mg","Fexo 120mg","Azithrocin 500mg","Entacyd Plus","Maxpro 20mg","Montair 10mg","Losectil 20mg"]');
+let meds=JSON.parse(localStorage.getItem('meds2')||'[]');
+let baseMeds=["Napa 500mg","Seclo 20mg","Fexo 120mg","Azithrocin 500mg","Entacyd Plus","Maxpro 20mg","Gensulin 20 IU","Gensulin 30/70","Comet 500mg","Losectil 20mg"];
 let q=document.getElementById('q'), list=document.getElementById('list'), rxbody=document.getElementById('rxbody');
-q.addEventListener('input',()=>{let v=q.value.toLowerCase();if(!v){list.innerHTML='';return}let f=meds.filter(m=>m.toLowerCase().includes(v)).slice(0,6);list.innerHTML=f.map(m=>`<div class="item" onclick="addMed('${m}')">${m}</div>`).join('');});
-q.addEventListener('keydown',e=>{if(e.key==='Enter'){let v=q.value.trim();if(!v)return;if(!meds.some(m=>m.toLowerCase()===v.toLowerCase())){meds.push(v);localStorage.setItem('meds',JSON.stringify(meds));}addMed(v);}});
-function addMed(m){rxbody.innerHTML+=`<tr><td>💊 ${m}</td><td>1+0+1</td><td><span onclick="this.parentElement.parentElement.remove()" style="color:red">✕</span></td></tr>`;list.innerHTML='';q.value='';}
+
+q.addEventListener('input',()=>{let v=q.value.toLowerCase();if(!v){list.innerHTML='';return}let all=[...new Set([...baseMeds,...JSON.parse(localStorage.getItem('allMeds')||'[]')])];let f=all.filter(m=>m.toLowerCase().includes(v)).slice(0,6);list.innerHTML=f.map(m=>`<div class="item" onclick="add('${m}')">${m}</div>`).join('');});
+q.addEventListener('keydown',e=>{if(e.key==='Enter'){let v=q.value.trim();if(!v)return;let all=JSON.parse(localStorage.getItem('allMeds')||'[]');if(!all.includes(v)){all.push(v);localStorage.setItem('allMeds',JSON.stringify(all));}add(v);}});
+
+function add(name){let dose=document.getElementById('dose').value, when=document.getElementById('when').value; meds.push({name,dose,when,time:new Date().toLocaleTimeString()}); localStorage.setItem('meds2',JSON.stringify(meds)); render(); q.value=''; list.innerHTML='';}
+function render(){rxbody.innerHTML=meds.map((m,i)=>`<tr style="border-bottom:1px solid #eee"><td style="padding:8px">💊 ${m.name}<br><small>${m.dose} - ${m.when}</small></td><td><span onclick="meds.splice(${i},1);localStorage.setItem('meds2',JSON.stringify(meds));render();updatePreview()" style="color:red;cursor:pointer">✕</span></td></tr>`).join(''); updatePreview();}
+function updatePreview(){
+ if(meds.length==0){document.getElementById('voicePreview').innerHTML='এখনো কোনো ওষুধ যোগ হয়নি';return}
+ let txt=''; meds.forEach(m=>{
+  if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){
+   txt+=`• ${m.when} ${m.name} নিয়ে নিন। `;
+  } else {
+   txt+=`• ${m.when} ${m.name} ${m.dose} খাবেন। `;
+  }
+ });
+ document.getElementById('voicePreview').innerHTML=txt;
+}
+
+function speakProfessional(){
+ if(meds.length==0)return alert('আগে ওষুধ যোগ করুন');
+ let hour=new Date().getHours(); let greet=hour<12?'সকাল':hour<18?'দুপুর':'রাত';
+ let full=`আসসালামু আলাইকুম মা। এখন ${greet} ${new Date().toLocaleTimeString('bn-BD',{hour:'numeric',minute:'numeric'})} বাজে। `;
+ meds.forEach(m=>{
+  if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){
+   full+=`আপনার ইন্সুলিন নেয়ার সময় হয়েছে, ${m.when} ${m.name} নিয়ে নিন। `;
+  } else {
+   full+=`${m.when} ${m.name} ${m.dose} খেয়ে নিন। `;
+  }
+ });
+ full+='আল্লাহ হাফেজ, তাড়াতাড়ি সুস্থ হয়ে যাবেন।';
+ let u=new SpeechSynthesisUtterance(full); u.lang='bn-BD'; u.rate=0.85; speechSynthesis.speak(u);
+}
+
+function startAutoVoice(){
+ document.getElementById('alarmStatus').innerHTML='✅ অটো ভয়েস চালু - প্রতি ঘন্টায় সময় হলে নিজে বলে দিবে';
+ setInterval(()=>{let h=new Date().getHours(); if([8,13,21].includes(h)){speakProfessional();}}, 3600000);
+ speakProfessional();
+}
 
 async function scan(input){
  let file=input.files[0]; let r=document.getElementById('report'); r.innerHTML='⏳ AI পড়ছে...';
- let {data:{text}} = await Tesseract.recognize(file,'eng'); let t=text.toLowerCase(); let d="রিপোর্টে সমস্যা - ডাক্তারকে দেখান";
- if(t.includes('sugar')||t.includes('glucose')||t.includes('hba1c')) d="ডায়াবেটিস - সুগার বেশি";
- else if(t.includes('creatinine')) d="কিডনি - Creatinine বেশি";
- else if(t.includes('hemoglobin')||t.includes('cbc')) d="রক্তস্বল্পতা";
- else if(t.includes('cholesterol')) d="কোলেস্টেরল বেশি";
- r.innerHTML='🔴 রোগ: '+d; let u=new SpeechSynthesisUtterance(d); u.lang='bn-BD'; speechSynthesis.speak(u);
+ let {data:{text}} = await Tesseract.recognize(file,'eng'); let t=text.toLowerCase(); let d="রিপোর্টে সমস্যা আছে, ডাক্তারকে দেখান";
+ if(t.includes('sugar')||t.includes('hba1c')) d="ডায়াবেটিস - সুগার বেশি"; else if(t.includes('creatinine')) d="কিডনি সমস্যা"; else if(t.includes('cbc')||t.includes('hemoglobin')) d="রক্তস্বল্পতা"; else if(t.includes('cholesterol')) d="কোলেস্টেরল বেশি";
+ r.innerHTML='🔴 রোগ: '+d;
 }
 
-let alarms=[];
-function setAlarm(){
- let m=document.getElementById('alarmMed').value, tm=document.getElementById('alarmTime').value;
- if(!m||!tm)return alert('ওষুধ আর টাইম দাও');
- alarms.push({m,tm}); document.getElementById('alarmList').innerHTML=alarms.map(a=>`⏰ ${a.tm} - ${a.m}`).join('<br>');
- setInterval(()=>{let now=new Date().toTimeString().slice(0,5); alarms.forEach(a=>{if(a.tm===now){let u=new SpeechSynthesisUtterance(`${a.m} খাওয়ার সময় হয়েছে`);u.lang='bn-BD';speechSynthesis.speak(u);alert(a.m+' খাওয়ার সময়!');}});},60000);
-}
+render();
 </script>
 </body>
 </html>
