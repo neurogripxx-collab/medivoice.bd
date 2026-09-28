@@ -8,47 +8,81 @@
 <style>
 *{box-sizing:border-box;font-family:system-ui}
 body{margin:0;background:#e9eef5}
-.header{background:#fff;padding:14px 18px;border-bottom:3px solid #0b5ed7;font-weight:800;color:#0b5ed7;font-size:18px}
-.pad{max-width:920px;margin:12px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.1)}
+.header{background:#fff;padding:14px 18px;border-bottom:3px solid #0b5ed7;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.pad{max-width:940px;margin:12px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.1)}
 .sec{padding:16px;border-bottom:1px solid #eee}
-.search{width:100%;padding:13px;border:1.5px solid #0b5ed7;border-radius:12px;outline:none;font-size:15px}
+.input{padding:10px;border:1.5px solid #cbd5e1;border-radius:10px;width:100%;outline:none}
+.search{width:100%;padding:13px;border:1.5px solid #0b5ed7;border-radius:12px;outline:none}
 .item{padding:10px;background:#f0f6ff;margin:4px 0;border-radius:10px;cursor:pointer;border:1px solid #d0ddff}
 .card{background:#f8fbff;padding:14px;border-radius:14px;border:1px solid #dce6ff}
-.voiceBox{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #10b981;padding:16px;border-radius:14px}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;color:#fff;background:#059669;margin-top:8px;font-size:15px}
+.voiceBox{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #10b981;padding:16px;border-radius:14px;margin:12px}
+.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;color:#fff;background:#059669;margin-top:8px;font-size:15px;cursor:pointer}
+.btn-blue{background:#0b5ed7}
 </style>
 </head>
 <body>
-<div class="header">Medivoice.bd • SGH Digital Prescription • Voice Guide</div>
+<div class="header">
+<div>
+<div style="font-size:18px;color:#0b5ed7">Medivoice.bd</div>
+<div style="font-size:12px;color:#555" id="docDisplay">ডাঃ নাম, স্থান লোড হচ্ছে...</div>
+</div>
+<button onclick="document.getElementById('settings').style.display=document.getElementById('settings').style.display=='none'?'block':'none'" style="padding:8px 12px;border-radius:8px;border:1px solid #0b5ed7;background:#fff;color:#0b5ed7">⚙️ সেটিংস</button>
+</div>
 
 <div class="pad">
-<div class="sec" style="display:flex;justify-content:space-between"><b>Digital Prescription RX-2026-147</b><span>28 Sep 2026</span></div>
+<!-- কাস্টমাইজ সেটিংস -->
+<div id="settings" class="sec" style="background:#fffbe6;display:none">
+<h3>⚙️ ডাক্তারের তথ্য - কাস্টমাইজ করুন</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<input id="docName" class="input" placeholder="ডাঃ নাম - যেমন: ডাঃ রহিম উদ্দিন">
+<input id="docDegree" class="input" placeholder="ডিগ্রি - MBBS, FCPS">
+<input id="docPlace" class="input" placeholder="স্থান - বরুড়া, কুমিল্লা">
+<input id="docTime" class="input" placeholder="সময় - সকাল ৯টা - রাত ৮টা">
+</div>
+<button class="btn btn-blue" onclick="saveSettings()">💾 সেভ করুন - যে যার মতো লিখে নিবে</button>
+</div>
 
-<div class="sec c" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+<div class="sec" style="display:flex;justify-content:space-between"><b id="rxNo">Digital Prescription RX-2026-147</b><span>28 Sep 2026</span></div>
+
+<div class="sec" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
 <div class="card">
-<h4>💊 মেডিসিন লিস্ট - স্মার্ট সার্চ</h4>
-<input id="q" class="search" placeholder="Napa লিখুন - না থাকলে Enter এ অটো যোগ হবে">
+<h4>💊 ১. মেডিসিন লিস্ট</h4>
+<div style="display:flex;gap:6px;margin-bottom:8px">
+<input id="pName" class="input" placeholder="রোগীর নাম" style="flex:1">
+<select id="pGender" class="input" style="width:100px"><option value="male">পুরুষ</option><option value="female">মহিলা</option></select>
+</div>
+<input id="q" class="search" placeholder="Napa লিখুন - না থাকলে Enter এ অটো যোগ">
 <div id="list"></div>
-<div style="margin-top:10px;display:flex;gap:6px">
-<select id="dose" style="flex:1;padding:8px;border-radius:8px"><option>1+0+1</option><option>1+1+1</option><option>0+0+1</option><option>1+0+0</option><option>ইন্সুলিন 20 IU</option></select>
-<select id="when" style="flex:1;padding:8px;border-radius:8px"><option value="ভাত খাওয়ার পরে">ভাত খাওয়ার পরে</option><option value="ভাত খাওয়ার 5 মিনিট আগে">ভাত খাওয়ার 5 মিনিট আগে</option><option value="নাস্তা করার 5 মিনিট আগে">নাস্তা করার 5 মিনিট আগে</option><option value="খালি পেটে">খালি পেটে</option><option value="ঘুমানোর আগে">ঘুমানোর আগে</option></select>
+<div style="display:flex;gap:6px;margin-top:8px">
+<select id="dose" class="input"><option>1+0+1</option><option>1+1+1</option><option>0+0+1</option><option>1+0+0</option><option>20 IU</option></select>
+<select id="when" class="input"><option>ভাত খাওয়ার পরে</option><option>নাস্তা করার 5 মিনিট আগে</option><option>ভাত খাওয়ার 5 মিনিট আগে</option><option>খালি পেটে</option><option>ঘুমানোর আগে</option></select>
 </div>
 <table style="width:100%;margin-top:10px;font-size:14px"><tbody id="rxbody"></tbody></table>
 </div>
 
 <div class="card">
-<h4>🧪 রিপোর্ট চেক - শুধু রোগ বলবে</h4>
-<label style="display:block;background:#fff;padding:12px;border:2px dashed #f59e0b;border-radius:12px;text-align:center">📷 রিপোর্টের ছবি দিন<input type="file" hidden accept="image/*" onchange="scan(this)"></label>
+<h4>🧪 ২. রিপোর্ট চেক</h4>
+<label style="display:block;background:#fff;padding:12px;border:2px dashed #f59e0b;border-radius:12px;text-align:center;cursor:pointer">📷 রিপোর্টের ছবি দিন<input type="file" hidden accept="image/*" onchange="scan(this)"></label>
 <div id="report" style="margin-top:10px;font-weight:700;color:#b45309"></div>
 </div>
 </div>
 
-<div class="sec voiceBox">
-<h3>🔊 ডাঃ এর ভয়েস গাইড - রোগীকে বলে দিবে</h3>
-<p style="font-size:13px;color:#065f46">ডাঃ যা লিখবে, রোগীকে সালাম দিয়ে সময় মতো আদর করে বলে দিবে</p>
-<div id="voicePreview" style="background:#fff;padding:12px;border-radius:10px;margin:10px 0;font-size:14px;color:#333;min-height:60px">এখনো কোনো ওষুধ যোগ হয়নি</div>
-<button class="btn" onclick="speakProfessional()">▶️ আসসালামু আলাইকুম মা, এখন শুনুন - ভয়েস গাইড</button>
-<button class="btn" style="background:#0b5ed7" onclick="startAutoVoice()">⏰ অটো এলার্ম চালু - সময় হলে নিজে বলে দিবে</button>
+<div class="voiceBox">
+<h3>🔊 ৩. ডাঃ এর ভয়েস গাইড - প্রফেশনাল</h3>
+<div id="voicePreview" style="background:#fff;padding:12px;border-radius:10px;margin:10px 0;font-size:14px;min-height:60px">রোগীর নাম লিখুন, ওষুধ যোগ করুন</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;background:#fff;padding:10px;border-radius:10px;margin:10px 0;border:1px solid #10b981">
+<div style="font-size:13px"><b>🕌 শিফার দোয়া</b><br><small>ওষুধ খাওয়ার পর ৩ বার</small></div>
+<label><input type="checkbox" id="duaToggle" checked> ON/OFF</label>
+</div>
+
+<div id="duaBox" style="background:#fffbe6;border:1px solid #f59e0b;padding:12px;border-radius:10px;font-size:14px;line-height:1.7">
+<b>আল্লাহুম্মা রাব্বান্নাস, আযহিবিল বা'স, ইশফি আনতাশ-শা-ফি, লা শিফা-আ ইল্লা শিফা-উক, শিফা-আন লা ইউগাদিরু সাক্বামা।</b><br>
+<small>অর্থ: হে মানুষের রব! কষ্ট দূর করুন, শিফা দিন। আপনার শিফা ছাড়া কোনো শিফা নেই।</small>
+</div>
+
+<button class="btn" onclick="speakProfessional()">▶️ ভয়েস শুনুন - ডাঃ এর মতো বলবে</button>
+<button class="btn btn-blue" onclick="startAuto()">⏰ অটো এলার্ম চালু</button>
 <div id="alarmStatus" style="margin-top:8px;font-size:12px;color:#065f46"></div>
 </div>
 
@@ -56,55 +90,20 @@ body{margin:0;background:#e9eef5}
 
 <script>
 let meds=JSON.parse(localStorage.getItem('meds2')||'[]');
-let baseMeds=["Napa 500mg","Seclo 20mg","Fexo 120mg","Azithrocin 500mg","Entacyd Plus","Maxpro 20mg","Gensulin 20 IU","Gensulin 30/70","Comet 500mg","Losectil 20mg"];
+let baseMeds=["Napa 500mg","Seclo 20mg","Fexo 120mg","Azithrocin 500mg","Entacyd Plus","Maxpro 20mg","Gensulin 20 IU","Comet 500mg","Losectil 20mg"];
+function loadSettings(){let n=localStorage.getItem('docName')||'ডাঃ এর নাম লিখুন',p=localStorage.getItem('docPlace')||'স্থান লিখুন',t=localStorage.getItem('docTime')||'সময় লিখুন',d=localStorage.getItem('docDegree')||'';document.getElementById('docDisplay').innerText=`${n} ${d} | ${p} | ${t}`;document.getElementById('docName').value=localStorage.getItem('docName')||'';document.getElementById('docDegree').value=d;document.getElementById('docPlace').value=localStorage.getItem('docPlace')||'';document.getElementById('docTime').value=t;}
+function saveSettings(){localStorage.setItem('docName',document.getElementById('docName').value);localStorage.setItem('docDegree',document.getElementById('docDegree').value);localStorage.setItem('docPlace',document.getElementById('docPlace').value);localStorage.setItem('docTime',document.getElementById('docTime').value);loadSettings();alert('সেভ হয়েছে দুস্ত!');document.getElementById('settings').style.display='none';}
 let q=document.getElementById('q'), list=document.getElementById('list'), rxbody=document.getElementById('rxbody');
-
 q.addEventListener('input',()=>{let v=q.value.toLowerCase();if(!v){list.innerHTML='';return}let all=[...new Set([...baseMeds,...JSON.parse(localStorage.getItem('allMeds')||'[]')])];let f=all.filter(m=>m.toLowerCase().includes(v)).slice(0,6);list.innerHTML=f.map(m=>`<div class="item" onclick="add('${m}')">${m}</div>`).join('');});
 q.addEventListener('keydown',e=>{if(e.key==='Enter'){let v=q.value.trim();if(!v)return;let all=JSON.parse(localStorage.getItem('allMeds')||'[]');if(!all.includes(v)){all.push(v);localStorage.setItem('allMeds',JSON.stringify(all));}add(v);}});
-
-function add(name){let dose=document.getElementById('dose').value, when=document.getElementById('when').value; meds.push({name,dose,when,time:new Date().toLocaleTimeString()}); localStorage.setItem('meds2',JSON.stringify(meds)); render(); q.value=''; list.innerHTML='';}
-function render(){rxbody.innerHTML=meds.map((m,i)=>`<tr style="border-bottom:1px solid #eee"><td style="padding:8px">💊 ${m.name}<br><small>${m.dose} - ${m.when}</small></td><td><span onclick="meds.splice(${i},1);localStorage.setItem('meds2',JSON.stringify(meds));render();updatePreview()" style="color:red;cursor:pointer">✕</span></td></tr>`).join(''); updatePreview();}
-function updatePreview(){
- if(meds.length==0){document.getElementById('voicePreview').innerHTML='এখনো কোনো ওষুধ যোগ হয়নি';return}
- let txt=''; meds.forEach(m=>{
-  if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){
-   txt+=`• ${m.when} ${m.name} নিয়ে নিন। `;
-  } else {
-   txt+=`• ${m.when} ${m.name} ${m.dose} খাবেন। `;
-  }
- });
- document.getElementById('voicePreview').innerHTML=txt;
-}
-
-function speakProfessional(){
- if(meds.length==0)return alert('আগে ওষুধ যোগ করুন');
- let hour=new Date().getHours(); let greet=hour<12?'সকাল':hour<18?'দুপুর':'রাত';
- let full=`আসসালামু আলাইকুম মা। এখন ${greet} ${new Date().toLocaleTimeString('bn-BD',{hour:'numeric',minute:'numeric'})} বাজে। `;
- meds.forEach(m=>{
-  if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){
-   full+=`আপনার ইন্সুলিন নেয়ার সময় হয়েছে, ${m.when} ${m.name} নিয়ে নিন। `;
-  } else {
-   full+=`${m.when} ${m.name} ${m.dose} খেয়ে নিন। `;
-  }
- });
- full+='আল্লাহ হাফেজ, তাড়াতাড়ি সুস্থ হয়ে যাবেন।';
- let u=new SpeechSynthesisUtterance(full); u.lang='bn-BD'; u.rate=0.85; speechSynthesis.speak(u);
-}
-
-function startAutoVoice(){
- document.getElementById('alarmStatus').innerHTML='✅ অটো ভয়েস চালু - প্রতি ঘন্টায় সময় হলে নিজে বলে দিবে';
- setInterval(()=>{let h=new Date().getHours(); if([8,13,21].includes(h)){speakProfessional();}}, 3600000);
- speakProfessional();
-}
-
-async function scan(input){
- let file=input.files[0]; let r=document.getElementById('report'); r.innerHTML='⏳ AI পড়ছে...';
- let {data:{text}} = await Tesseract.recognize(file,'eng'); let t=text.toLowerCase(); let d="রিপোর্টে সমস্যা আছে, ডাক্তারকে দেখান";
- if(t.includes('sugar')||t.includes('hba1c')) d="ডায়াবেটিস - সুগার বেশি"; else if(t.includes('creatinine')) d="কিডনি সমস্যা"; else if(t.includes('cbc')||t.includes('hemoglobin')) d="রক্তস্বল্পতা"; else if(t.includes('cholesterol')) d="কোলেস্টেরল বেশি";
- r.innerHTML='🔴 রোগ: '+d;
-}
-
-render();
+function add(name){let dose=document.getElementById('dose').value,when=document.getElementById('when').value;meds.push({name,dose,when});localStorage.setItem('meds2',JSON.stringify(meds));render();q.value='';list.innerHTML='';}
+function render(){rxbody.innerHTML=meds.map((m,i)=>`<tr style="border-bottom:1px solid #eee"><td style="padding:8px">💊 ${m.name}<br><small>${m.dose} - ${m.when}</small></td><td><span onclick="meds.splice(${i},1);localStorage.setItem('meds2',JSON.stringify(meds));render()" style="color:red;cursor:pointer">✕</span></td></tr>`).join('');updatePreview();}
+function updatePreview(){if(meds.length==0){document.getElementById('voicePreview').innerHTML='রোগীর নাম লিখুন, ওষুধ যোগ করুন';return}let pName=document.getElementById('pName').value||'রোগী',gender=document.getElementById('pGender').value,call=gender==='female'?'মা':'ভাই';if(pName!=='রোগী')call=gender==='female'?`${pName} আপা`:`${pName} ভাই`;let txt=`${call} এর জন্য: `;meds.forEach(m=>{txt+=`${m.when} ${m.name} ${m.dose}, `});document.getElementById('voicePreview').innerHTML=txt;}
+document.getElementById('pName').addEventListener('input',updatePreview);document.getElementById('pGender').addEventListener('change',updatePreview);
+function speakProfessional(){if(meds.length==0)return alert('আগে ওষুধ যোগ করুন');let pName=document.getElementById('pName').value||'রোগী',gender=document.getElementById('pGender').value,docName=localStorage.getItem('docName')||'ডাক্তার',call=gender==='female'?'মা':'ভাই';if(pName!=='রোগী')call=gender==='female'?`${pName} আপা`:`${pName} ভাই`;let hour=new Date().getHours(),greet=hour<12?'সকাল':hour<18?'দুপুর':'রাত',timeStr=new Date().toLocaleTimeString('bn-BD',{hour:'numeric',minute:'numeric'});let full=`আসসালামু আলাইকুম ${call}। এখন ${greet} ${timeStr} বাজে। ${docName} আপনাকে এই ওষুধগুলো দিয়েছেন। `;meds.forEach(m=>{if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){full+=`আপনার ইন্সুলিন নেয়ার সময় হয়েছে, ${m.when} ${m.name} ${m.dose} নিয়ে নিন। `;}else{full+=`${m.when} ${m.name} ${m.dose} খেয়ে নিন। `;}});let duaOn=document.getElementById('duaToggle').checked;if(duaOn){full+=` এবার শিফার দোয়াটি তিনবার পড়ুন। আল্লাহুম্মা রাব্বান্নাস, আযহিবিল বা'স, ইশফি আনতাশ শা-ফি, লা শিফা-আ ইল্লা শিফা-উক, শিফা-আন লা ইউগাদিরু সাক্বামা। আল্লাহুম্মা রাব্বান্নাস। আল্লাহুম্মা রাব্বান্নাস। আল্লাহ আপনাকে দ্রুত শিফা দান করুন। `;}full+=` আল্লাহ হাফেজ।`;let u=new SpeechSynthesisUtterance(full);u.lang='bn-BD';u.rate=0.85;speechSynthesis.speak(u);}
+function startAuto(){document.getElementById('alarmStatus').innerHTML='✅ অটো ভয়েস চালু - সকাল ৮টা, দুপুর ১টা, রাত ৯টায় নিজে বলে দিবে';setInterval(()=>{let h=new Date().getHours();if([8,13,21].includes(h)){speakProfessional();}},3600000);speakProfessional();}
+async function scan(input){let file=input.files[0],r=document.getElementById('report');r.innerHTML='⏳ AI পড়ছে...';let {data:{text}}=await Tesseract.recognize(file,'eng');let t=text.toLowerCase(),d="রিপোর্টে সমস্যা আছে, ডাক্তারকে দেখান";if(t.includes('sugar')||t.includes('hba1c'))d="ডায়াবেটিস - সুগার বেশি";else if(t.includes('creatinine'))d="কিডনি সমস্যা";else if(t.includes('cbc')||t.includes('hemoglobin'))d="রক্তস্বল্পতা";else if(t.includes('cholesterol'))d="কোলেস্টেরল বেশি";r.innerHTML='🔴 রোগ: '+d;}
+loadSettings();render();
 </script>
 </body>
 </html>
