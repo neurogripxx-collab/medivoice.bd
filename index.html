@@ -1,109 +1,58 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Medivoice.bd - SGH Voice Prescription</title>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Check 3 Full Pads - MediVoice</title>
 <style>
-*{box-sizing:border-box;font-family:system-ui}
-body{margin:0;background:#e9eef5}
-.header{background:#fff;padding:14px 18px;border-bottom:3px solid #0b5ed7;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.pad{max-width:940px;margin:12px auto;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.1)}
-.sec{padding:16px;border-bottom:1px solid #eee}
-.input{padding:10px;border:1.5px solid #cbd5e1;border-radius:10px;width:100%;outline:none}
-.search{width:100%;padding:13px;border:1.5px solid #0b5ed7;border-radius:12px;outline:none}
-.item{padding:10px;background:#f0f6ff;margin:4px 0;border-radius:10px;cursor:pointer;border:1px solid #d0ddff}
-.card{background:#f8fbff;padding:14px;border-radius:14px;border:1px solid #dce6ff}
-.voiceBox{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:2px solid #10b981;padding:16px;border-radius:14px;margin:12px}
-.btn{width:100%;padding:14px;border:none;border-radius:12px;font-weight:700;color:#fff;background:#059669;margin-top:8px;font-size:15px;cursor:pointer}
-.btn-blue{background:#0b5ed7}
-</style>
-</head>
-<body>
-<div class="header">
-<div>
-<div style="font-size:18px;color:#0b5ed7">Medivoice.bd</div>
-<div style="font-size:12px;color:#555" id="docDisplay">ডাঃ নাম, স্থান লোড হচ্ছে...</div>
-</div>
-<button onclick="document.getElementById('settings').style.display=document.getElementById('settings').style.display=='none'?'block':'none'" style="padding:8px 12px;border-radius:8px;border:1px solid #0b5ed7;background:#fff;color:#0b5ed7">⚙️ সেটিংস</button>
+body{margin:0;background:#eef3f8;font-family:system-ui;padding:14px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:10px 0}
+.tab{padding:10px 18px;border-radius:20px;border:1px solid #cbd5e1;cursor:pointer;background:#fff;font-weight:700}
+.tab.active{background:#0b5ed7;color:#fff}
+.pad{max-width:820px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12);display:none}
+.pad.active{display:block}
+.head{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.b1 .head{background:#0b5ed7}.b2 .head{background:#166534}.b3 .head{background:#111827}
+.sec{margin:14px;border:1px solid #e5e7eb;border-radius:10px;padding:12px}
+.sec h4{margin:0 0 8px;color:#0f2d6b}
+table{width:100%;border-collapse:collapse}th{background:#e0e7ff;padding:8px;font-size:11px;text-align:left}td{padding:8px;font-size:12px;border-bottom:1px solid #eee}
+.qr{display:flex;justify-content:space-between;align-items:center;margin:14px;padding:12px;background:#f8fafc;border-radius:10px}
+</style></head><body>
+<h2 style="text-align:center">MediVoice.bd - 3 Full Pad Check</h2>
+<div class="tabs">
+<div class="tab active" onclick="show(0)">Classic Blue</div>
+<div class="tab" onclick="show(1)">Forest Green</div>
+<div class="tab" onclick="show(2)">Dark Elegant</div>
 </div>
 
-<div class="pad">
-<!-- কাস্টমাইজ সেটিংস -->
-<div id="settings" class="sec" style="background:#fffbe6;display:none">
-<h3>⚙️ ডাক্তারের তথ্য - কাস্টমাইজ করুন</h3>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<input id="docName" class="input" placeholder="ডাঃ নাম - যেমন: ডাঃ রহিম উদ্দিন">
-<input id="docDegree" class="input" placeholder="ডিগ্রি - MBBS, FCPS">
-<input id="docPlace" class="input" placeholder="স্থান - বরুড়া, কুমিল্লা">
-<input id="docTime" class="input" placeholder="সময় - সকাল ৯টা - রাত ৮টা">
-</div>
-<button class="btn btn-blue" onclick="saveSettings()">💾 সেভ করুন - যে যার মতো লিখে নিবে</button>
+<div class="pad b1 active">
+<div class="head"><b>✚ MediVoice.bd Healthcare</b><span>SGH • Digital Rx</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Follow up 7 days</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
 </div>
 
-<div class="sec" style="display:flex;justify-content:space-between"><b id="rxNo">Digital Prescription RX-2026-147</b><span>28 Sep 2026</span></div>
-
-<div class="sec" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div class="card">
-<h4>💊 ১. মেডিসিন লিস্ট</h4>
-<div style="display:flex;gap:6px;margin-bottom:8px">
-<input id="pName" class="input" placeholder="রোগীর নাম" style="flex:1">
-<select id="pGender" class="input" style="width:100px"><option value="male">পুরুষ</option><option value="female">মহিলা</option></select>
-</div>
-<input id="q" class="search" placeholder="Napa লিখুন - না থাকলে Enter এ অটো যোগ">
-<div id="list"></div>
-<div style="display:flex;gap:6px;margin-top:8px">
-<select id="dose" class="input"><option>1+0+1</option><option>1+1+1</option><option>0+0+1</option><option>1+0+0</option><option>20 IU</option></select>
-<select id="when" class="input"><option>ভাত খাওয়ার পরে</option><option>নাস্তা করার 5 মিনিট আগে</option><option>ভাত খাওয়ার 5 মিনিট আগে</option><option>খালি পেটে</option><option>ঘুমানোর আগে</option></select>
-</div>
-<table style="width:100%;margin-top:10px;font-size:14px"><tbody id="rxbody"></tbody></table>
+<div class="pad b2">
+<div class="head"><b>🌿 MediVoice.bd Green Care</b><span>Eco • Diabetes Center</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Drink water, walk</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
 </div>
 
-<div class="card">
-<h4>🧪 ২. রিপোর্ট চেক</h4>
-<label style="display:block;background:#fff;padding:12px;border:2px dashed #f59e0b;border-radius:12px;text-align:center;cursor:pointer">📷 রিপোর্টের ছবি দিন<input type="file" hidden accept="image/*" onchange="scan(this)"></label>
-<div id="report" style="margin-top:10px;font-weight:700;color:#b45309"></div>
-</div>
-</div>
-
-<div class="voiceBox">
-<h3>🔊 ৩. ডাঃ এর ভয়েস গাইড - প্রফেশনাল</h3>
-<div id="voicePreview" style="background:#fff;padding:12px;border-radius:10px;margin:10px 0;font-size:14px;min-height:60px">রোগীর নাম লিখুন, ওষুধ যোগ করুন</div>
-
-<div style="display:flex;align-items:center;justify-content:space-between;background:#fff;padding:10px;border-radius:10px;margin:10px 0;border:1px solid #10b981">
-<div style="font-size:13px"><b>🕌 শিফার দোয়া</b><br><small>ওষুধ খাওয়ার পর ৩ বার</small></div>
-<label><input type="checkbox" id="duaToggle" checked> ON/OFF</label>
+<div class="pad b3">
+<div class="head"><b>✨ MediVoice.bd Premium</b><span>Dark Elegant • Private Chamber</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Premium care</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
 </div>
 
-<div id="duaBox" style="background:#fffbe6;border:1px solid #f59e0b;padding:12px;border-radius:10px;font-size:14px;line-height:1.7">
-<b>আল্লাহুম্মা রাব্বান্নাস, আযহিবিল বা'স, ইশফি আনতাশ-শা-ফি, লা শিফা-আ ইল্লা শিফা-উক, শিফা-আন লা ইউগাদিরু সাক্বামা।</b><br>
-<small>অর্থ: হে মানুষের রব! কষ্ট দূর করুন, শিফা দিন। আপনার শিফা ছাড়া কোনো শিফা নেই।</small>
-</div>
-
-<button class="btn" onclick="speakProfessional()">▶️ ভয়েস শুনুন - ডাঃ এর মতো বলবে</button>
-<button class="btn btn-blue" onclick="startAuto()">⏰ অটো এলার্ম চালু</button>
-<div id="alarmStatus" style="margin-top:8px;font-size:12px;color:#065f46"></div>
-</div>
-
-</div>
-
-<script>
-let meds=JSON.parse(localStorage.getItem('meds2')||'[]');
-let baseMeds=["Napa 500mg","Seclo 20mg","Fexo 120mg","Azithrocin 500mg","Entacyd Plus","Maxpro 20mg","Gensulin 20 IU","Comet 500mg","Losectil 20mg"];
-function loadSettings(){let n=localStorage.getItem('docName')||'ডাঃ এর নাম লিখুন',p=localStorage.getItem('docPlace')||'স্থান লিখুন',t=localStorage.getItem('docTime')||'সময় লিখুন',d=localStorage.getItem('docDegree')||'';document.getElementById('docDisplay').innerText=`${n} ${d} | ${p} | ${t}`;document.getElementById('docName').value=localStorage.getItem('docName')||'';document.getElementById('docDegree').value=d;document.getElementById('docPlace').value=localStorage.getItem('docPlace')||'';document.getElementById('docTime').value=t;}
-function saveSettings(){localStorage.setItem('docName',document.getElementById('docName').value);localStorage.setItem('docDegree',document.getElementById('docDegree').value);localStorage.setItem('docPlace',document.getElementById('docPlace').value);localStorage.setItem('docTime',document.getElementById('docTime').value);loadSettings();alert('সেভ হয়েছে দুস্ত!');document.getElementById('settings').style.display='none';}
-let q=document.getElementById('q'), list=document.getElementById('list'), rxbody=document.getElementById('rxbody');
-q.addEventListener('input',()=>{let v=q.value.toLowerCase();if(!v){list.innerHTML='';return}let all=[...new Set([...baseMeds,...JSON.parse(localStorage.getItem('allMeds')||'[]')])];let f=all.filter(m=>m.toLowerCase().includes(v)).slice(0,6);list.innerHTML=f.map(m=>`<div class="item" onclick="add('${m}')">${m}</div>`).join('');});
-q.addEventListener('keydown',e=>{if(e.key==='Enter'){let v=q.value.trim();if(!v)return;let all=JSON.parse(localStorage.getItem('allMeds')||'[]');if(!all.includes(v)){all.push(v);localStorage.setItem('allMeds',JSON.stringify(all));}add(v);}});
-function add(name){let dose=document.getElementById('dose').value,when=document.getElementById('when').value;meds.push({name,dose,when});localStorage.setItem('meds2',JSON.stringify(meds));render();q.value='';list.innerHTML='';}
-function render(){rxbody.innerHTML=meds.map((m,i)=>`<tr style="border-bottom:1px solid #eee"><td style="padding:8px">💊 ${m.name}<br><small>${m.dose} - ${m.when}</small></td><td><span onclick="meds.splice(${i},1);localStorage.setItem('meds2',JSON.stringify(meds));render()" style="color:red;cursor:pointer">✕</span></td></tr>`).join('');updatePreview();}
-function updatePreview(){if(meds.length==0){document.getElementById('voicePreview').innerHTML='রোগীর নাম লিখুন, ওষুধ যোগ করুন';return}let pName=document.getElementById('pName').value||'রোগী',gender=document.getElementById('pGender').value,call=gender==='female'?'মা':'ভাই';if(pName!=='রোগী')call=gender==='female'?`${pName} আপা`:`${pName} ভাই`;let txt=`${call} এর জন্য: `;meds.forEach(m=>{txt+=`${m.when} ${m.name} ${m.dose}, `});document.getElementById('voicePreview').innerHTML=txt;}
-document.getElementById('pName').addEventListener('input',updatePreview);document.getElementById('pGender').addEventListener('change',updatePreview);
-function speakProfessional(){if(meds.length==0)return alert('আগে ওষুধ যোগ করুন');let pName=document.getElementById('pName').value||'রোগী',gender=document.getElementById('pGender').value,docName=localStorage.getItem('docName')||'ডাক্তার',call=gender==='female'?'মা':'ভাই';if(pName!=='রোগী')call=gender==='female'?`${pName} আপা`:`${pName} ভাই`;let hour=new Date().getHours(),greet=hour<12?'সকাল':hour<18?'দুপুর':'রাত',timeStr=new Date().toLocaleTimeString('bn-BD',{hour:'numeric',minute:'numeric'});let full=`আসসালামু আলাইকুম ${call}। এখন ${greet} ${timeStr} বাজে। ${docName} আপনাকে এই ওষুধগুলো দিয়েছেন। `;meds.forEach(m=>{if(m.name.toLowerCase().includes('gensulin')||m.name.toLowerCase().includes('insulin')){full+=`আপনার ইন্সুলিন নেয়ার সময় হয়েছে, ${m.when} ${m.name} ${m.dose} নিয়ে নিন। `;}else{full+=`${m.when} ${m.name} ${m.dose} খেয়ে নিন। `;}});let duaOn=document.getElementById('duaToggle').checked;if(duaOn){full+=` এবার শিফার দোয়াটি তিনবার পড়ুন। আল্লাহুম্মা রাব্বান্নাস, আযহিবিল বা'স, ইশফি আনতাশ শা-ফি, লা শিফা-আ ইল্লা শিফা-উক, শিফা-আন লা ইউগাদিরু সাক্বামা। আল্লাহুম্মা রাব্বান্নাস। আল্লাহুম্মা রাব্বান্নাস। আল্লাহ আপনাকে দ্রুত শিফা দান করুন। `;}full+=` আল্লাহ হাফেজ।`;let u=new SpeechSynthesisUtterance(full);u.lang='bn-BD';u.rate=0.85;speechSynthesis.speak(u);}
-function startAuto(){document.getElementById('alarmStatus').innerHTML='✅ অটো ভয়েস চালু - সকাল ৮টা, দুপুর ১টা, রাত ৯টায় নিজে বলে দিবে';setInterval(()=>{let h=new Date().getHours();if([8,13,21].includes(h)){speakProfessional();}},3600000);speakProfessional();}
-async function scan(input){let file=input.files[0],r=document.getElementById('report');r.innerHTML='⏳ AI পড়ছে...';let {data:{text}}=await Tesseract.recognize(file,'eng');let t=text.toLowerCase(),d="রিপোর্টে সমস্যা আছে, ডাক্তারকে দেখান";if(t.includes('sugar')||t.includes('hba1c'))d="ডায়াবেটিস - সুগার বেশি";else if(t.includes('creatinine'))d="কিডনি সমস্যা";else if(t.includes('cbc')||t.includes('hemoglobin'))d="রক্তস্বল্পতা";else if(t.includes('cholesterol'))d="কোলেস্টেরল বেশি";r.innerHTML='🔴 রোগ: '+d;}
-loadSettings();render();
-</script>
-</body>
-</html>
+<script>function show(i){document.querySelectorAll('.pad').forEach((p,k)=>p.classList.toggle('active',k===i));document.querySelectorAll('.tab').forEach((t,k)=>t.classList.toggle('active',k===i));}</script>
+</body></html>
