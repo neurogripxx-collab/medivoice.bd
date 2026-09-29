@@ -1,108 +1,165 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MediCare RxVoice V4 - Bikrom Kormi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MediCare RxVoice V5 - Final</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif}
-body{margin:0;background:#eef7f5;padding:10px}
-.h{background:#fff;padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
-.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-.card{background:#fff;border-radius:14px;padding:12px;border:1px solid #e5e7eb}
-.btn{width:100%;padding:9px;border:none;border-radius:20px;color:#fff;font-weight:700;margin-top:6px;cursor:pointer}
+body{margin:0;background:#eef7f5;padding:8px}
+.header{background:#fff;padding:12px;border-radius:14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.tabs{display:flex;gap:6px;margin:10px 0;overflow-x:auto}
+.tab{flex:1;min-width:90px;padding:10px;background:#fff;border:1px solid #d1d5db;border-radius:22px;text-align:center;cursor:pointer;font-size:13px;font-weight:700}
+.tab.active{background:#0a9c6b;color:#fff;border-color:#0a9c6b}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:850px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:16px;padding:12px;border:1px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,0.03)}
+.inp{width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:10px;margin:6px 0;font-size:13px}
+.btn{width:100%;padding:10px;border:none;border-radius:22px;color:#fff;font-weight:700;cursor:pointer;margin-top:6px;font-size:13px}
 .g{background:#0a9c6b}.b{background:#2563eb}.o{background:#f59e0b}.r{background:#ef4444}
-.inp{width:100%;padding:8px;border:1px solid #ccc;border-radius:8px;margin-top:6px}
-.badge{display:inline-block;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:11px}
-.agent{border:1px dashed #0a9c6b;background:#f0fdf4;border-radius:10px;padding:8px;margin:6px 0;font-size:13px}
+.badge{display:inline-block;background:#dcfce7;color:#065f46;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:700}
+.medItem{background:#f8fafc;border:1px solid #e2e8f0;padding:8px;border-radius:10px;margin:5px 0;display:flex;justify-content:space-between;font-size:12px}
 </style>
 </head>
 <body>
 
-<div class="h">
-<b>💚 RxVoice V4 - বিক্রম কর্মী</b>
-<span class="badge">২০ টাকা / বিক্রি</span>
+<div class="header">
+<div><b>💚 RxVoice V5 Final</b><br><small style="color:#64748b">ডাক্তার → ফার্মেসি → রোগী → ভয়েস কল</small></div>
+<div><span class="badge">২০৳ / বিক্রি</span></div>
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="showTab('doctor',this)">👨‍⚕️ ডাক্তার প্যাড</div>
+<div class="tab" onclick="showTab('pharmacy',this)">🏪 বিক্রম কর্মী</div>
+<div class="tab" onclick="showTab('patient',this)">👴 রোগী ভিউ</div>
 </div>
 
 <div class="grid">
-<!-- LEFT: রোগী Enroll + রেফারেল -->
-<div class="card">
-<h3>👨‍⚕️ নতুন রোগী Enroll</h3>
-<input id="pName" class="inp" placeholder="রোগীর নাম">
-<input id="pPhone" class="inp" placeholder="মোবাইল নম্বর">
-<select id="agentType" class="inp">
-<option value="ফার্মেসি">ফার্মেসি</option>
-<option value="পল্লী চিকিৎসক">পল্লী চিকিৎসক</option>
-<option value="নার্স">নার্স / SACMO</option>
-<option value="ডাক্তার">ডাক্তার</option>
-<option value="ফার্মা SR">ফার্মা SR</option>
+<!-- DOCTOR -->
+<div id="doctor" class="card">
+<h3>👨‍⚕️ ডাক্তার প্রেসক্রিপশন লিখুন</h3>
+<input id="docName" class="inp" value="ডা. আলম - কুমিল্লা সদর হাসপাতাল">
+<input id="patName" class="inp" placeholder="রোগীর নাম * - যেমন সাদিয়া সুলতানা">
+<input id="patPhone" class="inp" placeholder="রোগীর মোবাইল * - 01871...">
+<textarea id="patProb" class="inp" placeholder="সমস্যা - BP বেশি, ডায়াবেটিস"></textarea>
+
+<div id="tempMeds"></div>
+<div style="display:flex;gap:5px">
+<input id="medName" class="inp" style="flex:2" placeholder="ওষুধ - Napa Extra">
+<input id="medDose" class="inp" style="flex:1" placeholder="1+0+1">
+<select id="medColor" class="inp" style="flex:1"><option>🔴 লাল পাতা</option><option>🔵 নীল পাতা</option><option>🟢 সবুজ পাতা</option></select>
+</div>
+<button class="btn b" onclick="addMedicine()">+ ওষুধ যোগ করুন</button>
+
+<select id="agentCode" class="inp">
+<option value="PHARM_COMILLA_101">PHARM_COMILLA_101 - মুন্সী মেডিকেল হল ১০০</option>
+<option value="VILLAGE_LAKSAM_02">VILLAGE_LAKSAM_02 - পল্লী চিকিৎসক রহিম</option>
+<option value="NURSE_COM_05">NURSE_COM_05 - নার্স ফাতেমা</option>
+<option value="PHARMA_SQUARE_10">PHARMA_SQUARE_10 - Square SR</option>
 </select>
-<input id="refCode" class="inp" placeholder="বিক্রম কর্মী কোড (যেমন PHARM101)">
-<button class="btn g" onclick="enroll()">✅ Enroll করুন + ২০ টাকা কমিশন</button>
-<p id="enSt" style="font-size:12px;color:green"></p>
-<div id="meds"></div>
+
+<button class="btn g" onclick="savePrescription()">✅ প্রেসক্রিপশন সেভ + রোগীকে কল পাঠান</button>
+<p id="docStatus" style="font-size:12px;color:#0a9c6b;font-weight:700"></p>
 </div>
 
-<!-- MIDDLE: এজেন্ট ড্যাশবোর্ড -->
-<div class="card">
-<h3>💰 আমার কমিশন ড্যাশবোর্ড</h3>
-<p style="font-size:12px">কোড: <b id="myCode">PHARM_COMILLA_101</b></p>
-<div style="display:flex;gap:6px">
-<div style="flex:1;background:#ecfdf5;padding:8px;border-radius:10px;text-align:center"><b id="totalSale">0</b><br><small>মোট বিক্রি</small></div>
-<div style="flex:1;background:#eff6ff;padding:8px;border-radius:10px;text-align:center"><b id="totalTk">0৳</b><br><small>মোট আয়</small></div>
+<!-- PHARMACY + PATIENT -->
+<div>
+<div id="pharmacy" class="card">
+<h3>💰 বিক্রম কর্মী ড্যাশবোর্ড</h3>
+<div style="display:flex;gap:8px;margin:8px 0">
+<div style="flex:1;background:#ecfdf5;padding:10px;border-radius:12px;text-align:center"><b id="tSale" style="font-size:20px">0</b><br><small>মোট বিক্রি</small></div>
+<div style="flex:1;background:#fffbeb;padding:10px;border-radius:12px;text-align:center"><b id="tTk" style="font-size:20px">0৳</b><br><small>মোট কমিশন</small></div>
 </div>
-<button class="btn o" onclick="payout()">📲 bKash এ টাকা নিন</button>
-<h4 style="margin-top:10px">আজকের বিক্রি</h4>
-<div id="saleList" style="font-size:12px"></div>
+<button class="btn o" onclick="withdraw()">📲 bKash এ টাকা তুলুন</button>
+<div id="saleHistory" style="margin-top:10px;font-size:12px"></div>
 </div>
 
-<!-- RIGHT: রিপোর্ট + ভয়েস -->
-<div class="card">
-<h3>📊 রোগীর রিপোর্ট + ভয়েস</h3>
-<input type="file" accept="image/*" class="inp">
-<button class="btn b" onclick="alert('রিপোর্ট স্ক্যান হলো: BP ভালো আছে')">রিপোর্ট দেখুন</button>
-<div style="text-align:center;margin-top:10px">
-<div style="width:60px;height:60px;border:4px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-weight:800">86%</div>
-<small>Adherence</small>
+<div id="patient" class="card" style="display:none;margin-top:10px">
+<h3>👴 রোগী যা দেখবে (পড়তে না জানলেও)</h3>
+<div id="patientBox" style="font-size:13px;background:#f0fdf4;padding:10px;border-radius:12px;border:1px dashed #0a9c6b">এখনো কোনো প্রেসক্রিপশন নেই</div>
+<button class="btn b" onclick="playVoice()">🔊 ভয়েস শুনুন - ওষুধ খান</button>
+<button class="btn g" onclick="markTaken()">✔ খেয়েছি - ১ চাপুন</button>
 </div>
-<button class="btn b" onclick="speak()">🔊 ভয়েস শুনুন</button>
-<hr>
-<h4>🏆 টপ বিক্রম কর্মী</h4>
-<div class="agent">🥇 ফার্মেসি - মা মেডিকেল, কুমিল্লা - ১২৪ বিক্রি - ২৪৮০৳</div>
-<div class="agent">🥈 পল্লী চিকিৎসক - রহিম, লাকসাম - ৯৮ বিক্রি - ১৯৬০৳</div>
-<div class="agent">🥉 নার্স - ফাতেমা, কুমিল্লা সদর - ৭৬ বিক্রি - ১৫২০৳</div>
 </div>
 </div>
 
 <script>
-let sales = JSON.parse(localStorage.getItem('sales')||'[]');
-let tk = sales.length*20;
-function render(){
- document.getElementById('totalSale').innerText=sales.length;
- document.getElementById('totalTk').innerText=tk+'৳';
- document.getElementById('saleList').innerHTML=sales.slice(0,5).map(s=>`• ${s.name} - ${s.phone} - ${s.agent} <span class="badge">+20৳</span>`).join('<br>')||'এখনো বিক্রি নেই';
+let tempMeds = [];
+let allRx = JSON.parse(localStorage.getItem('rx_final') || '[]');
+
+function showTab(id, el){
+ document.getElementById('doctor').style.display = id==='doctor'? 'block' : 'none';
+ document.getElementById('pharmacy').style.display = id==='pharmacy'? 'block' : 'none';
+ document.getElementById('patient').style.display = id==='patient'? 'block' : 'none';
+ if(id==='pharmacy' || id==='patient'){
+   document.getElementById('pharmacy').style.display='block';
+   document.getElementById('patient').style.display='block';
+   document.getElementById('doctor').style.display='none';
+ }
+ if(id==='doctor'){
+   document.getElementById('doctor').style.display='block';
+   document.getElementById('pharmacy').style.display='none';
+   document.getElementById('patient').style.display='none';
+ }
+ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+ el.classList.add('active');
+ if(id!=='doctor') renderAll();
 }
-render();
-function enroll(){
- let name=document.getElementById('pName').value, phone=document.getElementById('pPhone').value, agent=document.getElementById('agentType').value, code=document.getElementById('refCode').value;
- if(!name||!phone){alert('নাম ও মোবাইল দিন');return;}
- sales.unshift({name,phone,agent,code,time:new Date().toLocaleDateString('bn-BD')});
- localStorage.setItem('sales',JSON.stringify(sales));
- tk=sales.length*20;
- document.getElementById('enSt').innerText=`✅ ${name} Enroll সফল! ${agent} (${code}) ২০ টাকা পাবে`;
- document.getElementById('pName').value='';document.getElementById('pPhone').value='';
- render();
+
+function addMedicine(){
+ let n=document.getElementById('medName').value;
+ let d=document.getElementById('medDose').value;
+ let c=document.getElementById('medColor').value;
+ if(!n){alert('ওষুধের নাম দিন');return;}
+ tempMeds.push({n,d,c});
+ document.getElementById('medName').value='';document.getElementById('medDose').value='';
+ renderTemp();
 }
-function payout(){
- if(sales.length==0){alert('কোনো বিক্রি নেই');return;}
- alert(`✅ ${tk} টাকা bKash (01XXXXXXXXX) এ পাঠানো হয়েছে!`);
- sales=[]; localStorage.setItem('sales',JSON.stringify([])); render();
+function renderTemp(){
+ document.getElementById('tempMeds').innerHTML=tempMeds.map((m,i)=>`<div class="medItem"><span>${m.c} ${m.n} - ${m.d}</span><span onclick="tempMeds.splice(${i},1);renderTemp()" style="color:red;cursor:pointer">✖</span></div>`).join('');
 }
-function speak(){
- let u=new SpeechSynthesisUtterance('আপনার ওষুধ খাওয়ার সময় হয়েছে, লাল পাতার ওষুধটি খান');
- u.lang='bn-BD'; speechSynthesis.speak(u);
+function savePrescription(){
+ let pn=document.getElementById('patName').value;
+ let pp=document.getElementById('patPhone').value;
+ let prob=document.getElementById('patProb').value;
+ let doc=document.getElementById('docName').value;
+ let code=document.getElementById('agentCode').value;
+ if(!pn||!pp||tempMeds.length==0){alert('রোগীর নাম, ফোন ও কমপক্ষে ১টি ওষুধ দিন');return;}
+ let rx={id:Date.now(),pn,pp,prob,doc,code,meds:[...tempMeds],date:new Date().toLocaleString('bn-BD'),taken:false};
+ allRx.unshift(rx);
+ localStorage.setItem('rx_final',JSON.stringify(allRx));
+ document.getElementById('docStatus').innerText=`✅ ${pn} এর প্রেসক্রিপশন সেভ! ${code} ২০৳ পাবে, রোগী ভয়েস কল পাবে`;
+ tempMeds=[];renderTemp();
+ document.getElementById('patName').value='';document.getElementById('patPhone').value='';
+ renderAll();
 }
+function renderAll(){
+ document.getElementById('tSale').innerText=allRx.length;
+ document.getElementById('tTk').innerText=(allRx.length*20)+'৳';
+ document.getElementById('saleHistory').innerHTML=allRx.slice(0,20).map(r=>`<div style="border-bottom:1px solid #eee;padding:6px 0"><b>${r.pn}</b> - ${r.pp}<br><small>${r.code} | ${r.meds.map(m=>m.c+' '+m.n).join(', ')} | <span class="badge">+20৳</span></small></div>`).join('')||'এখনো বিক্রি নেই';
+ if(allRx.length>0){
+  let r=allRx[0];
+  document.getElementById('patientBox').innerHTML=`<b>${r.pn}</b><br><small>${r.date} | ${r.doc}</small><br><small>কোড: ${r.code}</small><hr>`+r.meds.map(m=>`<div style="font-size:15px;margin:6px 0">${m.c} <b>${m.n}</b> - ${m.d}</div>`).join('')+`<p style="color:#0a9c6b">👉 পড়তে না জানলে রঙ দেখে চিনুন + নিচে ভয়েস শুনুন</p>`;
+ }
+}
+function withdraw(){
+ if(allRx.length==0){alert('কোনো কমিশন নেই');return;}
+ alert(`✅ ${allRx.length*20}৳ bKash এ পাঠানো হলো!`);
+ allRx=[];localStorage.setItem('rx_final',JSON.stringify([]));renderAll();
+}
+function playVoice(){
+ if(allRx.length==0)return;
+ let r=allRx[0];
+ let txt=`আসসালামু আলাইকুম ${r.pn}, ডাক্তার বলেছেন, ${r.meds.map(m=>m.n).join(' এবং ')} ওষুধটি সময়মত খান।`;
+ let u=new SpeechSynthesisUtterance(txt);u.lang='bn-BD';speechSynthesis.speak(u);
+}
+function markTaken(){
+ if(allRx.length==0)return;
+ allRx[0].taken=true;
+ alert('✅ ধন্যবাদ! ওষুধ খেয়েছেন বলে রেকর্ড হলো। পরিবার SMS পাবে।');
+}
+renderTemp();renderAll();
 </script>
 </body>
 </html>
