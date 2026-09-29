@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MediCare RxVoice - Final</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MediCare RxVoice - Final PRO</title>
 <style>
 *{box-sizing:border-box;font-family:'Noto Sans Bengali',system-ui}
 body{margin:0;background:#f6fbf9;padding:10px}
 .top{display:flex;align-items:center;gap:10px;background:#fff;padding:12px;border-radius:12px;box-shadow:0 2px 8px #0001}
-.top h2{margin:0;color:#0b5e4b} .top b{color:#0b5ed7}
-.flow{display:flex;justify-content:space-between;background:#fff;padding:10px;border-radius:10px;margin:10px 0;font-size:12px;font-weight:700}
+.top h2{margin:0;color:#0b5e4b}
+.flow{display:flex;justify-content:space-between;background:#fff;padding:10px;border-radius:10px;margin:10px 0;font-size:12px;font-weight:700;flex-wrap:wrap}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .phone{border:3px solid #111;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 4px 14px #0002}
-.phone .head{padding:10px;font-weight:700;text-align:center;color:#fff}
+.phone.head{padding:10px;font-weight:700;text-align:center;color:#fff}
 .screen{padding:12px;font-size:13px}
-.m{border:1px solid #ddd;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between}
+.m{border:1px solid #ddd;border-radius:10px;padding:10px;margin:8px 0;display:flex;justify-content:space-between;align-items:center}
 .m b{color:#0b5e4b}
 .rem{background:linear-gradient(180deg,#0b5ed7,#062d5c);color:#fff;text-align:center;padding:20px}
 .rem h1{font-size:48px;margin:0}
 .voice{background:#fff;color:#111;border-radius:12px;padding:10px;margin-top:15px;text-align:left}
-.btn{width:100%;padding:10px;border:none;border-radius:20px;font-weight:700;color:#fff;margin-top:10px}
+.btn{width:100%;padding:10px;border:none;border-radius:20px;font-weight:700;color:#fff;margin-top:10px;cursor:pointer}
 .g{background:#0b5e4b}.b{background:#0b5ed7}.o{background:#ff6a00}
-.dash{grid-column:1/-1;border:2px solid #0b5e4b;border-radius:14px;overflow:hidden}
-table{width:100%;border-collapse:collapse;font-size:12px} th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left}
+.dash{grid-column:1/-1;border:2px solid #0b5e4b;border-radius:14px;overflow:hidden;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left}
 .ok{color:green;font-weight:700}.miss{color:red}
-.feat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
-.f{background:#eef6ff;padding:8px;border-radius:8px;font-size:11px}
+.smallBtn{padding:5px 10px;border:none;border-radius:6px;color:#fff;font-size:11px;margin:2px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -35,78 +36,116 @@ table{width:100%;border-collapse:collapse;font-size:12px} th,td{border-bottom:1p
 </div>
 
 <div class="flow">
-<span>👨‍⚕️ ডাক্তার লিখবে</span><span>→</span><span>☁️ API & Cloud</span><span>→</span><span>👩‍🦳 রোগী শুনবে</span><span>→</span><span>👨‍👩‍👧 ফ্যামিলি জানবে</span>
+<span>👨‍⚕️ ডাক্তার লিখবে</span><span>→</span>
+<span>☁️ API & Cloud</span><span>→</span>
+<span>👩‍🦳 রোগী শুনবে</span><span>→</span>
+<span>👨‍👩‍👧 ফ্যামিলি জানবে</span>
 </div>
 
 <div class="grid">
 
-<!-- 1 -->
+<!-- 1 Home -->
 <div class="phone"><div class="head" style="background:#fff;color:#111">MediCare RxVoice - রহিমা বেগম</div>
 <div class="screen">
 <p>আসসালামু আলাইকুম<br><b>রহিমা বেগম</b><br><small>আপনার আজকের ওষুধের তালিকা</small></p>
-<div class="m" style="background:#eef6ff">আজকের ওষুধ<br><b>৩টি</b></div>
+<div class="m" style="background:#eef6ff">আজকের ওষুধ<br><b id="todayCount">৩টি</b></div>
 <button class="btn g">আমার ওষুধ</button>
 <button class="btn b">প্রেসক্রিপশন</button>
 <button class="btn" style="background:#7c3aed">ডাক্তারের সাথে যোগাযোগ</button>
 <button class="btn o">রিপোর্ট</button>
 </div></div>
 
-<!-- 2 -->
-<div class="phone"><div class="head" style="background:#0b5e4b">আমার ওষুধ - আজ, ২৭ এপ্রিল ২০২৭</div>
-<div class="screen">
-<div class="m"><div><b>Ciprodin 500</b><br><small>১+০+১ (৭ দিন)<br>খাওয়ার পরে</small><br><small>⏰ সকাল ৮:০০ রাত ৮:০০</small></div><span>›</span></div>
-<div class="m"><div><b>Calcium D3</b><br><small>১+০+০ (৩০ দিন)<br>খাওয়ার পর</small><br><small>⏰ সকাল ৯:০০</small></div><span>›</span></div>
-<div class="m"><div><b>Omeprazole 20</b><br><small>০+০+১ (১৪ দিন)<br>খালি পেটে</small><br><small>⏰ সকাল ৭:০০</small></div><span>›</span></div>
-<button class="btn g">+ নতুন ওষুধ যোগ করুন</button>
-</div></div>
+<!-- 2 Medicine List - Ciprocin 500 সহ -->
+<div class="phone"><div class="head" style="background:#0b5e4b">আমার ওষুধ - আজ</div>
+<div class="screen" id="medList">
+<!-- JS দিয়ে লোড হবে -->
+</div>
+<button class="btn g" onclick="addNew()">+ নতুন ওষুধ যোগ করুন</button>
+</div>
 
-<!-- 3 -->
+<!-- 3 Voice Reminder -->
 <div class="phone"><div class="rem">
-<small>8:00 রবি, ২৭ এপ্রিল</small><h1>8:00</h1>
-<div class="voice">🔊 মা, এখন আপনার Ciprodin 500 খাওয়ার সময় হয়েছে। খাবারের পরে ১টি ট্যাবলেট, পানি দিয়ে খাবেন।
-<br><br><button class="btn b" onclick="let u=new SpeechSynthesisUtterance('মা, এখন আপনার Ciprodin 500 খাওয়ার সময় হয়েছে। খাবারের পরে একটি ট্যাবলেট, পানি দিয়ে খাবেন।');u.lang='bn-BD';speechSynthesis.speak(u)">শুনুন</button>
+<small id="timeNow">8:00</small><h1 id="clock">8:00</h1>
+<div class="voice" id="voiceBox">🔊 মা, এখন আপনার Ciprocin 500 খাওয়ার সময় হয়েছে।</div>
+<button class="btn b" onclick="speakNow()">🔊 শুনুন</button>
+</div></div>
+
+<!-- 4 Follow-up Dynamic 86% -->
+<div class="phone"><div class="head" style="background:#fff;color:#111">ফলো-আপ ও Adherence</div>
+<div class="screen">
+<div class="m" style="display:block">
+Medication Adherence<br>
+<h2 id="adherence" style="color:green;margin:5px 0">86%</h2>
+<small id="countText">24 / 28 বার নিয়মিত খেয়েছেন</small><br><br>
+<button class="smallBtn" style="background:green" onclick="markTaken()">✔ খেয়েছি</button>
+<button class="smallBtn" style="background:red" onclick="markMissed()">✖ মিস করেছি</button>
+<small id="familyMsg" style="display:block;margin-top:8px;color:#0b5ed7"></small>
 </div>
+<div class="m">পরবর্তী ডাক্তার দেখা<br><b>১০ মে ২০২৫ (১৪ দিন পর)</b></div>
 </div></div>
 
-<!-- 4 -->
-<div class="phone"><div class="head" style="background:#fff;color:#111">প্রেসক্রিপশন - ডা. মো. আরিফুল ইসলাম</div>
-<div class="screen">
-<p><small>Patient: রহিমা বেগম<br>Age/Sex: 65/F<br>Diagnosis: Hypertension, Diabetes</small></p>
-<table><tr><th>Medicine</th><th>Dose</th><th>Duration</th></tr>
-<tr><td>Ciprodin 500</td><td>1+0+1</td><td>7 days</td></tr>
-<tr><td>Calcium D3</td><td>1+0+0</td><td>30 days</td></tr>
-<tr><td>Omeprazole 20</td><td>0+0+1</td><td>14 days</td></tr></table>
-<button class="btn b">+ প্রেসক্রিপশন ডাউনলোড</button>
-</div></div>
-
-<!-- 5 -->
-<div class="phone"><div class="head" style="background:#fff;color:#111">ফলো-আপ</div>
-<div class="screen">
-<div class="m">পরবর্তী ডাক্তার দেখানোর তারিখ<br><b>১০ মে ২০২৫ (১৪ দিন পর)</b></div>
-<p><b>Caregiver / পরিবারের সদস্য</b><br>মাহমুদ হাসান (ছেলে)<br><small>রোগী ওষুধ না খাওয়ার সাথে আপনাকে জানানো হবে।</small></p>
-<div class="m">Medication Adherence<br><h2 style="color:green">86%</h2><small>এই মাসে নিয়মিত খেয়েছেন<br>24 / 28 বার</small></div>
-</div></div>
-
-<!-- 6 Doctor Dashboard -->
+<!-- 5 Doctor Dashboard -->
 <div class="dash phone">
-<div class="head" style="background:#0b1d5a">👨‍⚕️ ডাক্তারের ড্যাশবোর্ড (ওয়েব/অ্যাপ) - Patient Dashboard - রহিমা বেগম - 85%</div>
+<div class="head" style="background:#0b1d5a">👨‍⚕️ ডাক্তারের ড্যাশবোর্ড - রহিমা বেগম - <span id="dashPercent">86%</span></div>
 <div class="screen">
-<table><tr><th>Medicine</th><th>Dose</th><th>Timing</th><th>Duration</th><th>Status</th></tr>
-<tr><td>Ciprodin 500</td><td>1+0+1</td><td>8 AM / 8 PM</td><td>7 days</td><td class="ok">✔ Taken</td></tr>
-<tr><td>Calcium D3</td><td>1+0+0</td><td>9 AM</td><td>30 days</td><td class="ok">✔ Taken</td></tr>
-<tr><td>Omeprazole 20</td><td>0+0+1</td><td>8 PM</td><td>14 days</td><td class="miss">⚠ Missed</td></tr></table>
-<button class="btn b" style="width:200px">View Full Report</button>
+<table id="dashTable">
+<tr><th>Medicine</th><th>Dose</th><th>Timing</th><th>Status</th></tr>
+</table>
 </div>
 </div>
 
 </div>
 
-<div class="feat">
-<div class="f">🎙️ <b>ডাক্তারের কণ্ঠে নির্দেশনা</b> - ডাক্তারের নিজের কণ্ঠে রেকর্ড করা নির্দেশনা রোগীর কাছে যাবে।</div>
-<div class="f">🤖 <b>AI-ভিত্তিক প্রেসক্রিপশন বিশ্লেষণ</b> - প্রেসক্রিপশন ছবি থেকে স্বয়ংক্রিয়ভাবে ওষুধের সময় ও নিয়ম সেট করবে।</div>
-<div class="f">🚨 <b>মিসড ডোজ অ্যালার্ট</b> - নির্দিষ্ট সময়ে ওষুধ না খেলে কেয়ারগিভারকে জানাবে।</div>
-<div class="f">📊 <b>ডাক্তারের জন্য রিয়েল-টাইম রিপোর্ট</b> - রোগীর ওষুধ গ্রহণের হার, ফলো-আপ।</div>
-</div>
+<script>
+// ===== ডাটা =====
+let meds = JSON.parse(localStorage.getItem('meds')) || [
+ {name:'Ciprocin 500', dose:'1+0+1', duration:'7 দিন', time:'সকাল ৮:০০ রাত ৮:০০', note:'খাওয়ার পরে', status:'pending'},
+ {name:'Calcium D3', dose:'1+0+0', duration:'30 দিন', time:'সকাল ৯:০০', note:'খাওয়ার পর', status:'taken'},
+ {name:'Omeprazole 20', dose:'0+0+1', duration:'14 দিন', time:'সকাল ৭:০০', note:'খালি পেটে', status:'missed'}
+];
+let taken = parseInt(localStorage.getItem('taken') || '24');
+let total = 28;
 
+function save(){ localStorage.setItem('meds', JSON.stringify(meds)); localStorage.setItem('taken', taken); render(); }
+
+function render(){
+ let list = document.getElementById('medList'); list.innerHTML='';
+ let table = document.getElementById('dashTable'); table.innerHTML='<tr><th>Medicine</th><th>Dose</th><th>Timing</th><th>Status</th></tr>';
+ meds.forEach((m,i)=>{
+   list.innerHTML += `<div class="m"><div><b>${m.name}</b><br><small>${m.dose} (${m.duration})<br>${m.note} - ${m.time}</small></div><div><button class="smallBtn" style="background:green" onclick="setStatus(${i},'taken')">✔</button><button class="smallBtn" style="background:red" onclick="setStatus(${i},'missed')">✖</button></div></div>`;
+   let st = m.status=='taken'? '<span class="ok">✔ Taken</span>' : m.status=='missed'? '<span class="miss">⚠ Missed</span>' : '⏳ Pending';
+   table.innerHTML += `<tr><td>${m.name}</td><td>${m.dose}</td><td>${m.time}</td><td>${st}</td></tr>`;
+ });
+ let percent = Math.round((taken/total)*100);
+ if(percent>100) percent=100; if(percent<0) percent=0;
+ document.getElementById('adherence').innerText = percent+'%';
+ document.getElementById('dashPercent').innerText = percent+'%';
+ document.getElementById('countText').innerText = taken+' / '+total+' বার নিয়মিত খেয়েছেন';
+ document.getElementById('todayCount').innerText = meds.length+'টি';
+
+ // Voice Box Update - প্রথম pending ওষুধ
+ let next = meds.find(x=>x.status=='pending') || meds[0];
+ document.getElementById('voiceBox').innerText = `🔊 মা, এখন আপনার ${next.name} খাওয়ার সময় হয়েছে। ${next.note} - ${next.dose}।`;
+}
+function setStatus(i,s){
+ meds[i].status=s;
+ if(s=='taken') taken++; if(s=='missed' && taken>0) taken--;
+ if(s=='missed') document.getElementById('familyMsg').innerText = '🚨 ফ্যামিলিকে জানানো হয়েছে: '+meds[i].name+' মিস করেছেন';
+ else document.getElementById('familyMsg').innerText = '';
+ save();
+}
+function markTaken(){ taken++; if(taken>total) total=taken; save(); }
+function markMissed(){ if(taken>0) taken--; save(); document.getElementById('familyMsg').innerText='🚨 ফ্যামিলিকে জানানো হয়েছে: ডোজ মিস'; }
+function addNew(){
+ let n=prompt('ওষুধের নাম লিখুন:','Ciprocin 500');
+ if(n){ meds.push({name:n,dose:'1+0+1',duration:'7 দিন',time:'রাত ৮:০০',note:'খাওয়ার পরে',status:'pending'}); save(); }
+}
+function speakNow(){
+ let txt=document.getElementById('voiceBox').innerText;
+ let u=new SpeechSynthesisUtterance(txt); u.lang='bn-BD'; u.rate=0.85; speechSynthesis.speak(u);
+}
+render();
+setInterval(()=>{ let d=new Date(); document.getElementById('clock').innerText=d.getHours()+':'+String(d.getMinutes()).padStart(2,'0'); },1000);
+</script>
 </body>
 </html>
