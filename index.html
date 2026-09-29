@@ -1,113 +1,108 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MediCare RxVoice - Same as Design</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MediCare RxVoice V4 - Bikrom Kormi</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;font-family:'Noto Sans Bengali',system-ui}
-body{margin:0;background:#f6fbfb;padding:8px;color:#0a2a3a}
-.header{display:flex;justify-content:space-between;align-items:center;background:#fff;padding:12px 16px;border-radius:12px;flex-wrap:wrap}
-.logo{display:flex;gap:10px;align-items:center;font-weight:800;font-size:22px;color:#0b5e4b}
-.logo b{color:#0b5ed7}
-.badge{background:#dcfce7;color:#0b5e4b;padding:8px 12px;border-radius:12px;font-size:12px;max-width:320px}
-.screens{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:12px 0}
-@media(max-width:1100px){.screens{grid-template-columns:repeat(2,1fr)}} 
-@media(max-width:600px){.screens{grid-template-columns:1fr}}
-.phone{border:3px solid #111;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 4px 12px #0001}
-.phone .t{font-weight:700;font-size:12px;padding:6px 10px;background:#eef6ff;text-align:center}
-.screen{padding:10px;font-size:12px;min-height:320px}
-.m{border:1px solid #e5e7eb;border-radius:10px;padding:8px;margin:6px 0;display:flex;justify-content:space-between}
-.btn{width:100%;padding:9px;border:none;border-radius:20px;color:#fff;font-weight:700;margin-top:6px;font-size:12px}
-.g{background:#0b8a5e}.b{background:#1d6ef5}.p{background:#7c3aed}.o{background:#ff7a1a}
-.rem{background:linear-gradient(180deg,#0b5ed7,#0a2a6b);color:#fff;text-align:center;padding:14px;min-height:360px}
-.circle{width:70px;height:70px;border:6px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:10px auto;font-weight:800}
-.bottom{display:grid;grid-template-columns:1.3fr 1fr 0.7fr;gap:12px;margin-top:12px;background:#fff;padding:12px;border-radius:12px}
-@media(max-width:900px){.bottom{grid-template-columns:1fr}}
-.feat{display:flex;gap:8px;margin:8px 0;font-size:11px}
-.icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;flex-shrink:0}
-.flowBox{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:11px}
-.dot{width:36px;height:36px;border-radius:50%;background:#e0f2fe;display:flex;align-items:center;justify-content:center}
-table{width:100%;font-size:10px;border-collapse:collapse} th,td{border-bottom:1px solid #ddd;padding:4px}
+*{box-sizing:border-box;font-family:'Noto Sans Bengali',sans-serif}
+body{margin:0;background:#eef7f5;padding:10px}
+.h{background:#fff;padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:10px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border-radius:14px;padding:12px;border:1px solid #e5e7eb}
+.btn{width:100%;padding:9px;border:none;border-radius:20px;color:#fff;font-weight:700;margin-top:6px;cursor:pointer}
+.g{background:#0a9c6b}.b{background:#2563eb}.o{background:#f59e0b}.r{background:#ef4444}
+.inp{width:100%;padding:8px;border:1px solid #ccc;border-radius:8px;margin-top:6px}
+.badge{display:inline-block;background:#dcfce7;color:#166534;padding:2px 8px;border-radius:10px;font-size:11px}
+.agent{border:1px dashed #0a9c6b;background:#f0fdf4;border-radius:10px;padding:8px;margin:6px 0;font-size:13px}
 </style>
 </head>
 <body>
 
-<div class="header">
-<div class="logo">💚 MediCare <b>RxVoice</b> <small style="font-size:11px;color:#000">Doctor → Prescription → Patient → Voice → Follow-up</small></div>
-<div class="badge">📢 মা, এখন আপনার Ciprodin 500 খাওয়ার সময় হয়েছে। খাবারের পরে ১টি ট্যাবলেট, পানি দিয়ে খাবেন।</div>
-<div style="font-size:12px"><b>স্মার্ট প্রযুক্তিতে,<br>সবার জন্য সঠিক চিকিৎসা</b><br><small>ডাক্তার প্রেসক্রিপশন থেকে শুরু করে, রোগীর ওষুধ খাওয়া পর্যন্ত সকল কিছু এখন এক প্ল্যাটফর্মে।</small></div>
+<div class="h">
+<b>💚 RxVoice V4 - বিক্রম কর্মী</b>
+<span class="badge">২০ টাকা / বিক্রি</span>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;font-size:11px;font-weight:700;margin:8px 0;text-align:center">
-<span>1 হোম (রোগীর অ্যাপ)</span><span>2 ওষুধের তালিকা ও নিয়ম</span><span>3 ভয়েস রিমাইন্ডার</span><span>8 প্রেসক্রিপশন</span><span>5 ফলো-আপ ও কেয়ার</span>
+<div class="grid">
+<!-- LEFT: রোগী Enroll + রেফারেল -->
+<div class="card">
+<h3>👨‍⚕️ নতুন রোগী Enroll</h3>
+<input id="pName" class="inp" placeholder="রোগীর নাম">
+<input id="pPhone" class="inp" placeholder="মোবাইল নম্বর">
+<select id="agentType" class="inp">
+<option value="ফার্মেসি">ফার্মেসি</option>
+<option value="পল্লী চিকিৎসক">পল্লী চিকিৎসক</option>
+<option value="নার্স">নার্স / SACMO</option>
+<option value="ডাক্তার">ডাক্তার</option>
+<option value="ফার্মা SR">ফার্মা SR</option>
+</select>
+<input id="refCode" class="inp" placeholder="বিক্রম কর্মী কোড (যেমন PHARM101)">
+<button class="btn g" onclick="enroll()">✅ Enroll করুন + ২০ টাকা কমিশন</button>
+<p id="enSt" style="font-size:12px;color:green"></p>
+<div id="meds"></div>
 </div>
 
-<div class="screens">
-<!-- 1 -->
-<div class="phone"><div class="t">MediCare RxVoice</div><div class="screen">
-<b>আসসালামু আলাইকুম</b><br><b>রহিমা বেগম</b><br><small>আপনার আজকের ওষুধের তালিকা</small>
-<div class="m" style="background:#eef6ff">আজকের ওষুধ<br><b>৩টি</b></div>
-<button class="btn g">আমার ওষুধ</button><button class="btn b">প্রেসক্রিপশন</button><button class="btn p">ডাক্তারের সাথে যোগাযোগ</button><button class="btn o">রিপোর্ট</button>
-</div></div>
-<!-- 2 -->
-<div class="phone"><div class="t">আমার ওষুধ - আজ, ২৭ এপ্রিল ২০২৭</div><div class="screen">
-<div class="m"><div><b>Ciprodin 500</b><br>১+০+১ (৭ দিন)<br>খাওয়ার পরে<br><small>⏰ সকাল ৮:০০ রাত ৮:০০</small></div><span>›</span></div>
-<div class="m"><div><b>Calcium D3</b><br>১টি (৩০ দিন)<br>খাওয়ার পর<br><small>⏰ সকাল ৯:০০</small></div><span>›</span></div>
-<div class="m"><div><b>Omeprazole 20</b><br>১টি (১৪ দিন)<br>খালি পেটে<br><small>⏰ সকাল ৭:০০</small></div><span>›</span></div>
-<button class="btn g">+ নতুন ওষুধ যোগ করুন</button>
-</div></div>
-<!-- 3 -->
-<div class="phone"><div class="rem"><small>8:00</small><h1 style="font-size:42px;margin:0">8:00</h1><small>রবি, ২৭ এপ্রিল</small>
-<div style="background:#fff;color:#000;border-radius:10px;padding:10px;margin-top:12px;text-align:left;font-size:11px">MediCare RxVoice<br>🔊 মা, এখন আপনার Ciprodin 500 খাওয়ার সময় হয়েছে। খাবারের পরে ১টি ট্যাবলেট, পানি দিয়ে খাবেন।<br><button class="btn b" onclick="let u=new SpeechSynthesisUtterance('মা, এখন আপনার Ciprodin 500 খাওয়ার সময় হয়েছে। খাবারের পরে একটি ট্যাবলেট, পানি দিয়ে খাবেন।');u.lang='bn-BD';speechSynthesis.speak(u)">শুনুন</button></div>
-</div></div>
-<!-- 4 -->
-<div class="phone"><div class="t">প্রেসক্রিপশন - ডা. মো. আরিফুল ইসলাম</div><div class="screen">
-<small>Patient: রহিমা বেগম<br>Age/Sex: 65/F<br>Diagnosis: Hypertension, Diabetes</small>
-<table><tr><th>SL</th><th>Medicine</th><th>Dose</th><th>Duration</th></tr><tr><td>1</td><td>Ciprodin 500</td><td>1+0+1</td><td>7 days</td></tr><tr><td>2</td><td>Calcium D3</td><td>1+0+0</td><td>30 days</td></tr><tr><td>3</td><td>Omeprazole 20</td><td>0+0+1</td><td>14 days</td></tr></table>
-<button class="btn b">+ প্রেসক্রিপশন ডাউনলোড</button>
-</div></div>
-<!-- 5 -->
-<div class="phone"><div class="t">ফলো-আপ</div><div class="screen">
-<div class="m" style="display:block">পরবর্তী ডাক্তার দেখানোর তারিখ<br><b>১০ মে ২০২৫ (১৪ দিন পর)</b><br><button class="btn g">ক্যালেন্ডারে যোগ করুন</button></div>
-<p><b>Caregiver / পরিবারের সদস্য</b><br>মাহমুদ হাসান (ছেলে)<br><small>রোগী ওষুধ না খাওয়ার পর্যায় আপনাকে জানানো হবে।</small></p>
-<div class="m" style="display:block">Medication Adherence<br><div style="display:flex;align-items:center;gap:10px"><div class="circle" id="circle">86%</div><small id="cnt">এই মাসে নিয়মিত খেয়েছেন<br>24 / 28 বার</small></div><button class="btn g" style="width:48%" onclick="taken++;update()">✔ খেয়েছি</button><button class="btn" style="width:48%;background:red" onclick="if(taken>0)taken--;update()">✖ মিস</button></div>
-</div></div>
+<!-- MIDDLE: এজেন্ট ড্যাশবোর্ড -->
+<div class="card">
+<h3>💰 আমার কমিশন ড্যাশবোর্ড</h3>
+<p style="font-size:12px">কোড: <b id="myCode">PHARM_COMILLA_101</b></p>
+<div style="display:flex;gap:6px">
+<div style="flex:1;background:#ecfdf5;padding:8px;border-radius:10px;text-align:center"><b id="totalSale">0</b><br><small>মোট বিক্রি</small></div>
+<div style="flex:1;background:#eff6ff;padding:8px;border-radius:10px;text-align:center"><b id="totalTk">0৳</b><br><small>মোট আয়</small></div>
+</div>
+<button class="btn o" onclick="payout()">📲 bKash এ টাকা নিন</button>
+<h4 style="margin-top:10px">আজকের বিক্রি</h4>
+<div id="saleList" style="font-size:12px"></div>
 </div>
 
-<div class="bottom">
-<div style="border:2px solid #111;border-radius:12px;overflow:hidden"><div style="background:#0b1d5a;color:#fff;padding:6px;font-size:11px">6 ডাক্তারের ড্যাশবোর্ড (ওয়েব/অ্যাপ) - Patient Dashboard</div><div style="padding:8px"><b>রহিমা বেগম - Age 65 Female - 85% Adherence</b><table><tr><th>Medicine</th><th>Dose</th><th>Timing</th><th>Duration</th><th>Status</th></tr><tr><td>Ciprodin 500</td><td>1+0+1</td><td>8 AM / 8 PM</td><td>7 days</td><td style="color:green">✔ Taken</td></tr><tr><td>Calcium D3</td><td>1+0+0</td><td>9 AM</td><td>30 days</td><td style="color:green">✔ Taken</td></tr><tr><td>Omeprazole 20</td><td>0+0+1</td><td>8 PM</td><td>14 days</td><td style="color:red">⚠ Missed</td></tr></table></div></div>
-
-<div>
-<h4 style="margin:0">বিশেষত্ব ফিচারসমূহ</h4>
-<div class="feat"><div class="icon" style="background:#0b8a5e">🎙️</div><div><b>ডাক্তারের কণ্ঠে নির্দেশনা</b><br>ডাক্তারের নিজের কণ্ঠে রেকর্ড করা নির্দেশনা রোগীর কাছে যাবে।</div></div>
-<div class="feat"><div class="icon" style="background:#7c3aed">AI</div><div><b>AI-ভিত্তিক প্রেসক্রিপশন বিশ্লেষণ</b><br>প্রেসক্রিপশন ছবি থেকে স্বয়ংক্রিয়ভাবে ওষুধের সময় ও নিয়ম সেট করবে।</div></div>
-<div class="feat"><div class="icon" style="background:red">!</div><div><b>মিসড ডোজ অ্যালার্ট</b><br>নির্দিষ্ট সময়ে ওষুধ না খেলে কেয়ারগিভারকে জানাবে।</div></div>
-<div class="feat"><div class="icon" style="background:#1d6ef5">📊</div><div><b>ডাক্তারের জন্য রিয়েল-টাইম রিপোর্ট</b><br>রোগীর ওষুধ গ্রহণের হার, ফলো-আপ, এবং সম্পূর্ণ চিকিৎসার ইতিহাস দেখাবে।</div></div>
-<div class="feat"><div class="icon" style="background:#ff7a1a">❤</div><div><b>ফ্যামিলি-অ্যাপ রিমাইন্ডার</b><br>ডাক্তার দেওয়ার তারিখ, পরীক্ষা বা বিশেষ নির্দেশনা মনে করিয়ে দেবে।</div></div>
+<!-- RIGHT: রিপোর্ট + ভয়েস -->
+<div class="card">
+<h3>📊 রোগীর রিপোর্ট + ভয়েস</h3>
+<input type="file" accept="image/*" class="inp">
+<button class="btn b" onclick="alert('রিপোর্ট স্ক্যান হলো: BP ভালো আছে')">রিপোর্ট দেখুন</button>
+<div style="text-align:center;margin-top:10px">
+<div style="width:60px;height:60px;border:4px solid #10b981;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-weight:800">86%</div>
+<small>Adherence</small>
 </div>
-
-<div>
-<h4 style="margin:0">সিস্টেমের প্রবাহ (Flow)</h4>
-<div class="flowBox"><div class="dot">👨‍⚕️</div><div><b>ডাক্তার</b><br>প্রেসক্রিপশন ও নির্দেশনা দেন</div></div>
-<div class="flowBox"><div class="dot">☁️</div><div><b>MediCare RxVoice API & Cloud</b></div></div>
-<div class="flowBox"><div class="dot">👩</div><div><b>রোগীর মোবাইল</b><br>ভয়েস + নোটিফিকেশন + অ্যাপ</div></div>
-<div class="flowBox"><div class="dot">👨‍👩‍👧</div><div><b>কেয়ারগিভার/পরিবার</b><br>মিসড ডোজ হলে সতর্কতা</div></div>
-<div class="flowBox"><div class="dot">📈</div><div><b>ডাক্তারের ড্যাশবোর্ড</b><br>অ্যাডহিয়ারেন্স ও রিপোর্ট</div></div>
+<button class="btn b" onclick="speak()">🔊 ভয়েস শুনুন</button>
+<hr>
+<h4>🏆 টপ বিক্রম কর্মী</h4>
+<div class="agent">🥇 ফার্মেসি - মা মেডিকেল, কুমিল্লা - ১২৪ বিক্রি - ২৪৮০৳</div>
+<div class="agent">🥈 পল্লী চিকিৎসক - রহিম, লাকসাম - ৯৮ বিক্রি - ১৯৬০৳</div>
+<div class="agent">🥉 নার্স - ফাতেমা, কুমিল্লা সদর - ৭৬ বিক্রি - ১৫২০৳</div>
 </div>
 </div>
 
 <script>
-let taken=24, total=28;
-function update(){
- let p=Math.round(taken/total*100);
- if(p>100)p=100;if(p<0)p=0;
- document.getElementById('circle').innerText=p+'%';
- document.getElementById('cnt').innerHTML='এই মাসে নিয়মিত খেয়েছেন<br>'+taken+' / '+total+' বার';
- localStorage.setItem('taken',taken);
+let sales = JSON.parse(localStorage.getItem('sales')||'[]');
+let tk = sales.length*20;
+function render(){
+ document.getElementById('totalSale').innerText=sales.length;
+ document.getElementById('totalTk').innerText=tk+'৳';
+ document.getElementById('saleList').innerHTML=sales.slice(0,5).map(s=>`• ${s.name} - ${s.phone} - ${s.agent} <span class="badge">+20৳</span>`).join('<br>')||'এখনো বিক্রি নেই';
 }
-update();
+render();
+function enroll(){
+ let name=document.getElementById('pName').value, phone=document.getElementById('pPhone').value, agent=document.getElementById('agentType').value, code=document.getElementById('refCode').value;
+ if(!name||!phone){alert('নাম ও মোবাইল দিন');return;}
+ sales.unshift({name,phone,agent,code,time:new Date().toLocaleDateString('bn-BD')});
+ localStorage.setItem('sales',JSON.stringify(sales));
+ tk=sales.length*20;
+ document.getElementById('enSt').innerText=`✅ ${name} Enroll সফল! ${agent} (${code}) ২০ টাকা পাবে`;
+ document.getElementById('pName').value='';document.getElementById('pPhone').value='';
+ render();
+}
+function payout(){
+ if(sales.length==0){alert('কোনো বিক্রি নেই');return;}
+ alert(`✅ ${tk} টাকা bKash (01XXXXXXXXX) এ পাঠানো হয়েছে!`);
+ sales=[]; localStorage.setItem('sales',JSON.stringify([])); render();
+}
+function speak(){
+ let u=new SpeechSynthesisUtterance('আপনার ওষুধ খাওয়ার সময় হয়েছে, লাল পাতার ওষুধটি খান');
+ u.lang='bn-BD'; speechSynthesis.speak(u);
+}
 </script>
 </body>
 </html>
