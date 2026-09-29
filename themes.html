@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="bn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Check 3 Full Pads - MediVoice</title>
+<style>
+body{margin:0;background:#eef3f8;font-family:system-ui;padding:14px}
+.tabs{display:flex;gap:8px;justify-content:center;margin:10px 0}
+.tab{padding:10px 18px;border-radius:20px;border:1px solid #cbd5e1;cursor:pointer;background:#fff;font-weight:700}
+.tab.active{background:#0b5ed7;color:#fff}
+.pad{max-width:820px;margin:0 auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.12);display:none}
+.pad.active{display:block}
+.head{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.b1 .head{background:#0b5ed7}.b2 .head{background:#166534}.b3 .head{background:#111827}
+.sec{margin:14px;border:1px solid #e5e7eb;border-radius:10px;padding:12px}
+.sec h4{margin:0 0 8px;color:#0f2d6b}
+table{width:100%;border-collapse:collapse}th{background:#e0e7ff;padding:8px;font-size:11px;text-align:left}td{padding:8px;font-size:12px;border-bottom:1px solid #eee}
+.qr{display:flex;justify-content:space-between;align-items:center;margin:14px;padding:12px;background:#f8fafc;border-radius:10px}
+</style></head><body>
+<h2 style="text-align:center">MediVoice.bd - 3 Full Pad Check</h2>
+<div class="tabs">
+<div class="tab active" onclick="show(0)">Classic Blue</div>
+<div class="tab" onclick="show(1)">Forest Green</div>
+<div class="tab" onclick="show(2)">Dark Elegant</div>
+</div>
+
+<div class="pad b1 active">
+<div class="head"><b>✚ MediVoice.bd Healthcare</b><span>SGH • Digital Rx</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Follow up 7 days</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
+</div>
+
+<div class="pad b2">
+<div class="head"><b>🌿 MediVoice.bd Green Care</b><span>Eco • Diabetes Center</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Drink water, walk</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
+</div>
+
+<div class="pad b3">
+<div class="head"><b>✨ MediVoice.bd Premium</b><span>Dark Elegant • Private Chamber</span></div>
+<div class="sec"><h4>👤 Patient Information</h4>Patient: Rahima Khatun | Age: 65F | ID: MV-2026-001 | Date: 29 Sep 2026</div>
+<div class="sec"><h4>🩺 Clinical Details</h4>Diagnosis: Type 2 DM | Allergies: NKDA | Notes: Premium care</div>
+<div class="sec"><h4>💊 Prescription Medications</h4>
+<table><tr><th>MEDICATION</th><th>DOSAGE</th><th>QTY</th><th>INSTRUCTIONS</th></tr>
+<tr><td>[Your Medicine]</td><td>1+0+1</td><td>20 Tabs</td><td>ভাত খাওয়ার পরে</td></tr>
+<tr><td>[Your Medicine]</td><td>20 IU</td><td>1 Pen</td><td>নাস্তার 5 মিনিট আগে</td></tr></table></div>
+<div class="qr"><div><b>Dr. Rahim Uddin</b><br>MBBS, Barura, Cumilla<br>Signature: ___________</div><div style="background:#fff;padding:8px;border-radius:8px;border:1px solid #ddd">◫ QR<br><small>Scan to Verify</small></div></div>
+</div>
+
+<script>function show(i){document.querySelectorAll('.pad').forEach((p,k)=>p.classList.toggle('active',k===i));document.querySelectorAll('.tab').forEach((t,k)=>t.classList.toggle('active',k===i));}</script>
+</body></html>
