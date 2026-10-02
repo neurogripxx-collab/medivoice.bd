@@ -1919,4 +1919,101 @@ analysis.innerHTML = `
 <br><br>
 
 পরবর্তী ধাপে OCR যুক্ত হলে রিপোর্টের
-লেখা স্বয়ংক্রিয়
+লেখা স্বয়ংক্রিয়ভাবে পড়া যাবে।
+
+<br><br>
+
+⚠️ রিপোর্টের ফলাফল চিকিৎসকের পরামর্শের
+বিকল্প নয়।
+
+`;
+
+
+
+setTimeout(()=>{
+
+status.innerHTML = `
+
+<strong>
+✅ রিপোর্ট ছবি সফলভাবে গ্রহণ করা হয়েছে।
+</strong>
+
+`;
+
+},1000);
+
+}
+
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+
+function escapeHTML(value){
+
+return String(value)
+
+.replaceAll(
+"&",
+"&amp;"
+)
+
+.replaceAll(
+"<",
+"&lt;"
+)
+
+.replaceAll(
+">",
+"&gt;"
+)
+
+.replaceAll(
+'"',
+"&quot;"
+)
+
+.replaceAll(
+"'",
+"&#039;"
+);
+
+}
+
+
+
+/* =========================================
+   START APPLICATION
+========================================= */
+
+
+renderMedicines();
+
+renderHistory();
+
+updateNextReminder();
+
+checkMedicineReminder();
+
+
+if(
+"Notification" in window &&
+Notification.permission ===
+"granted"
+){
+
+document
+.getElementById(
+"notificationStatus"
+)
+.innerText =
+"✅ Notification আগে থেকেই চালু আছে।";
+
+}
+
+</script>
+
+</body>
+</html>
