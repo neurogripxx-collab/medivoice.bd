@@ -5,26 +5,25 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
 
-<title>Medivoice | Smart Patient Care</title>
+<title>MEDIVOICE — Smart Patient Care</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 
 <style>
-
 *{box-sizing:border-box}
 
 :root{
---bg:#06111f;
---panel:#0d1b2e;
---panel2:#102239;
---line:#263a54;
---text:#f7f9fc;
---muted:#9fb0c4;
---gold:#d9b66d;
---cyan:#39c9d8;
---green:#38d39f;
---red:#ef7777;
---orange:#f0a85c;
+--bg:#050c18;
+--panel:#0b1728;
+--panel2:#10233a;
+--line:#243852;
+--text:#f7faff;
+--muted:#9eafc4;
+--gold:#e5c477;
+--cyan:#35d4e5;
+--green:#32dfa4;
+--red:#ff6f78;
+--orange:#ffad5c;
 }
 
 html{scroll-behavior:smooth}
@@ -32,32 +31,33 @@ html{scroll-behavior:smooth}
 body{
 margin:0;
 background:
-radial-gradient(circle at 80% 0%,#173957 0,transparent 32%),
+radial-gradient(circle at 85% 0%,#17415a 0,transparent 28%),
+radial-gradient(circle at 10% 30%,#102747 0,transparent 25%),
 var(--bg);
 color:var(--text);
 font-family:Arial,"Noto Sans Bengali",sans-serif;
 }
 
-button,input,textarea,select{font:inherit}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 
 .header{
 position:sticky;
 top:0;
-z-index:100;
-background:#071526ee;
+z-index:999;
+background:#06111eee;
 backdrop-filter:blur(18px);
 border-bottom:1px solid var(--line);
 }
 
-.headerInner{
-max-width:1150px;
+.headerTop{
+max-width:1200px;
 margin:auto;
-padding:14px 18px;
+padding:13px 18px;
 display:flex;
-align-items:center;
 justify-content:space-between;
-gap:12px;
+align-items:center;
+gap:15px;
 }
 
 .brand{
@@ -67,65 +67,64 @@ gap:12px;
 }
 
 .logo{
-width:52px;
-height:52px;
+width:50px;
+height:50px;
 border-radius:16px;
 display:grid;
 place-items:center;
-background:linear-gradient(135deg,var(--cyan),var(--gold));
-color:#06111f;
-font-size:26px;
+font-size:25px;
 font-weight:900;
+color:#06111f;
+background:linear-gradient(135deg,var(--cyan),var(--gold));
+box-shadow:0 0 30px #35d4e533;
 }
 
 .brand h1{
 margin:0;
-font-size:23px;
-letter-spacing:2px;
+font-size:22px;
+letter-spacing:3px;
 }
 
 .brand small{
-display:block;
 color:var(--muted);
-font-size:11px;
-margin-top:3px;
+font-size:10px;
 }
 
 .system{
-color:var(--green);
-font-size:12px;
+font-size:11px;
 font-weight:bold;
+color:var(--green);
 }
 
-nav{
-max-width:1150px;
+.navbar{
+max-width:1200px;
 margin:auto;
-padding:0 18px 13px;
 display:flex;
 gap:8px;
 overflow-x:auto;
+padding:0 18px 13px;
 scrollbar-width:none;
 }
 
-nav::-webkit-scrollbar{display:none}
+.navbar::-webkit-scrollbar{display:none}
 
 .nav{
 flex-shrink:0;
-padding:10px 17px;
-border-radius:24px;
 border:1px solid var(--line);
-background:#0b192b;
-color:#b9c6d7;
+background:#0a182a;
+color:#b9c7d8;
+padding:10px 15px;
+border-radius:25px;
 }
 
 .nav.active{
 background:var(--gold);
-color:#06111f;
+color:#07111f;
 font-weight:bold;
 }
 
 main{
-max-width:1150px;
+max-width:1200px;
 margin:auto;
 padding:28px 18px 70px;
 }
@@ -134,11 +133,25 @@ padding:28px 18px 70px;
 .page.active{display:block}
 
 .hero{
-padding:42px;
-border-radius:30px;
-border:1px solid var(--line);
-background:linear-gradient(135deg,#102640,#0b1829);
-box-shadow:0 20px 60px #0005;
+padding:45px;
+border-radius:32px;
+border:1px solid #29445f;
+background:
+linear-gradient(135deg,#112b46,#091729);
+box-shadow:0 25px 80px #0007;
+position:relative;
+overflow:hidden;
+}
+
+.hero:after{
+content:"";
+position:absolute;
+width:250px;
+height:250px;
+right:-100px;
+top:-100px;
+border-radius:50%;
+background:#35d4e511;
 }
 
 .kicker{
@@ -149,17 +162,21 @@ letter-spacing:3px;
 }
 
 .hero h2{
-font-size:clamp(40px,7vw,68px);
+font-size:clamp(38px,6vw,68px);
 line-height:1.08;
-max-width:900px;
+max-width:950px;
 margin:18px 0;
+position:relative;
+z-index:1;
 }
 
 .hero p{
 max-width:850px;
-color:#c3cfdd;
 font-size:18px;
 line-height:1.8;
+color:#c2d0df;
+position:relative;
+z-index:1;
 }
 
 .buttons{
@@ -174,42 +191,33 @@ border:0;
 border-radius:25px;
 padding:13px 20px;
 font-weight:bold;
+transition:.2s;
 }
 
-.gold{
-background:var(--gold);
-color:#06111f;
+.btn:hover{
+transform:translateY(-2px);
+filter:brightness(1.08);
 }
 
-.cyan{
-background:var(--cyan);
-color:#06111f;
-}
-
-.green{
-background:var(--green);
-color:#06111f;
-}
+.gold{background:var(--gold);color:#06111f}
+.cyan{background:var(--cyan);color:#06111f}
+.green{background:var(--green);color:#06111f}
+.orange{background:var(--orange);color:#06111f}
 
 .darkBtn{
-background:#102239;
+background:#10233a;
 border:1px solid var(--line);
-color:white;
-}
-
-.danger{
-background:#49252a;
 color:#fff;
 }
 
-.orange{
-background:var(--orange);
-color:#06111f;
+.red{
+background:#54272c;
+color:#fff;
 }
 
 .sectionTitle{
 font-size:32px;
-margin:40px 0 15px;
+margin:42px 0 17px;
 }
 
 .grid{
@@ -218,47 +226,52 @@ grid-template-columns:repeat(2,1fr);
 gap:18px;
 }
 
-.threeGrid{
+.three{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:14px;
+gap:15px;
 }
 
 .card{
-background:var(--panel);
+background:linear-gradient(145deg,#0c1a2c,#091525);
 border:1px solid var(--line);
 border-radius:24px;
 padding:24px;
-box-shadow:0 12px 35px #0004;
+box-shadow:0 12px 35px #0005;
 margin-bottom:18px;
 }
 
 .card h3{
-font-size:25px;
 margin:8px 0 12px;
+font-size:24px;
 }
 
 .card p{
 color:var(--muted);
-line-height:1.7;
+line-height:1.75;
 }
 
 .icon{
-font-size:42px;
+font-size:40px;
 }
 
 .notice{
-padding:15px;
-border-radius:14px;
-background:#10253a;
-border:1px solid #294861;
-color:#cbd8e7;
-line-height:1.65;
-margin-bottom:16px;
+padding:16px;
+border-radius:16px;
+background:#10253b;
+border:1px solid #294862;
+color:#cad7e5;
+line-height:1.7;
+margin-bottom:18px;
 }
 
-.notice strong{
-color:var(--gold);
+.notice strong{color:var(--gold)}
+
+label{
+display:block;
+font-size:13px;
+color:#b8c6d6;
+margin-top:11px;
 }
 
 input,select,textarea{
@@ -267,50 +280,45 @@ padding:13px;
 margin:6px 0;
 border-radius:12px;
 border:1px solid var(--line);
-background:#081525;
-color:white;
+background:#071321;
+color:#fff;
 outline:none;
 }
 
-input:focus,select:focus,textarea:focus{
+input:focus,
+select:focus,
+textarea:focus{
 border-color:var(--cyan);
+box-shadow:0 0 0 2px #35d4e511;
 }
 
 textarea{
-min-height:120px;
+min-height:110px;
 resize:vertical;
-}
-
-label{
-display:block;
-color:#b9c7d7;
-font-size:13px;
-margin-top:10px;
 }
 
 .row{
 display:grid;
 grid-template-columns:1fr 1fr;
-gap:10px;
+gap:12px;
 }
 
 .timeGrid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:8px;
-margin:8px 0;
+margin-top:7px;
 }
 
 .timeBox{
 display:flex;
 align-items:center;
-gap:7px;
+gap:8px;
 padding:12px;
 border:1px solid var(--line);
-background:#0b1a2c;
+background:#0b1b2d;
 border-radius:12px;
 cursor:pointer;
-color:#dce6f2;
 }
 
 .timeBox input{
@@ -318,16 +326,18 @@ width:auto;
 margin:0;
 }
 
-.medItem{
-background:#081525;
-border:1px solid var(--line);
-border-radius:15px;
-padding:15px;
+.medItem,
+.historyItem,
+.appointment{
+padding:16px;
 margin-top:10px;
+border-radius:16px;
+background:#071321;
+border:1px solid var(--line);
 }
 
 .medTitle{
-font-size:18px;
+font-size:19px;
 font-weight:bold;
 color:var(--gold);
 }
@@ -335,19 +345,19 @@ color:var(--gold);
 .pill{
 display:inline-block;
 padding:5px 9px;
-margin:4px 3px 0 0;
-border-radius:18px;
-font-size:11px;
-background:#123d37;
+border-radius:20px;
+background:#123d36;
 color:var(--green);
+font-size:11px;
+margin:4px 3px 0 0;
 }
 
 .result{
-background:#081525;
+padding:16px;
+margin-top:15px;
+border-radius:15px;
+background:#071321;
 border:1px solid var(--line);
-border-radius:14px;
-padding:15px;
-margin-top:14px;
 line-height:1.7;
 }
 
@@ -356,16 +366,21 @@ color:var(--muted);
 }
 
 .stat{
-padding:18px;
+padding:20px;
+border-radius:20px;
+background:#091727;
 border:1px solid var(--line);
-background:#081525;
-border-radius:18px;
 }
 
-.stat .number{
-font-size:30px;
+.statIcon{
+font-size:28px;
+}
+
+.statNumber{
+font-size:28px;
 font-weight:bold;
 color:var(--cyan);
+margin-top:8px;
 }
 
 .stat small{
@@ -373,95 +388,101 @@ color:var(--muted);
 }
 
 .reportBox{
-padding:25px;
 text-align:center;
-border:1px dashed #46627f;
-border-radius:18px;
-background:#091727;
+padding:28px;
+border:1px dashed #4b6784;
+border-radius:20px;
+background:#081625;
 }
 
 .reportIcon{
-font-size:48px;
+font-size:55px;
 }
 
 #ocrText{
 white-space:pre-wrap;
-max-height:320px;
+max-height:350px;
 overflow:auto;
 text-align:left;
 }
 
 .callBox{
 text-align:center;
-padding:28px;
-border-radius:20px;
-background:#091727;
+padding:30px;
+background:#081625;
 border:1px solid var(--line);
+border-radius:20px;
+}
+
+.callIcon{
+font-size:65px;
 }
 
 .callStatus{
 font-size:20px;
 font-weight:bold;
 color:var(--green);
-margin:15px 0;
+margin:15px;
 }
 
-.appointment{
-background:#081525;
-border:1px solid var(--line);
-padding:15px;
-border-radius:15px;
-margin-top:10px;
+.badge{
+display:inline-block;
+padding:6px 11px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+background:#153b35;
+color:var(--green);
 }
 
-.historyItem{
-background:#081525;
-border:1px solid var(--line);
-padding:14px;
-border-radius:15px;
-margin-top:10px;
+.warning{
+background:#3c301e;
+border-color:#73572b;
+}
+
+.success{
+background:#11372e;
+border-color:#2b6e5b;
+}
+
+.dangerBox{
+background:#3e2025;
+border-color:#71343c;
+}
+
+.divider{
+height:1px;
+background:var(--line);
+margin:25px 0;
 }
 
 footer{
 text-align:center;
 padding:35px 15px;
-color:#71839a;
 border-top:1px solid var(--line);
+color:#71839a;
 line-height:1.8;
 }
 
-.badge{
-display:inline-block;
-padding:6px 10px;
-border-radius:20px;
-font-size:11px;
-font-weight:bold;
-background:#163b36;
-color:var(--green);
-}
-
-.warning{
-background:#3d3020;
-border-color:#72582e;
-}
+.hidden{display:none!important}
 
 @media(max-width:700px){
 
-.headerInner{
-padding:12px;
-}
-
-.brand h1{
-font-size:20px;
+.headerTop{
+padding:11px 12px;
 }
 
 .logo{
-width:46px;
-height:46px;
+width:45px;
+height:45px;
+}
+
+.brand h1{
+font-size:19px;
 }
 
 .system{
-font-size:10px;
+font-size:9px;
 }
 
 .hero{
@@ -469,11 +490,11 @@ padding:28px 20px;
 }
 
 .hero h2{
-font-size:41px;
+font-size:40px;
 }
 
 .grid,
-.threeGrid,
+.three,
 .row{
 grid-template-columns:1fr;
 }
@@ -483,21 +504,22 @@ grid-template-columns:1fr;
 }
 
 .sectionTitle{
-font-size:30px;
+font-size:29px;
+}
+
+.card{
+padding:19px;
 }
 
 }
-
 </style>
 </head>
 
-
 <body>
-
 
 <header class="header">
 
-<div class="headerInner">
+<div class="headerTop">
 
 <div class="brand">
 
@@ -514,43 +536,21 @@ font-size:30px;
 
 </div>
 
+<nav class="navbar">
 
-<nav>
+<button class="nav active" onclick="showPage('home',this)">Home</button>
 
-<button class="nav active"
-onclick="showPage('home',this)">
-Home
-</button>
+<button class="nav" onclick="showPage('doctor',this)">👨‍⚕️ Doctor</button>
 
-<button class="nav"
-onclick="showPage('doctor',this)">
-👨‍⚕️ Doctor
-</button>
+<button class="nav" onclick="showPage('nurse',this)">👩‍⚕️ AI Nurse</button>
 
-<button class="nav"
-onclick="showPage('nurse',this)">
-👩‍⚕️ AI Nurse
-</button>
+<button class="nav" onclick="showPage('pharmacy',this)">🏪 Pharmacy</button>
 
-<button class="nav"
-onclick="showPage('pharmacy',this)">
-🏪 Pharmacy
-</button>
+<button class="nav" onclick="showPage('vitals',this)">❤️ Vitals</button>
 
-<button class="nav"
-onclick="showPage('vitals',this)">
-❤️ Vitals
-</button>
+<button class="nav" onclick="showPage('report',this)">📄 Report AI</button>
 
-<button class="nav"
-onclick="showPage('report',this)">
-📄 Report AI
-</button>
-
-<button class="nav"
-onclick="showPage('attendant',this)">
-📞 AI Attendant
-</button>
+<button class="nav" onclick="showPage('attendant',this)">📞 AI Attendant</button>
 
 </nav>
 
@@ -571,30 +571,27 @@ GYANVERSE HEALTHCARE • MEDIVOICE
 </div>
 
 <h2>
-ডাক্তারের চিকিৎসা পরিকল্পনা থেকে রোগীর দৈনন্দিন care—একটি intelligent workflow।
+চিকিৎসার নির্দেশনা থেকে রোগীর দৈনন্দিন care—একটি intelligent workflow.
 </h2>
 
 <p>
-ডাক্তার চিকিৎসার নিয়ম নির্ধারণ করবেন।
-Medivoice সেই নির্দেশনাগুলোকে রোগী ও পরিবারের জন্য
-সহজ ভাষায় সাজাবে, সময় হলে মনে করাবে,
-রিপোর্ট ও health measurements সংরক্ষণে সহায়তা করবে।
+ডাক্তার চিকিৎসার নির্দেশনা দেবেন।
+Medivoice সেই নির্দেশনাকে রোগী ও পরিবারের জন্য
+সহজ ভাষায় সাজাবে, reminder দেবে এবং health record
+সংরক্ষণে সহায়তা করবে।
 </p>
 
 <div class="buttons">
 
-<button class="btn gold"
-onclick="openPage('doctor')">
+<button class="btn gold" onclick="openPage('doctor')">
 👨‍⚕️ Smart Prescription
 </button>
 
-<button class="btn cyan"
-onclick="openPage('nurse')">
+<button class="btn cyan" onclick="openPage('nurse')">
 🔔 AI Nurse
 </button>
 
-<button class="btn darkBtn"
-onclick="openPage('vitals')">
+<button class="btn darkBtn" onclick="openPage('vitals')">
 ❤️ Health Record
 </button>
 
@@ -604,9 +601,8 @@ onclick="openPage('vitals')">
 
 
 <h2 class="sectionTitle">
-Medivoice-এর মূল স্তম্ভ
+Medivoice Core System
 </h2>
-
 
 <div class="grid">
 
@@ -617,8 +613,8 @@ Medivoice-এর মূল স্তম্ভ
 <h3>Smart Prescription</h3>
 
 <p>
-ডাক্তার ওষুধ, dose, সকাল/দুপুর/রাত,
-খাবারের আগে/পরে এবং কতদিন চলবে তা নির্ধারণ করবেন।
+ডাক্তার ওষুধ, dose, সময়, খাবারের আগে/পরে
+এবং কতদিন চলবে তা নির্ধারণ করতে পারবেন।
 </p>
 
 </div>
@@ -628,11 +624,11 @@ Medivoice-এর মূল স্তম্ভ
 
 <div class="icon">👩‍⚕️</div>
 
-<h3>AI Nurse / Care Assistant</h3>
+<h3>AI Nurse</h3>
 
 <p>
-ডাক্তারের দেওয়া নিয়ম পরিবর্তন না করে
-রোগীকে সহজ ভাষায় বুঝিয়ে বলবে এবং সময় হলে reminder দেবে।
+ডাক্তারের prescription অনুসারে রোগীকে
+সহজ ভাষায় reminder ও voice notification দিতে পারবে।
 </p>
 
 </div>
@@ -645,8 +641,8 @@ Medivoice-এর মূল স্তম্ভ
 <h3>Connected Pharmacy</h3>
 
 <p>
-রোগী অন্য শহরে ডাক্তার দেখালেও স্থানীয় pharmacy
-ডাক্তারের অনুমোদিত prescription রোগীর record-এ যোগ করার workflow পাবে।
+রোগীর অনুমোদিত prescription অন্য এলাকার pharmacy
+থেকে record করার workflow।
 </p>
 
 </div>
@@ -656,11 +652,11 @@ Medivoice-এর মূল স্তম্ভ
 
 <div class="icon">❤️</div>
 
-<h3>Health Measurements</h3>
+<h3>Health Record</h3>
 
 <p>
-BP, SpO₂, pulse ও blood glucose-এর মতো মাপ
-ফার্মেসি বা রোগী এখানে record করতে পারবেন।
+BP, SpO₂, Pulse, Glucose এবং Temperature
+এর মতো measurement সংরক্ষণ করা যাবে।
 </p>
 
 </div>
@@ -670,11 +666,11 @@ BP, SpO₂, pulse ও blood glucose-এর মতো মাপ
 
 <div class="icon">📄</div>
 
-<h3>Report Scanner</h3>
+<h3>Report AI</h3>
 
 <p>
-রিপোর্টের ছবি থেকে তথ্য পড়তে সাহায্য করবে।
-চিকিৎসা diagnosis নিজে থেকে তৈরি করবে না।
+রিপোর্টের ছবি থেকে text পড়তে সাহায্য করবে।
+অস্পষ্ট তথ্য হলে অনুমান করবে না।
 </p>
 
 </div>
@@ -687,8 +683,8 @@ BP, SpO₂, pulse ও blood glucose-এর মতো মাপ
 <h3>AI Doctor Attendant</h3>
 
 <p>
-Appointment, serial, chamber location এবং schedule-এর
-automated assistant workflow।
+Appointment, serial, chamber এবং schedule
+management-এর জন্য future AI phone workflow।
 </p>
 
 </div>
@@ -703,16 +699,13 @@ automated assistant workflow।
 
 <section id="doctor" class="page">
 
-<h2 class="sectionTitle">
-👨‍⚕️ Smart Prescription
-</h2>
+<h2 class="sectionTitle">👨‍⚕️ Smart Prescription</h2>
 
 <div class="notice">
 
 <strong>Doctor decides.</strong><br>
-
 Medivoice ডাক্তারকে replace করবে না।
-ডাক্তারের দেওয়া prescription-কে patient-care workflow-এ organize করবে।
+ডাক্তারের দেওয়া তথ্যকে patient-care workflow-এ organize করবে।
 
 </div>
 
@@ -720,61 +713,39 @@ Medivoice ডাক্তারকে replace করবে না।
 <div class="card">
 
 <label>Doctor Name</label>
-
-<input id="doctorName"
-placeholder="ডাক্তারের নাম">
-
+<input id="doctorName" placeholder="ডাক্তারের নাম">
 
 <label>Patient Name</label>
-
-<input id="patientName"
-placeholder="রোগীর নাম">
-
+<input id="patientName" placeholder="রোগীর নাম">
 
 <div class="row">
 
 <div>
-
 <label>Patient Age</label>
-
-<input id="patientAge"
-type="number"
-placeholder="বয়স">
-
+<input id="patientAge" type="number" placeholder="বয়স">
 </div>
-
 
 <div>
-
 <label>Date</label>
-
-<input id="rxDate"
-type="date">
-
+<input id="rxDate" type="date">
 </div>
 
 </div>
 
-
-<label>রোগী কেন ডাক্তার দেখাচ্ছেন? — Doctor Note</label>
+<label>Doctor Clinical Note</label>
 
 <textarea
 id="doctorProblem"
-placeholder="ডাক্তার চাইলে রোগীর অভিযোগ/clinical note লিখতে পারবেন">
+placeholder="রোগীর অভিযোগ / clinical note">
 </textarea>
 
+<div class="divider"></div>
 
-<hr style="border-color:#263a54;margin:22px 0">
+<h3>💊 Add Medicine</h3>
 
+<label>Medicine Name</label>
 
-<h3>💊 Medicine</h3>
-
-
-<label>ওষুধের নাম</label>
-
-<input id="medName"
-placeholder="যেমন: Napa 500 mg">
-
+<input id="medName" placeholder="যেমন: Napa 500 mg">
 
 <div class="row">
 
@@ -782,26 +753,19 @@ placeholder="যেমন: Napa 500 mg">
 
 <label>Dose / Strength</label>
 
-<input id="medDose"
-placeholder="যেমন: 500 mg">
+<input id="medDose" placeholder="যেমন: 500 mg">
 
 </div>
-
 
 <div>
 
 <label>প্রতি সময়ে কতটি?</label>
 
-<input id="medQty"
-type="number"
-min="0.5"
-step="0.5"
-value="1">
+<input id="medQty" type="number" min="0.5" step="0.5" value="1">
 
 </div>
 
 </div>
-
 
 <label>কখন খাবেন?</label>
 
@@ -824,7 +788,6 @@ value="1">
 
 </div>
 
-
 <label>খাবারের নিয়ম</label>
 
 <select id="foodRule">
@@ -836,16 +799,13 @@ value="1">
 
 </select>
 
-
 <div class="row">
 
 <div>
 
 <label>কতদিন?</label>
 
-<input id="medDays"
-type="number"
-placeholder="দিন">
+<input id="medDays" type="number" placeholder="দিন">
 
 </div>
 
@@ -853,43 +813,29 @@ placeholder="দিন">
 
 <label>বিশেষ নির্দেশনা</label>
 
-<input id="medInstruction"
-placeholder="যেমন: পানি বেশি খাবেন">
+<input id="medInstruction" placeholder="যেমন: পানি বেশি খাবেন">
 
 </div>
 
 </div>
 
-
-<button class="btn cyan"
-onclick="addMedicine()">
-
+<button class="btn cyan" onclick="addMedicine()">
 ➕ Add Medicine
-
 </button>
-
 
 <div id="medicineList"></div>
 
-
 <div class="buttons">
 
-<button class="btn gold"
-onclick="savePrescription()">
-
+<button class="btn gold" onclick="savePrescription()">
 💾 Save Prescription
-
 </button>
 
-<button class="btn darkBtn"
-onclick="clearPrescription()">
-
+<button class="btn darkBtn" onclick="clearPrescription()">
 Clear
-
 </button>
 
 </div>
-
 
 <div id="rxResult"></div>
 
@@ -899,23 +845,19 @@ Clear
 
 
 
-<!-- AI NURSE -->
+<!-- NURSE -->
 
 <section id="nurse" class="page">
 
-<h2 class="sectionTitle">
-👩‍⚕️ AI Nurse / Care Assistant
-</h2>
-
+<h2 class="sectionTitle">👩‍⚕️ AI Nurse / Care Assistant</h2>
 
 <div class="notice">
 
-<strong>মূল নীতি:</strong>
-AI Nurse নিজের থেকে কোনো medicine, dose বা treatment তৈরি করবে না।
-ডাক্তারের prescription-এ যা আছে, সেটাই সহজ ভাষায় রোগীকে জানাবে।
+<strong>Safety Rule:</strong>
+AI Nurse নিজের থেকে medicine বা dose তৈরি করবে না।
+Doctor prescription-এ থাকা তথ্যই ব্যবহার করবে।
 
 </div>
-
 
 <div class="card">
 
@@ -929,24 +871,19 @@ Doctor section থেকে prescription তৈরি করুন।
 
 </div>
 
-
 <div class="buttons">
 
-<button class="btn cyan"
-onclick="enableNotification()">
+<button class="btn cyan" onclick="enableNotification()">
 🔔 Enable Notification
 </button>
 
-<button class="btn gold"
-onclick="speakAllMedicines()">
+<button class="btn gold" onclick="speakAllMedicines()">
 🔊 Nurse Voice
 </button>
 
 </div>
 
-
-<div id="voiceStatus"
-class="result">
+<div id="voiceStatus" class="result">
 AI Nurse voice ready.
 </div>
 
@@ -958,15 +895,12 @@ AI Nurse voice ready.
 <h3>👨‍👩‍👧 Family / Caregiver</h3>
 
 <p>
-রোগীর অনুমতি নিয়ে পরিবারের সদস্যকে reminder দেওয়ার
-জন্য তথ্য সংরক্ষণের prototype।
+রোগীর অনুমতি নিয়ে caregiver information prototype হিসেবে সংরক্ষণ করা যাবে।
 </p>
 
-<input id="caregiverName"
-placeholder="পরিবারের সদস্যের নাম">
+<input id="caregiverName" placeholder="পরিবারের সদস্যের নাম">
 
-<input id="caregiverPhone"
-placeholder="মোবাইল নম্বর">
+<input id="caregiverPhone" placeholder="মোবাইল নম্বর">
 
 <select id="caregiverAlert">
 
@@ -976,8 +910,7 @@ placeholder="মোবাইল নম্বর">
 
 </select>
 
-<button class="btn gold"
-onclick="saveCaregiver()">
+<button class="btn gold" onclick="saveCaregiver()">
 Save Caregiver
 </button>
 
@@ -993,51 +926,32 @@ Save Caregiver
 
 <section id="pharmacy" class="page">
 
-<h2 class="sectionTitle">
-🏪 Connected Pharmacy
-</h2>
-
+<h2 class="sectionTitle">🏪 Connected Pharmacy</h2>
 
 <div class="notice">
 
-<strong>এক শহর → অন্য শহর।</strong><br>
+<strong>Doctor → Patient → Pharmacy</strong><br>
 
-উদাহরণ: রোগী ঢাকায় ডাক্তার দেখালেন।
-কুমিল্লার pharmacy ডাক্তার/রোগীর অনুমোদিত prescription
-record-এ যোগ করতে পারবে। Pharmacy নিজে থেকে treatment পরিবর্তন করবে না।
+Pharmacy prescription record দেখতে বা যোগ করতে পারবে,
+কিন্তু নিজে থেকে doctor-এর treatment পরিবর্তন করবে না।
 
 </div>
 
-
 <div class="card">
 
-<h3>📋 Prescription Reference</h3>
-
 <label>Patient Name</label>
-
-<input id="phPatient"
-placeholder="রোগীর নাম">
-
+<input id="phPatient" placeholder="রোগীর নাম">
 
 <label>Doctor Name</label>
-
-<input id="phDoctor"
-placeholder="ডাক্তারের নাম">
-
+<input id="phDoctor" placeholder="ডাক্তারের নাম">
 
 <label>Prescription ID</label>
-
-<input id="phRxId"
-placeholder="যেমন: MV-2026-00125">
-
+<input id="phRxId" placeholder="যেমন: MV-2026-00125">
 
 <label>Pharmacy Name</label>
+<input id="pharmacyName" placeholder="ফার্মেসির নাম">
 
-<input id="pharmacyName"
-placeholder="ফার্মেসির নাম">
-
-
-<label>Prescription Upload / Photo</label>
+<label>Prescription Photo</label>
 
 <input
 type="file"
@@ -1045,14 +959,9 @@ id="pharmacyFile"
 accept="image/*"
 capture="environment">
 
-
-<button class="btn cyan"
-onclick="addPharmacyRecord()">
-
+<button class="btn cyan" onclick="addPharmacyRecord()">
 ➕ Add Prescription Record
-
 </button>
-
 
 <div id="pharmacyResult"></div>
 
@@ -1064,14 +973,11 @@ onclick="addPharmacyRecord()">
 <h3>🔐 Safety Check</h3>
 
 <p>
-Prescription-এর ছবি অস্পষ্ট হলে বা medicine/dose নিশ্চিতভাবে পড়া না গেলে
-system অনুমান করবে না।
-ডাক্তার বা qualified pharmacist-এর মাধ্যমে যাচাই করতে হবে।
+Prescription-এর ছবি অস্পষ্ট হলে system কোনো medicine বা dose
+নিজে থেকে অনুমান করবে না।
 </p>
 
-<span class="badge">
-NO UNSAFE GUESSING
-</span>
+<span class="badge">NO UNSAFE GUESSING</span>
 
 </div>
 
@@ -1083,44 +989,40 @@ NO UNSAFE GUESSING
 
 <section id="vitals" class="page">
 
-<h2 class="sectionTitle">
-❤️ Patient Health Record
-</h2>
-
+<h2 class="sectionTitle">❤️ Patient Health Record</h2>
 
 <div class="notice">
 
-BP machine, pulse oximeter বা glucometer থেকে
-মাপ manually এখানে record করা যাবে।
-পরে compatible device/API যুক্ত করা সম্ভব হবে।
-
+BP machine, pulse oximeter, glucometer ইত্যাদি থেকে
+মাপ manually record করা যাবে। ভবিষ্যতে compatible device/API যুক্ত করা যাবে।
 </div>
 
-
-<div class="threeGrid">
+<div class="three">
 
 <div class="stat">
-<div class="number">BP</div>
+<div class="statIcon">🩸</div>
+<div class="statNumber">BP</div>
 <small>Blood Pressure</small>
 </div>
 
 <div class="stat">
-<div class="number">SpO₂</div>
+<div class="statIcon">🫁</div>
+<div class="statNumber">SpO₂</div>
 <small>Oxygen Saturation</small>
 </div>
 
 <div class="stat">
-<div class="number">Glu</div>
+<div class="statIcon">🍬</div>
+<div class="statNumber">Glu</div>
 <small>Blood Glucose</small>
 </div>
 
 </div>
 
 
-<div class="card">
+<div class="card" style="margin-top:18px">
 
 <h3>🩺 New Measurement</h3>
-
 
 <label>Measurement Type</label>
 
@@ -1134,18 +1036,13 @@ BP machine, pulse oximeter বা glucometer থেকে
 
 </select>
 
-
 <label>Value</label>
 
-<input id="vitalValue"
-placeholder="যেমন: 120/80">
-
+<input id="vitalValue" placeholder="যেমন: 120/80">
 
 <label>Unit</label>
 
-<input id="vitalUnit"
-placeholder="যেমন: mmHg / % / bpm / mg/dL">
-
+<input id="vitalUnit" placeholder="যেমন: mmHg / % / bpm / mg/dL">
 
 <label>কে মেপেছেন?</label>
 
@@ -1158,20 +1055,13 @@ placeholder="যেমন: mmHg / % / bpm / mg/dL">
 
 </select>
 
-
 <label>সময়</label>
 
-<input id="vitalDate"
-type="datetime-local">
+<input id="vitalDate" type="datetime-local">
 
-
-<button class="btn gold"
-onclick="saveVital()">
-
+<button class="btn gold" onclick="saveVital()">
 💾 Save Measurement
-
 </button>
-
 
 <div id="vitalResult"></div>
 
@@ -1200,18 +1090,14 @@ onclick="saveVital()">
 
 <section id="report" class="page">
 
-<h2 class="sectionTitle">
-📄 Report & Prescription Scanner
-</h2>
-
+<h2 class="sectionTitle">📄 Report & Prescription Scanner</h2>
 
 <div class="notice">
 
-রিপোর্ট/প্রেসক্রিপশনের ছবি থেকে text পড়ার চেষ্টা করা হবে।
-<strong>হাতের লেখা অস্পষ্ট হলে AI অনুমান করে medicine বা dose তৈরি করবে না।</strong>
+ছবি থেকে report text পড়ার চেষ্টা করা হবে।
+<strong>অস্পষ্ট handwriting হলে system অনুমান করবে না।</strong>
 
 </div>
-
 
 <div class="card">
 
@@ -1227,50 +1113,31 @@ id="reportFile"
 accept="image/*"
 capture="environment">
 
-<br>
+<br><br>
 
-<button class="btn cyan"
-onclick="scanDocument()">
-
+<button class="btn cyan" onclick="scanDocument()">
 🔍 Scan Document
-
 </button>
 
 </div>
 
-
-<div id="scanStatus"
-class="result">
-
+<div id="scanStatus" class="result">
 Document নির্বাচন করে Scan চাপুন।
-
 </div>
 
-
-<div id="ocrText"
-class="result">
-
+<div id="ocrText" class="result">
 OCR result এখানে দেখাবে।
-
 </div>
-
 
 <div class="result">
 
-<strong>🧠 Safe AI Explanation Workflow</strong>
+<strong>🧠 Safe AI Explanation</strong>
 
 <p>
-Report text পাওয়া গেলে পরবর্তী পর্যায়ে secure medical-AI API দিয়ে
-রোগীবান্ধব explanation তৈরি করা যাবে।
-কিন্তু diagnosis বা treatment পরিবর্তনের সিদ্ধান্ত AI নেবে না।
+OCR text পাওয়া গেলে ভবিষ্যতে secure medical-AI API দিয়ে
+patient-friendly explanation তৈরি করা যাবে।
+Diagnosis বা treatment পরিবর্তন AI করবে না।
 </p>
-
-<button class="btn darkBtn"
-onclick="reportSafety()">
-
-Medical Safety
-
-</button>
 
 </div>
 
@@ -1284,19 +1151,15 @@ Medical Safety
 
 <section id="attendant" class="page">
 
-<h2 class="sectionTitle">
-📞 AI Doctor Attendant
-</h2>
-
+<h2 class="sectionTitle">📞 AI Doctor Attendant</h2>
 
 <div class="notice">
 
-Prototype-এ appointment workflow আছে।
-বাস্তব incoming phone call, AI conversation,
-serial confirmation এবং SMS-এর জন্য telephony/backend API লাগবে।
+Prototype appointment workflow তৈরি করবে।
+বাস্তব phone call, AI conversation, serial confirmation এবং SMS-এর জন্য
+telephony/backend API প্রয়োজন হবে।
 
 </div>
-
 
 <div class="grid">
 
@@ -1304,25 +1167,1110 @@ serial confirmation এবং SMS-এর জন্য telephony/backend API ল�
 
 <h3>📅 Appointment Request</h3>
 
-<input id="apPatient"
-placeholder="রোগীর নাম">
+<label>Patient Name</label>
+<input id="apPatient" placeholder="রোগীর নাম">
 
-<input id="apPhone"
-placeholder="মোবাইল নম্বর">
+<label>Mobile</label>
+<input id="apPhone" placeholder="মোবাইল নম্বর">
 
-<input id="apDoctor"
-placeholder="ডাক্তারের নাম">
+<label>Doctor</label>
+<input id="apDoctor" placeholder="ডাক্তারের নাম">
 
-<input id="apLocation"
-placeholder="চেম্বারের স্থান">
-
+<label>Chamber</label>
+<input id="apLocation" placeholder="চেম্বারের স্থান">
 
 <div class="row">
 
-<input id="apDate"
-type="date">
+<div>
+<label>Date</label>
+<input id="apDate" type="date">
+</div>
 
-<select id="apTime">
+<div>
+<label>Time</label>
+<input id="apTime" type="time">
+</div>
 
-<option>সকাল</option>
-<option>দু
+</div>
+
+<button class="btn gold" onclick="bookAppointment()">
+📅 Request Appointment
+</button>
+
+<div id="appointmentResult"></div>
+
+</div>
+
+
+<div class="card">
+
+<div class="callBox">
+
+<div class="callIcon">📞</div>
+
+<h3>AI Phone Attendant</h3>
+
+<div id="callStatus" class="callStatus">
+READY
+</div>
+
+<p>
+“Doctor-এর serial কখন?”
+“চেম্বার কোথায়?”
+“আজ doctor বসবেন?”
+— এই ধরনের প্রশ্নের automated workflow ভবিষ্যতে API দিয়ে চালানো যাবে।
+</p>
+
+<button class="btn cyan" onclick="simulateCall()">
+☎️ Test AI Call
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>📋 Appointment List</h3>
+
+<div id="appointmentList">
+
+<div class="empty">
+এখনো কোনো appointment নেই।
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+<strong>MEDIVOICE</strong><br>
+
+Smart Patient Care • GyanVerse Healthcare
+
+<br><br>
+
+Prototype only — Doctor remains responsible for clinical decisions.
+
+</footer>
+
+
+
+<script>
+
+/* =========================
+   GLOBAL DATA
+========================= */
+
+let medicines =
+JSON.parse(localStorage.getItem("medivoice_medicines") || "[]");
+
+let vitals =
+JSON.parse(localStorage.getItem("medivoice_vitals") || "[]");
+
+let appointments =
+JSON.parse(localStorage.getItem("medivoice_appointments") || "[]");
+
+let caregiver =
+JSON.parse(localStorage.getItem("medivoice_caregiver") || "null");
+
+
+/* =========================
+   PAGE SYSTEM
+========================= */
+
+function showPage(id,button){
+
+document.querySelectorAll(".page")
+.forEach(p=>p.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+document.querySelectorAll(".nav")
+.forEach(n=>n.classList.remove("active"));
+
+if(button) button.classList.add("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+if(id==="nurse") renderReminders();
+if(id==="vitals") renderVitals();
+if(id==="attendant") renderAppointments();
+
+}
+
+
+function openPage(id){
+
+let button=[...document.querySelectorAll(".nav")]
+.find(x=>x.getAttribute("onclick")?.includes("'"+id+"'"));
+
+showPage(id,button);
+
+}
+
+
+/* =========================
+   DOCTOR PRESCRIPTION
+========================= */
+
+function addMedicine(){
+
+const name=document.getElementById("medName").value.trim();
+
+if(!name){
+
+alert("Medicine Name লিখুন।");
+return;
+
+}
+
+const dose=document.getElementById("medDose").value.trim();
+
+const qty=document.getElementById("medQty").value;
+
+const food=document.getElementById("foodRule").value;
+
+const days=document.getElementById("medDays").value;
+
+const instruction=
+document.getElementById("medInstruction").value.trim();
+
+const times=
+[...document.querySelectorAll("input[name='medTime']:checked")]
+.map(x=>x.value);
+
+if(times.length===0){
+
+alert("Medicine-এর সময় নির্বাচন করুন।");
+return;
+
+}
+
+const medicine={
+
+id:Date.now(),
+
+name:name,
+
+dose:dose,
+
+qty:qty,
+
+times:times,
+
+food:food,
+
+days:days,
+
+instruction:instruction
+
+};
+
+medicines.push(medicine);
+
+saveMedicineData();
+
+renderMedicineList();
+
+clearMedicineFields();
+
+}
+
+
+/* =========================
+   MEDICINE LIST
+========================= */
+
+function renderMedicineList(){
+
+const box=document.getElementById("medicineList");
+
+if(!medicines.length){
+
+box.innerHTML="";
+return;
+
+}
+
+box.innerHTML=medicines.map((m,index)=>`
+
+<div class="medItem">
+
+<div class="medTitle">
+${index+1}. ${escapeHTML(m.name)}
+</div>
+
+<span class="pill">${escapeHTML(m.dose || "Dose not specified")}</span>
+
+<span class="pill">
+${escapeHTML(m.qty)} tablet/time
+</span>
+
+<span class="pill">
+${escapeHTML(m.times.join(" • "))}
+</span>
+
+<span class="pill">
+${escapeHTML(m.food)}
+</span>
+
+${m.days ? `<span class="pill">${escapeHTML(m.days)} দিন</span>` : ""}
+
+${m.instruction ?
+`<p>📝 ${escapeHTML(m.instruction)}</p>` : ""}
+
+<br>
+
+<button class="btn red"
+style="padding:8px 13px;margin-top:10px"
+onclick="removeMedicine(${m.id})">
+
+Remove
+
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function removeMedicine(id){
+
+medicines=medicines.filter(m=>m.id!==id);
+
+saveMedicineData();
+
+renderMedicineList();
+
+}
+
+
+function clearMedicineFields(){
+
+document.getElementById("medName").value="";
+document.getElementById("medDose").value="";
+document.getElementById("medQty").value="1";
+document.getElementById("medDays").value="";
+document.getElementById("medInstruction").value="";
+
+document
+.querySelectorAll("input[name='medTime']")
+.forEach(x=>x.checked=false);
+
+}
+
+
+function savePrescription(){
+
+const doctor=
+document.getElementById("doctorName").value.trim();
+
+const patient=
+document.getElementById("patientName").value.trim();
+
+if(!doctor || !patient){
+
+alert("Doctor এবং Patient Name লিখুন।");
+return;
+
+}
+
+if(!medicines.length){
+
+alert("কমপক্ষে একটি medicine যোগ করুন।");
+return;
+
+}
+
+const prescription={
+
+id:"MV-"+Date.now(),
+
+doctor:doctor,
+
+patient:patient,
+
+age:document.getElementById("patientAge").value,
+
+date:document.getElementById("rxDate").value,
+
+problem:document.getElementById("doctorProblem").value,
+
+medicines:medicines,
+
+created:new Date().toLocaleString("bn-BD")
+
+};
+
+localStorage.setItem(
+"medivoice_prescription",
+JSON.stringify(prescription)
+);
+
+document.getElementById("rxResult").innerHTML=`
+
+<div class="result success">
+
+<strong>✅ Prescription Saved</strong>
+
+<br><br>
+
+Prescription ID:
+<strong>${prescription.id}</strong>
+
+<br>
+
+Patient:
+${escapeHTML(patient)}
+
+<br>
+
+Doctor:
+${escapeHTML(doctor)}
+
+</div>
+
+`;
+
+renderReminders();
+
+alert("Prescription successfully saved.");
+
+}
+
+
+function clearPrescription(){
+
+if(!confirm("Prescription data clear করবেন?")) return;
+
+medicines=[];
+
+localStorage.removeItem("medivoice_medicines");
+localStorage.removeItem("medivoice_prescription");
+
+renderMedicineList();
+
+document.getElementById("rxResult").innerHTML="";
+
+}
+
+
+/* =========================
+   AI NURSE
+========================= */
+
+function renderReminders(){
+
+const box=document.getElementById("reminderList");
+
+if(!medicines.length){
+
+box.innerHTML=`
+<div class="result empty">
+Doctor section থেকে prescription তৈরি করুন।
+</div>`;
+return;
+
+}
+
+box.innerHTML=medicines.map(m=>`
+
+<div class="medItem">
+
+<div class="medTitle">
+💊 ${escapeHTML(m.name)}
+</div>
+
+<div>
+
+<span class="pill">
+${escapeHTML(m.qty)} tablet
+</span>
+
+<span class="pill">
+${escapeHTML(m.food)}
+</span>
+
+</div>
+
+<p>
+🔔 সময়:
+<strong>${escapeHTML(m.times.join(" • "))}</strong>
+</p>
+
+${m.days ? `<p>📅 Duration: ${escapeHTML(m.days)} দিন</p>` : ""}
+
+${m.instruction ?
+`<p>📝 ${escapeHTML(m.instruction)}</p>` : ""}
+
+<button class="btn cyan"
+style="padding:9px 14px"
+onclick="speakMedicine(${m.id})">
+
+🔊 শুনুন
+
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+function speakMedicine(id){
+
+const m=medicines.find(x=>x.id===id);
+
+if(!m)return;
+
+const text=
+"মনে রাখবেন। "+
+m.name+
+", প্রতি সময়ে "+
+m.qty+
+" টি। "+
+m.times.join(" এবং ")+
+"। "+
+m.food+
+"।";
+
+speak(text);
+
+document.getElementById("voiceStatus").innerHTML=
+"🔊 "+escapeHTML(text);
+
+}
+
+
+function speakAllMedicines(){
+
+if(!medicines.length){
+
+alert("আগে prescription তৈরি করুন।");
+return;
+
+}
+
+medicines.forEach((m,i)=>{
+
+setTimeout(()=>{
+
+speakMedicine(m.id);
+
+},i*2500);
+
+});
+
+}
+
+
+function speak(text){
+
+if(!("speechSynthesis" in window)){
+
+alert("এই browser-এ voice support নেই।");
+return;
+
+}
+
+speechSynthesis.cancel();
+
+const utterance=new SpeechSynthesisUtterance(text);
+
+utterance.lang="bn-BD";
+
+utterance.rate=.85;
+
+speechSynthesis.speak(utterance);
+
+}
+
+
+/* =========================
+   NOTIFICATION
+========================= */
+
+async function enableNotification(){
+
+if(!("Notification" in window)){
+
+alert("এই browser notification support করে না।");
+return;
+
+}
+
+const permission=
+await Notification.requestPermission();
+
+if(permission==="granted"){
+
+new Notification("MEDIVOICE",{
+body:"AI Nurse Notification চালু হয়েছে।"
+});
+
+document.getElementById("voiceStatus").innerHTML=
+"✅ Notification permission enabled.";
+
+}else{
+
+document.getElementById("voiceStatus").innerHTML=
+"Notification permission দেওয়া হয়নি।";
+
+}
+
+}
+
+
+/* =========================
+   CAREGIVER
+========================= */
+
+function saveCaregiver(){
+
+const name=
+document.getElementById("caregiverName").value.trim();
+
+const phone=
+document.getElementById("caregiverPhone").value.trim();
+
+const alertType=
+document.getElementById("caregiverAlert").value;
+
+if(!name || !phone){
+
+alert("Caregiver name এবং mobile লিখুন।");
+return;
+
+}
+
+caregiver={
+name:name,
+phone:phone,
+alertType:alertType
+};
+
+localStorage.setItem(
+"medivoice_caregiver",
+JSON.stringify(caregiver)
+);
+
+document.getElementById("caregiverResult").innerHTML=`
+
+<div class="result success">
+
+✅ Caregiver saved.<br>
+Name: ${escapeHTML(name)}<br>
+Alert: ${escapeHTML(alertType)}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   PHARMACY
+========================= */
+
+function addPharmacyRecord(){
+
+const patient=
+document.getElementById("phPatient").value.trim();
+
+const doctor=
+document.getElementById("phDoctor").value.trim();
+
+const rx=
+document.getElementById("phRxId").value.trim();
+
+const pharmacy=
+document.getElementById("pharmacyName").value.trim();
+
+const file=
+document.getElementById("pharmacyFile").files[0];
+
+if(!patient || !doctor || !rx || !pharmacy){
+
+alert("সব তথ্য পূরণ করুন।");
+return;
+
+}
+
+document.getElementById("pharmacyResult").innerHTML=`
+
+<div class="result success">
+
+<strong>✅ Pharmacy Record Added</strong>
+
+<br><br>
+
+Patient: ${escapeHTML(patient)}
+
+<br>
+Doctor: ${escapeHTML(doctor)}
+
+<br>
+Prescription ID: ${escapeHTML(rx)}
+
+<br>
+Pharmacy: ${escapeHTML(pharmacy)}
+
+<br><br>
+
+${
+file
+?
+"📷 Prescription image attached."
+:
+"📄 No image attached."
+}
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   VITALS
+========================= */
+
+function saveVital(){
+
+const type=document.getElementById("vitalType").value;
+
+const value=document.getElementById("vitalValue").value.trim();
+
+const unit=document.getElementById("vitalUnit").value.trim();
+
+const source=document.getElementById("vitalSource").value;
+
+const date=document.getElementById("vitalDate").value;
+
+if(!value){
+
+alert("Measurement value লিখুন।");
+return;
+
+}
+
+const item={
+
+id:Date.now(),
+
+type:type,
+
+value:value,
+
+unit:unit,
+
+source:source,
+
+date:date || new Date().toISOString()
+
+};
+
+vitals.unshift(item);
+
+localStorage.setItem(
+"medivoice_vitals",
+JSON.stringify(vitals)
+);
+
+document.getElementById("vitalValue").value="";
+
+document.getElementById("vitalUnit").value="";
+
+document.getElementById("vitalResult").innerHTML=`
+
+<div class="result success">
+
+✅ Measurement saved successfully.
+
+</div>
+
+`;
+
+renderVitals();
+
+}
+
+
+function renderVitals(){
+
+const box=document.getElementById("vitalHistory");
+
+if(!vitals.length){
+
+box.innerHTML=`
+<div class="empty">
+এখনো কোনো measurement নেই।
+</div>`;
+return;
+
+}
+
+box.innerHTML=vitals.map(v=>`
+
+<div class="historyItem">
+
+<strong>${escapeHTML(v.type)}</strong>
+
+<br>
+
+<span class="pill">
+${escapeHTML(v.value)}
+${v.unit ? " "+escapeHTML(v.unit) : ""}
+</span>
+
+<span class="pill">
+${escapeHTML(v.source)}
+</span>
+
+<br>
+
+<small>
+${new Date(v.date).toLocaleString("bn-BD")}
+</small>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   REPORT OCR
+========================= */
+
+async function scanDocument(){
+
+const file=
+document.getElementById("reportFile").files[0];
+
+if(!file){
+
+alert("আগে report-এর ছবি নির্বাচন করুন।");
+return;
+
+}
+
+const status=document.getElementById("scanStatus");
+
+const output=document.getElementById("ocrText");
+
+status.innerHTML=
+"⏳ Document scan হচ্ছে... একটু সময় লাগতে পারে।";
+
+output.innerHTML="";
+
+try{
+
+const result=
+await Tesseract.recognize(
+file,
+"eng",
+{
+logger:m=>{
+if(m.status){
+
+status.innerHTML=
+"⏳ "+m.status+
+" "+Math.round((m.progress||0)*100)+"%";
+
+}
+}
+}
+);
+
+const text=result.data.text.trim();
+
+if(text){
+
+output.textContent=text;
+
+status.innerHTML=
+"✅ Scan complete.";
+
+}else{
+
+output.textContent=
+"কোনো পরিষ্কার text পাওয়া যায়নি।";
+
+status.innerHTML=
+"⚠️ Document পরিষ্কার নয়।";
+
+}
+
+}catch(error){
+
+console.error(error);
+
+status.innerHTML=
+"❌ Scan failed.";
+
+output.textContent=
+"Document পড়া যায়নি। পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।";
+
+}
+
+}
+
+
+/* =========================
+   APPOINTMENT
+========================= */
+
+function bookAppointment(){
+
+const patient=
+document.getElementById("apPatient").value.trim();
+
+const phone=
+document.getElementById("apPhone").value.trim();
+
+const doctor=
+document.getElementById("apDoctor").value.trim();
+
+const location=
+document.getElementById("apLocation").value.trim();
+
+const date=
+document.getElementById("apDate").value;
+
+const time=
+document.getElementById("apTime").value;
+
+if(!patient || !phone || !doctor){
+
+alert("Patient, mobile এবং doctor-এর তথ্য দিন।");
+return;
+
+}
+
+const appointment={
+
+id:"AP-"+Date.now(),
+
+patient,
+
+phone,
+
+doctor,
+
+location,
+
+date,
+
+time,
+
+created:new Date().toLocaleString("bn-BD")
+
+};
+
+appointments.unshift(appointment);
+
+localStorage.setItem(
+"medivoice_appointments",
+JSON.stringify(appointments)
+);
+
+document.getElementById("appointmentResult").innerHTML=`
+
+<div class="result success">
+
+<strong>✅ Appointment Request Created</strong>
+
+<br><br>
+
+Serial Reference:
+<strong>${appointment.id}</strong>
+
+</div>
+
+`;
+
+renderAppointments();
+
+}
+
+
+function renderAppointments(){
+
+const box=document.getElementById("appointmentList");
+
+if(!appointments.length){
+
+box.innerHTML=`
+<div class="empty">
+এখনো কোনো appointment নেই।
+</div>`;
+return;
+
+}
+
+box.innerHTML=appointments.map(a=>`
+
+<div class="appointment">
+
+<strong>👤 ${escapeHTML(a.patient)}</strong>
+
+<br>
+
+👨‍⚕️ ${escapeHTML(a.doctor)}
+
+<br>
+
+📞 ${escapeHTML(a.phone)}
+
+<br>
+
+📍 ${escapeHTML(a.location || "Not specified")}
+
+<br>
+
+📅 ${escapeHTML(a.date || "Date not set")}
+
+&nbsp;
+
+⏰ ${escapeHTML(a.time || "Time not set")}
+
+<br><br>
+
+<span class="badge">
+${escapeHTML(a.id)}
+</span>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* =========================
+   AI CALL SIMULATION
+========================= */
+
+function simulateCall(){
+
+const status=document.getElementById("callStatus");
+
+status.innerHTML="📞 CALL CONNECTED";
+
+setTimeout(()=>{
+
+status.innerHTML="🤖 AI ATTENDANT SPEAKING";
+
+speak(
+"আসসালামু আলাইকুম। Medivoice AI Attendant-এ আপনাকে স্বাগতম।"
+);
+
+},700);
+
+setTimeout(()=>{
+
+status.innerHTML="● CALL READY";
+
+},5000);
+
+}
+
+
+/* =========================
+   DATA
+========================= */
+
+function saveMedicineData(){
+
+localStorage.setItem(
+"medivoice_medicines",
+JSON.stringify(medicines)
+);
+
+}
+
+
+/* =========================
+   SECURITY / TEXT
+========================= */
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   STARTUP
+========================= */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const today=new Date()
+.toISOString()
+.split("T")[0];
+
+const rxDate=document.getElementById("rxDate");
+
+const apDate=document.getElementById("apDate");
+
+const vitalDate=document.getElementById("vitalDate");
+
+if(rxDate) rxDate.value=today;
+
+if(apDate) apDate.value=today;
+
+if(vitalDate){
+
+const now=new Date();
+
+now.setMinutes(
+now.getMinutes()-now.getTimezoneOffset()
+);
+
+vitalDate.value=
+now.toISOString().slice(0,16);
+
+}
+
+renderMedicineList();
+
+renderReminders();
+
+renderVitals();
+
+renderAppointments();
+
+});
+
+</script>
+
+</body>
+</html>
