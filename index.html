@@ -10,6 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 
 <style>
+
 *{box-sizing:border-box}
 
 :root{
@@ -23,6 +24,7 @@
 --cyan:#39c9d8;
 --green:#38d39f;
 --red:#ef7777;
+--orange:#f0a85c;
 }
 
 html{scroll-behavior:smooth}
@@ -37,7 +39,6 @@ font-family:Arial,"Noto Sans Bengali",sans-serif;
 }
 
 button,input,textarea,select{font:inherit}
-
 button{cursor:pointer}
 
 .header{
@@ -150,12 +151,12 @@ letter-spacing:3px;
 .hero h2{
 font-size:clamp(40px,7vw,68px);
 line-height:1.08;
-max-width:850px;
+max-width:900px;
 margin:18px 0;
 }
 
 .hero p{
-max-width:800px;
+max-width:850px;
 color:#c3cfdd;
 font-size:18px;
 line-height:1.8;
@@ -185,6 +186,11 @@ background:var(--cyan);
 color:#06111f;
 }
 
+.green{
+background:var(--green);
+color:#06111f;
+}
+
 .darkBtn{
 background:#102239;
 border:1px solid var(--line);
@@ -196,6 +202,11 @@ background:#49252a;
 color:#fff;
 }
 
+.orange{
+background:var(--orange);
+color:#06111f;
+}
+
 .sectionTitle{
 font-size:32px;
 margin:40px 0 15px;
@@ -205,6 +216,12 @@ margin:40px 0 15px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:18px;
+}
+
+.threeGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
 }
 
 .card{
@@ -231,13 +248,17 @@ font-size:42px;
 }
 
 .notice{
-padding:14px;
+padding:15px;
 border-radius:14px;
 background:#10253a;
 border:1px solid #294861;
 color:#cbd8e7;
 line-height:1.65;
 margin-bottom:16px;
+}
+
+.notice strong{
+color:var(--gold);
 }
 
 input,select,textarea{
@@ -256,7 +277,7 @@ border-color:var(--cyan);
 }
 
 textarea{
-min-height:130px;
+min-height:120px;
 resize:vertical;
 }
 
@@ -301,7 +322,7 @@ margin:0;
 background:#081525;
 border:1px solid var(--line);
 border-radius:15px;
-padding:14px;
+padding:15px;
 margin-top:10px;
 }
 
@@ -331,6 +352,23 @@ line-height:1.7;
 }
 
 .empty{
+color:var(--muted);
+}
+
+.stat{
+padding:18px;
+border:1px solid var(--line);
+background:#081525;
+border-radius:18px;
+}
+
+.stat .number{
+font-size:30px;
+font-weight:bold;
+color:var(--cyan);
+}
+
+.stat small{
 color:var(--muted);
 }
 
@@ -376,12 +414,35 @@ border-radius:15px;
 margin-top:10px;
 }
 
+.historyItem{
+background:#081525;
+border:1px solid var(--line);
+padding:14px;
+border-radius:15px;
+margin-top:10px;
+}
+
 footer{
 text-align:center;
 padding:35px 15px;
 color:#71839a;
 border-top:1px solid var(--line);
 line-height:1.8;
+}
+
+.badge{
+display:inline-block;
+padding:6px 10px;
+border-radius:20px;
+font-size:11px;
+font-weight:bold;
+background:#163b36;
+color:var(--green);
+}
+
+.warning{
+background:#3d3020;
+border-color:#72582e;
 }
 
 @media(max-width:700px){
@@ -412,6 +473,7 @@ font-size:41px;
 }
 
 .grid,
+.threeGrid,
 .row{
 grid-template-columns:1fr;
 }
@@ -425,10 +487,13 @@ font-size:30px;
 }
 
 }
+
 </style>
 </head>
 
+
 <body>
+
 
 <header class="header">
 
@@ -468,6 +533,16 @@ onclick="showPage('nurse',this)">
 </button>
 
 <button class="nav"
+onclick="showPage('pharmacy',this)">
+🏪 Pharmacy
+</button>
+
+<button class="nav"
+onclick="showPage('vitals',this)">
+❤️ Vitals
+</button>
+
+<button class="nav"
 onclick="showPage('report',this)">
 📄 Report AI
 </button>
@@ -500,10 +575,10 @@ GYANVERSE HEALTHCARE • MEDIVOICE
 </h2>
 
 <p>
-ডাক্তার prescription দেবেন।
-Medivoice সেই prescription-এর নির্দেশনা অনুযায়ী
-medicine schedule, reminder, report understanding
-এবং appointment support-এর workflow পরিচালনা করবে।
+ডাক্তার চিকিৎসার নিয়ম নির্ধারণ করবেন।
+Medivoice সেই নির্দেশনাগুলোকে রোগী ও পরিবারের জন্য
+সহজ ভাষায় সাজাবে, সময় হলে মনে করাবে,
+রিপোর্ট ও health measurements সংরক্ষণে সহায়তা করবে।
 </p>
 
 <div class="buttons">
@@ -513,9 +588,14 @@ onclick="openPage('doctor')">
 👨‍⚕️ Smart Prescription
 </button>
 
+<button class="btn cyan"
+onclick="openPage('nurse')">
+🔔 AI Nurse
+</button>
+
 <button class="btn darkBtn"
-onclick="openPage('report')">
-📄 Report Scanner
+onclick="openPage('vitals')">
+❤️ Health Record
 </button>
 
 </div>
@@ -538,7 +618,7 @@ Medivoice-এর মূল স্তম্ভ
 
 <p>
 ডাক্তার ওষুধ, dose, সকাল/দুপুর/রাত,
-খাবারের আগে/পরে এবং duration নির্ধারণ করবেন।
+খাবারের আগে/পরে এবং কতদিন চলবে তা নির্ধারণ করবেন।
 </p>
 
 </div>
@@ -546,14 +626,41 @@ Medivoice-এর মূল স্তম্ভ
 
 <div class="card">
 
-<div class="icon">🔔</div>
+<div class="icon">👩‍⚕️</div>
 
 <h3>AI Nurse / Care Assistant</h3>
 
 <p>
-ডাক্তারের দেওয়া নিয়ম অনুযায়ী রোগী ও
-প্রয়োজনে পরিবারের সদস্যকে medicine reminder
-দেওয়ার workflow।
+ডাক্তারের দেওয়া নিয়ম পরিবর্তন না করে
+রোগীকে সহজ ভাষায় বুঝিয়ে বলবে এবং সময় হলে reminder দেবে।
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">🏪</div>
+
+<h3>Connected Pharmacy</h3>
+
+<p>
+রোগী অন্য শহরে ডাক্তার দেখালেও স্থানীয় pharmacy
+ডাক্তারের অনুমোদিত prescription রোগীর record-এ যোগ করার workflow পাবে।
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">❤️</div>
+
+<h3>Health Measurements</h3>
+
+<p>
+BP, SpO₂, pulse ও blood glucose-এর মতো মাপ
+ফার্মেসি বা রোগী এখানে record করতে পারবেন।
 </p>
 
 </div>
@@ -563,11 +670,11 @@ Medivoice-এর মূল স্তম্ভ
 
 <div class="icon">📄</div>
 
-<h3>AI Report Scanner</h3>
+<h3>Report Scanner</h3>
 
 <p>
 রিপোর্টের ছবি থেকে তথ্য পড়তে সাহায্য করবে।
-ভবিষ্যতে medical AI API দিয়ে সহজ ভাষায় explanation যুক্ত করা যাবে।
+চিকিৎসা diagnosis নিজে থেকে তৈরি করবে না।
 </p>
 
 </div>
@@ -580,8 +687,8 @@ Medivoice-এর মূল স্তম্ভ
 <h3>AI Doctor Attendant</h3>
 
 <p>
-Appointment, serial, doctor schedule এবং
-chamber information-এর automated assistant।
+Appointment, serial, chamber location এবং schedule-এর
+automated assistant workflow।
 </p>
 
 </div>
@@ -600,13 +707,12 @@ chamber information-এর automated assistant।
 👨‍⚕️ Smart Prescription
 </h2>
 
-
 <div class="notice">
 
 <strong>Doctor decides.</strong><br>
 
-Medivoice ডাক্তারকে replace করে না।
-ডাক্তারের prescription-কে patient-care workflow-এ organize করে।
+Medivoice ডাক্তারকে replace করবে না।
+ডাক্তারের দেওয়া prescription-কে patient-care workflow-এ organize করবে।
 
 </div>
 
@@ -615,18 +721,14 @@ Medivoice ডাক্তারকে replace করে না।
 
 <label>Doctor Name</label>
 
-<input
-id="doctorName"
-placeholder="ডাক্তারের নাম"
->
+<input id="doctorName"
+placeholder="ডাক্তারের নাম">
 
 
 <label>Patient Name</label>
 
-<input
-id="patientName"
-placeholder="রোগীর নাম"
->
+<input id="patientName"
+placeholder="রোগীর নাম">
 
 
 <div class="row">
@@ -635,11 +737,9 @@ placeholder="রোগীর নাম"
 
 <label>Patient Age</label>
 
-<input
-id="patientAge"
+<input id="patientAge"
 type="number"
-placeholder="বয়স"
->
+placeholder="বয়স">
 
 </div>
 
@@ -648,14 +748,20 @@ placeholder="বয়স"
 
 <label>Date</label>
 
-<input
-id="rxDate"
-type="date"
->
+<input id="rxDate"
+type="date">
 
 </div>
 
 </div>
+
+
+<label>রোগী কেন ডাক্তার দেখাচ্ছেন? — Doctor Note</label>
+
+<textarea
+id="doctorProblem"
+placeholder="ডাক্তার চাইলে রোগীর অভিযোগ/clinical note লিখতে পারবেন">
+</textarea>
 
 
 <hr style="border-color:#263a54;margin:22px 0">
@@ -666,10 +772,8 @@ type="date"
 
 <label>ওষুধের নাম</label>
 
-<input
-id="medName"
-placeholder="যেমন: Napa 500 mg"
->
+<input id="medName"
+placeholder="যেমন: Napa 500 mg">
 
 
 <div class="row">
@@ -678,10 +782,8 @@ placeholder="যেমন: Napa 500 mg"
 
 <label>Dose / Strength</label>
 
-<input
-id="medDose"
-placeholder="যেমন: 500 mg"
->
+<input id="medDose"
+placeholder="যেমন: 500 mg">
 
 </div>
 
@@ -690,62 +792,34 @@ placeholder="যেমন: 500 mg"
 
 <label>প্রতি সময়ে কতটি?</label>
 
-<input
-id="medQty"
+<input id="medQty"
 type="number"
 min="0.5"
 step="0.5"
-value="1"
->
+value="1">
 
 </div>
 
 </div>
 
 
-<label>
-কখন খাবেন? — একাধিক সময় নির্বাচন করা যাবে
-</label>
-
+<label>কখন খাবেন?</label>
 
 <div class="timeGrid">
 
 <label class="timeBox">
-
-<input
-type="checkbox"
-name="medTime"
-value="সকাল"
->
-
-সকাল
-
+<input type="checkbox" name="medTime" value="সকাল">
+🌅 সকাল
 </label>
 
-
 <label class="timeBox">
-
-<input
-type="checkbox"
-name="medTime"
-value="দুপুর"
->
-
-দুপুর
-
+<input type="checkbox" name="medTime" value="দুপুর">
+☀️ দুপুর
 </label>
 
-
 <label class="timeBox">
-
-<input
-type="checkbox"
-name="medTime"
-value="রাত"
->
-
-রাত
-
+<input type="checkbox" name="medTime" value="রাত">
+🌙 রাত
 </label>
 
 </div>
@@ -756,11 +830,8 @@ value="রাত"
 <select id="foodRule">
 
 <option>খাবারের পরে</option>
-
 <option>খাবারের আগে</option>
-
 <option>খাবারের সাথে</option>
-
 <option>ডাক্তারের নির্দেশনা অনুযায়ী</option>
 
 </select>
@@ -772,11 +843,9 @@ value="রাত"
 
 <label>কতদিন?</label>
 
-<input
-id="medDays"
+<input id="medDays"
 type="number"
-placeholder="দিন"
->
+placeholder="দিন">
 
 </div>
 
@@ -784,18 +853,15 @@ placeholder="দিন"
 
 <label>বিশেষ নির্দেশনা</label>
 
-<input
-id="medInstruction"
-placeholder="ঐচ্ছিক"
->
+<input id="medInstruction"
+placeholder="যেমন: পানি বেশি খাবেন">
 
 </div>
 
 </div>
 
 
-<button
-class="btn cyan"
+<button class="btn cyan"
 onclick="addMedicine()">
 
 ➕ Add Medicine
@@ -808,16 +874,14 @@ onclick="addMedicine()">
 
 <div class="buttons">
 
-<button
-class="btn gold"
+<button class="btn gold"
 onclick="savePrescription()">
 
 💾 Save Prescription
 
 </button>
 
-<button
-class="btn darkBtn"
+<button class="btn darkBtn"
 onclick="clearPrescription()">
 
 Clear
@@ -846,21 +910,21 @@ Clear
 
 <div class="notice">
 
-AI Nurse ডাক্তারের দেওয়া prescription-এর বাইরে
-কোনো চিকিৎসা সিদ্ধান্ত নেবে না।
-এর কাজ হলো schedule অনুযায়ী reminder ও care support দেওয়া।
+<strong>মূল নীতি:</strong>
+AI Nurse নিজের থেকে কোনো medicine, dose বা treatment তৈরি করবে না।
+ডাক্তারের prescription-এ যা আছে, সেটাই সহজ ভাষায় রোগীকে জানাবে।
 
 </div>
 
 
 <div class="card">
 
-<h3>🔔 Medicine Schedule</h3>
+<h3>🔔 Patient Care Schedule</h3>
 
 <div id="reminderList">
 
 <div class="result empty">
-প্রথমে Doctor section থেকে prescription তৈরি করুন।
+Doctor section থেকে prescription তৈরি করুন।
 </div>
 
 </div>
@@ -868,32 +932,22 @@ AI Nurse ডাক্তারের দেওয়া prescription-এর বা�
 
 <div class="buttons">
 
-<button
-class="btn cyan"
+<button class="btn cyan"
 onclick="enableNotification()">
-
 🔔 Enable Notification
-
 </button>
 
-
-<button
-class="btn gold"
-onclick="testNurseVoice()">
-
-🔊 Test Nurse Voice
-
+<button class="btn gold"
+onclick="speakAllMedicines()">
+🔊 Nurse Voice
 </button>
 
 </div>
 
 
-<div
-id="voiceStatus"
+<div id="voiceStatus"
 class="result">
-
 AI Nurse voice ready.
-
 </div>
 
 </div>
@@ -904,49 +958,237 @@ AI Nurse voice ready.
 <h3>👨‍👩‍👧 Family / Caregiver</h3>
 
 <p>
-প্রয়োজনে পরিবারের সদস্যকে reminder দেওয়ার জন্য তথ্য সংরক্ষণ করুন।
+রোগীর অনুমতি নিয়ে পরিবারের সদস্যকে reminder দেওয়ার
+জন্য তথ্য সংরক্ষণের prototype।
 </p>
 
+<input id="caregiverName"
+placeholder="পরিবারের সদস্যের নাম">
 
-<input
-id="caregiverName"
-placeholder="পরিবারের সদস্যের নাম"
->
-
-
-<input
-id="caregiverPhone"
-placeholder="মোবাইল নম্বর"
->
-
+<input id="caregiverPhone"
+placeholder="মোবাইল নম্বর">
 
 <select id="caregiverAlert">
 
-<option>
-সব medicine reminder
-</option>
-
-<option>
-গুরুত্বপূর্ণ reminder
-</option>
-
-<option>
-Missed dose alert
-</option>
+<option>সব medicine reminder</option>
+<option>গুরুত্বপূর্ণ reminder</option>
+<option>Missed dose alert</option>
 
 </select>
 
-
-<button
-class="btn gold"
+<button class="btn gold"
 onclick="saveCaregiver()">
-
 Save Caregiver
+</button>
+
+<div id="caregiverResult"></div>
+
+</div>
+
+</section>
+
+
+
+<!-- PHARMACY -->
+
+<section id="pharmacy" class="page">
+
+<h2 class="sectionTitle">
+🏪 Connected Pharmacy
+</h2>
+
+
+<div class="notice">
+
+<strong>এক শহর → অন্য শহর।</strong><br>
+
+উদাহরণ: রোগী ঢাকায় ডাক্তার দেখালেন।
+কুমিল্লার pharmacy ডাক্তার/রোগীর অনুমোদিত prescription
+record-এ যোগ করতে পারবে। Pharmacy নিজে থেকে treatment পরিবর্তন করবে না।
+
+</div>
+
+
+<div class="card">
+
+<h3>📋 Prescription Reference</h3>
+
+<label>Patient Name</label>
+
+<input id="phPatient"
+placeholder="রোগীর নাম">
+
+
+<label>Doctor Name</label>
+
+<input id="phDoctor"
+placeholder="ডাক্তারের নাম">
+
+
+<label>Prescription ID</label>
+
+<input id="phRxId"
+placeholder="যেমন: MV-2026-00125">
+
+
+<label>Pharmacy Name</label>
+
+<input id="pharmacyName"
+placeholder="ফার্মেসির নাম">
+
+
+<label>Prescription Upload / Photo</label>
+
+<input
+type="file"
+id="pharmacyFile"
+accept="image/*"
+capture="environment">
+
+
+<button class="btn cyan"
+onclick="addPharmacyRecord()">
+
+➕ Add Prescription Record
 
 </button>
 
 
-<div id="caregiverResult"></div>
+<div id="pharmacyResult"></div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔐 Safety Check</h3>
+
+<p>
+Prescription-এর ছবি অস্পষ্ট হলে বা medicine/dose নিশ্চিতভাবে পড়া না গেলে
+system অনুমান করবে না।
+ডাক্তার বা qualified pharmacist-এর মাধ্যমে যাচাই করতে হবে।
+</p>
+
+<span class="badge">
+NO UNSAFE GUESSING
+</span>
+
+</div>
+
+</section>
+
+
+
+<!-- VITALS -->
+
+<section id="vitals" class="page">
+
+<h2 class="sectionTitle">
+❤️ Patient Health Record
+</h2>
+
+
+<div class="notice">
+
+BP machine, pulse oximeter বা glucometer থেকে
+মাপ manually এখানে record করা যাবে।
+পরে compatible device/API যুক্ত করা সম্ভব হবে।
+
+</div>
+
+
+<div class="threeGrid">
+
+<div class="stat">
+<div class="number">BP</div>
+<small>Blood Pressure</small>
+</div>
+
+<div class="stat">
+<div class="number">SpO₂</div>
+<small>Oxygen Saturation</small>
+</div>
+
+<div class="stat">
+<div class="number">Glu</div>
+<small>Blood Glucose</small>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🩺 New Measurement</h3>
+
+
+<label>Measurement Type</label>
+
+<select id="vitalType">
+
+<option>Blood Pressure</option>
+<option>SpO₂</option>
+<option>Pulse</option>
+<option>Blood Glucose</option>
+<option>Temperature</option>
+
+</select>
+
+
+<label>Value</label>
+
+<input id="vitalValue"
+placeholder="যেমন: 120/80">
+
+
+<label>Unit</label>
+
+<input id="vitalUnit"
+placeholder="যেমন: mmHg / % / bpm / mg/dL">
+
+
+<label>কে মেপেছেন?</label>
+
+<select id="vitalSource">
+
+<option>রোগী নিজে</option>
+<option>পরিবারের সদস্য</option>
+<option>নিকটস্থ Pharmacy</option>
+<option>Clinic / Hospital</option>
+
+</select>
+
+
+<label>সময়</label>
+
+<input id="vitalDate"
+type="datetime-local">
+
+
+<button class="btn gold"
+onclick="saveVital()">
+
+💾 Save Measurement
+
+</button>
+
+
+<div id="vitalResult"></div>
+
+</div>
+
+
+<div class="card">
+
+<h3>📊 Measurement History</h3>
+
+<div id="vitalHistory">
+
+<div class="empty">
+এখনো কোনো measurement নেই।
+</div>
+
+</div>
 
 </div>
 
@@ -959,21 +1201,14 @@ Save Caregiver
 <section id="report" class="page">
 
 <h2 class="sectionTitle">
-📄 AI Report Scanner
+📄 Report & Prescription Scanner
 </h2>
 
 
 <div class="notice">
 
-রিপোর্টের ছবি থেকে text পড়ার জন্য OCR ব্যবহার করা হচ্ছে।
-পরবর্তী পর্যায়ে secure medical-AI API যুক্ত করে
-রিপোর্টের তথ্য রোগীবান্ধব ভাষায় ব্যাখ্যা করা যাবে।
-
-<br><br>
-
-<strong>
-AI explanation diagnosis বা prescription-এর বিকল্প নয়।
-</strong>
+রিপোর্ট/প্রেসক্রিপশনের ছবি থেকে text পড়ার চেষ্টা করা হবে।
+<strong>হাতের লেখা অস্পষ্ট হলে AI অনুমান করে medicine বা dose তৈরি করবে না।</strong>
 
 </div>
 
@@ -984,37 +1219,35 @@ AI explanation diagnosis বা prescription-এর বিকল্প নয়।
 
 <div class="reportIcon">📷</div>
 
-<h3>Upload / Scan Report</h3>
+<h3>Upload / Scan</h3>
 
 <input
 type="file"
 id="reportFile"
 accept="image/*"
-capture="environment"
->
+capture="environment">
 
-<button
-class="btn cyan"
-onclick="scanReport()">
+<br>
 
-🔍 Scan Report
+<button class="btn cyan"
+onclick="scanDocument()">
+
+🔍 Scan Document
 
 </button>
 
 </div>
 
 
-<div
-id="scanStatus"
+<div id="scanStatus"
 class="result">
 
-রিপোর্ট নির্বাচন করে Scan চাপুন।
+Document নির্বাচন করে Scan চাপুন।
 
 </div>
 
 
-<div
-id="ocrText"
+<div id="ocrText"
 class="result">
 
 OCR result এখানে দেখাবে।
@@ -1024,16 +1257,16 @@ OCR result এখানে দেখাবে।
 
 <div class="result">
 
-<strong>🧠 AI Explanation</strong>
+<strong>🧠 Safe AI Explanation Workflow</strong>
 
 <p>
-বাস্তব medical-AI service/API সংযুক্ত হলে
-OCR করা রিপোর্টের তথ্য এখানে ব্যাখ্যা করা যাবে।
+Report text পাওয়া গেলে পরবর্তী পর্যায়ে secure medical-AI API দিয়ে
+রোগীবান্ধব explanation তৈরি করা যাবে।
+কিন্তু diagnosis বা treatment পরিবর্তনের সিদ্ধান্ত AI নেবে না।
 </p>
 
-<button
-class="btn darkBtn"
-onclick="medicalSafety()">
+<button class="btn darkBtn"
+onclick="reportSafety()">
 
 Medical Safety
 
@@ -1047,7 +1280,7 @@ Medical Safety
 
 
 
-<!-- AI ATTENDANT -->
+<!-- ATTENDANT -->
 
 <section id="attendant" class="page">
 
@@ -1058,1171 +1291,38 @@ Medical Safety
 
 <div class="notice">
 
-বর্তমান browser version appointment workflow চালায়।
-বাস্তব incoming phone call, AI conversation এবং SMS-এর জন্য
-পরবর্তীতে telephony + AI voice + SMS API/backend যুক্ত করতে হবে।
+Prototype-এ appointment workflow আছে।
+বাস্তব incoming phone call, AI conversation,
+serial confirmation এবং SMS-এর জন্য telephony/backend API লাগবে।
 
 </div>
 
 
 <div class="grid">
 
-
 <div class="card">
 
 <h3>📅 Appointment Request</h3>
 
+<input id="apPatient"
+placeholder="রোগীর নাম">
 
-<input
-id="apPatient"
-placeholder="রোগীর নাম"
->
+<input id="apPhone"
+placeholder="মোবাইল নম্বর">
 
+<input id="apDoctor"
+placeholder="ডাক্তারের নাম">
 
-<input
-id="apPhone"
-placeholder="মোবাইল নম্বর"
->
-
-
-<input
-id="apDoctor"
-placeholder="ডাক্তারের নাম"
->
-
-
-<input
-id="apLocation"
-placeholder="চেম্বারের স্থান"
->
+<input id="apLocation"
+placeholder="চেম্বারের স্থান">
 
 
 <div class="row">
 
-<input
-id="apDate"
-type="date"
->
-
+<input id="apDate"
+type="date">
 
 <select id="apTime">
 
 <option>সকাল</option>
-<option>দুপুর</option>
-<option>বিকাল</option>
-<option>সন্ধ্যা</option>
-<option>রাত</option>
-
-</select>
-
-</div>
-
-
-<button
-class="btn gold"
-onclick="bookAppointment()">
-
-📅 Confirm Serial
-
-</button>
-
-
-<div id="appointmentResult"></div>
-
-</div>
-
-
-
-<div class="card">
-
-<h3>🤖 AI Attendant</h3>
-
-
-<div class="callBox">
-
-<div style="font-size:50px">
-☎️
-</div>
-
-
-<div
-id="callStatus"
-class="callStatus">
-
-Assistant Ready
-
-</div>
-
-
-<button
-class="btn cyan"
-onclick="attendantVoice()">
-
-🎙️ Start Assistant Voice
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>📋 Appointment</h3>
-
-<div id="appointmentHistory">
-
-<div class="empty">
-কোনো appointment নেই।
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-</main>
-
-
-<footer>
-
-<strong>MEDIVOICE</strong><br>
-
-Smart Patient Care • GyanVerse Healthcare<br>
-
-Doctor-led • Patient-focused • AI-assisted
-
-</footer>
-
-
-
-<script>
-
-/* =========================
-   PAGE NAVIGATION
-========================= */
-
-function showPage(id,button){
-
-document
-.querySelectorAll(".page")
-.forEach(p=>p.classList.remove("active"));
-
-document
-.getElementById(id)
-.classList.add("active");
-
-document
-.querySelectorAll(".nav")
-.forEach(n=>n.classList.remove("active"));
-
-if(button){
-button.classList.add("active");
-}
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
-
-}
-
-
-function openPage(id){
-
-showPage(id);
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-document.getElementById("rxDate").value =
-new Date().toISOString().split("T")[0];
-
-document.getElementById("apDate").value =
-new Date().toISOString().split("T")[0];
-
-
-/* =========================
-   MEDICINE STORAGE
-========================= */
-
-let medicines =
-JSON.parse(
-localStorage.getItem("medivoice_medicines") || "[]"
-);
-
-
-/* =========================
-   ADD MEDICINE
-========================= */
-
-function addMedicine(){
-
-const name =
-document
-.getElementById("medName")
-.value
-.trim();
-
-if(!name){
-
-alert("ওষুধের নাম দিন।");
-return;
-
-}
-
-
-const times =
-[
-...document
-.querySelectorAll(
-'input[name="medTime"]:checked'
-)
-]
-.map(x=>x.value);
-
-
-if(times.length===0){
-
-alert(
-"কমপক্ষে একটি সময় নির্বাচন করুন।"
-);
-
-return;
-
-}
-
-
-const med={
-
-id:Date.now(),
-
-name:name,
-
-dose:
-document
-.getElementById("medDose")
-.value,
-
-quantity:
-document
-.getElementById("medQty")
-.value || "1",
-
-times:times,
-
-food:
-document
-.getElementById("foodRule")
-.value,
-
-days:
-document
-.getElementById("medDays")
-.value,
-
-instruction:
-document
-.getElementById("medInstruction")
-.value
-
-};
-
-
-medicines.push(med);
-
-
-localStorage.setItem(
-"medivoice_medicines",
-JSON.stringify(medicines)
-);
-
-
-renderMedicines();
-
-
-document.getElementById("medName").value="";
-document.getElementById("medDose").value="";
-document.getElementById("medDays").value="";
-document.getElementById("medInstruction").value="";
-
-
-document
-.querySelectorAll(
-'input[name="medTime"]'
-)
-.forEach(x=>x.checked=false);
-
-}
-
-
-/* =========================
-   RENDER MEDICINES
-========================= */
-
-function renderMedicines(){
-
-const box =
-document.getElementById("medicineList");
-
-if(!medicines.length){
-
-box.innerHTML="";
-
-renderReminders();
-
-return;
-
-}
-
-
-box.innerHTML="";
-
-
-medicines.forEach((m,index)=>{
-
-box.innerHTML += `
-
-<div class="medItem">
-
-<div class="medTitle">
-💊 ${safe(m.name)}
-</div>
-
-${m.dose ?
-`<div>Dose: ${safe(m.dose)}</div>`
-:""}
-
-<div>
-
-<span class="pill">
-${safe(m.quantity)} টি / সময়
-</span>
-
-</div>
-
-
-<div>
-
-${m.times.map(t=>
-`<span class="pill">⏰ ${safe(t)}</span>`
-).join("")}
-
-</div>
-
-
-<div>
-🍚 ${safe(m.food)}
-</div>
-
-
-${m.days ?
-`<div>📅 ${safe(m.days)} দিন</div>`
-:""}
-
-
-${m.instruction ?
-`<div>📝 ${safe(m.instruction)}</div>`
-:""}
-
-
-<button
-class="btn danger"
-style="padding:7px 12px;margin-top:10px"
-onclick="removeMedicine(${index})">
-
-Remove
-
-</button>
-
-</div>
-
-`;
-
-});
-
-
-renderReminders();
-
-}
-
-
-/* =========================
-   REMOVE MEDICINE
-========================= */
-
-function removeMedicine(index){
-
-medicines.splice(index,1);
-
-localStorage.setItem(
-"medivoice_medicines",
-JSON.stringify(medicines)
-);
-
-renderMedicines();
-
-}
-
-
-/* =========================
-   SAVE PRESCRIPTION
-========================= */
-
-function savePrescription(){
-
-const doctor =
-document
-.getElementById("doctorName")
-.value
-.trim();
-
-const patient =
-document
-.getElementById("patientName")
-.value
-.trim();
-
-
-if(!doctor){
-
-alert("Doctor name দিন।");
-return;
-
-}
-
-
-if(!patient){
-
-alert("Patient name দিন।");
-return;
-
-}
-
-
-if(!medicines.length){
-
-alert("কমপক্ষে একটি medicine যোগ করুন।");
-return;
-
-}
-
-
-const prescription={
-
-doctor:doctor,
-
-patient:patient,
-
-age:
-document
-.getElementById("patientAge")
-.value,
-
-date:
-document
-.getElementById("rxDate")
-.value,
-
-medicines:medicines,
-
-savedAt:new Date().toISOString()
-
-};
-
-
-localStorage.setItem(
-"medivoice_last_prescription",
-JSON.stringify(prescription)
-);
-
-
-document.getElementById(
-"rxResult"
-).innerHTML=`
-
-<div class="result">
-
-<span class="pill">
-✓ SMART PRESCRIPTION SAVED
-</span>
-
-<br><br>
-
-<strong>Doctor:</strong>
-${safe(doctor)}
-
-<br>
-
-<strong>Patient:</strong>
-${safe(patient)}
-
-<br>
-
-<strong>Medicine:</strong>
-${medicines.length} টি
-
-<br><br>
-
-AI Nurse schedule প্রস্তুত।
-
-</div>
-
-`;
-
-
-renderReminders();
-
-}
-
-
-/* =========================
-   CLEAR PRESCRIPTION
-========================= */
-
-function clearPrescription(){
-
-if(!confirm("Medicine list মুছে ফেলবেন?")){
-return;
-}
-
-medicines=[];
-
-localStorage.removeItem(
-"medivoice_medicines"
-);
-
-renderMedicines();
-
-document.getElementById(
-"rxResult"
-).innerHTML="";
-
-}
-
-
-/* =========================
-   NURSE REMINDER
-========================= */
-
-function renderReminders(){
-
-const box =
-document.getElementById("reminderList");
-
-if(!medicines.length){
-
-box.innerHTML=`
-
-<div class="result empty">
-কোনো medicine schedule নেই।
-Doctor section থেকে prescription তৈরি করুন।
-</div>
-
-`;
-
-return;
-
-}
-
-
-box.innerHTML="";
-
-
-medicines.forEach(m=>{
-
-box.innerHTML += `
-
-<div class="medItem">
-
-<div class="medTitle">
-🔔 ${safe(m.name)}
-</div>
-
-<div>
-${m.times.map(t=>
-`<span class="pill">
-${timeIcon(t)} ${safe(t)}
-</span>`
-).join("")}
-</div>
-
-<div>
-প্রতি সময়ে:
-<strong>${safe(m.quantity)} টি</strong>
-</div>
-
-<div>
-${safe(m.food)}
-</div>
-
-${m.days ?
-`<div>Duration: ${safe(m.days)} দিন</div>`
-:""}
-
-</div>
-
-`;
-
-});
-
-}
-
-
-function timeIcon(time){
-
-if(time==="সকাল")return"🌅";
-if(time==="দুপুর")return"☀️";
-if(time==="রাত")return"🌙";
-
-return"⏰";
-
-}
-
-
-/* =========================
-   NURSE VOICE
-========================= */
-
-function testNurseVoice(){
-
-if(!("speechSynthesis" in window)){
-
-alert(
-"এই browser-এ Voice Support পাওয়া যাচ্ছে না।"
-);
-
-return;
-
-}
-
-
-let medicine =
-medicines.length
-? medicines[0]
-: null;
-
-
-let text;
-
-
-if(medicine){
-
-text=
-"Medivoice Nurse Reminder। " +
-"আপনার " +
-medicine.name +
-" ওষুধ খাওয়ার সময় হয়েছে। " +
-"ডাক্তারের নির্দেশনা অনুযায়ী " +
-medicine.quantity +
-" টি গ্রহণ করুন। " +
-medicine.food;
-
-}else{
-
-text=
-"Medivoice Nurse Reminder। " +
-"আপনার ওষুধ খাওয়ার সময় হয়েছে। " +
-"ডাক্তারের দেওয়া নির্দেশনা অনুযায়ী ওষুধ গ্রহণ করুন।";
-
-}
-
-
-const speech =
-new SpeechSynthesisUtterance(text);
-
-speech.lang="bn-BD";
-
-speech.rate=.88;
-
-speech.pitch=1;
-
-speech.volume=1;
-
-
-speechSynthesis.cancel();
-
-speechSynthesis.speak(speech);
-
-
-document.getElementById(
-"voiceStatus"
-).innerText=
-"🔊 AI Nurse voice চালু হয়েছে।";
-
-}
-
-
-/* =========================
-   NOTIFICATION
-========================= */
-
-async function enableNotification(){
-
-if(!("Notification" in window)){
-
-alert(
-"এই browser notification support করে না।"
-);
-
-return;
-
-}
-
-
-const permission =
-await Notification.requestPermission();
-
-
-if(permission==="granted"){
-
-new Notification(
-"Medivoice AI Nurse",
-{
-body:
-"Medicine reminder notification চালু হয়েছে।"
-}
-);
-
-document.getElementById(
-"voiceStatus"
-).innerText=
-"🔔 Notification permission granted.";
-
-}else{
-
-document.getElementById(
-"voiceStatus"
-).innerText=
-"Notification permission পাওয়া যায়নি।";
-
-}
-
-}
-
-
-/* =========================
-   CAREGIVER
-========================= */
-
-function saveCaregiver(){
-
-const name =
-document
-.getElementById("caregiverName")
-.value
-.trim();
-
-const phone =
-document
-.getElementById("caregiverPhone")
-.value
-.trim();
-
-const alertType =
-document
-.getElementById("caregiverAlert")
-.value;
-
-
-if(!name || !phone){
-
-alert(
-"Caregiver-এর নাম ও মোবাইল দিন।"
-);
-
-return;
-
-}
-
-
-localStorage.setItem(
-"medivoice_caregiver",
-JSON.stringify({
-name:name,
-phone:phone,
-alert:alertType
-})
-);
-
-
-document.getElementById(
-"caregiverResult"
-).innerHTML=`
-
-<div class="result">
-
-<span class="pill">
-✓ CAREGIVER SAVED
-</span>
-
-<br><br>
-
-${safe(name)}
-<br>
-
-${safe(phone)}
-<br>
-
-${safe(alertType)}
-
-</div>
-
-`;
-
-}
-
-
-/* =========================
-   REPORT OCR
-========================= */
-
-async function scanReport(){
-
-const file =
-document
-.getElementById("reportFile")
-.files[0];
-
-const status =
-document
-.getElementById("scanStatus");
-
-const output =
-document
-.getElementById("ocrText");
-
-
-if(!file){
-
-alert(
-"আগে রিপোর্টের ছবি নির্বাচন করুন।"
-);
-
-return;
-
-}
-
-
-status.innerText=
-"⏳ Report scan শুরু হচ্ছে...";
-
-output.innerText="";
-
-
-try{
-
-const result =
-await Tesseract.recognize(
-file,
-"eng",
-{
-logger:function(info){
-
-if(info.status){
-
-let percent =
-info.progress
-? Math.round(info.progress*100)
-:0;
-
-status.innerText=
-"⏳ "+
-info.status+
-" "+
-percent+
-"%";
-
-}
-
-}
-}
-);
-
-
-output.innerText =
-result.data.text ||
-"রিপোর্ট থেকে text পাওয়া যায়নি।";
-
-
-status.innerText=
-"✅ Report scan completed.";
-
-
-}catch(error){
-
-console.error(error);
-
-status.innerText=
-"❌ Scan failed.";
-
-output.innerText=
-"পরিষ্কার ও সোজা করে তোলা রিপোর্টের ছবি চেষ্টা করুন।";
-
-}
-
-}
-
-
-/* =========================
-   MEDICAL SAFETY
-========================= */
-
-function medicalSafety(){
-
-alert(
-
-"Medivoice Report Scanner তথ্য বুঝতে সহায়তা করার জন্য তৈরি।\n\n"+
-"AI explanation চিকিৎসকের diagnosis বা prescription-এর বিকল্প নয়।\n\n"+
-"জরুরি বা অস্বাভাবিক রিপোর্ট হলে qualified healthcare professional-এর সঙ্গে যোগাযোগ করুন।"
-
-);
-
-}
-
-
-/* =========================
-   APPOINTMENT
-========================= */
-
-function bookAppointment(){
-
-const patient =
-document
-.getElementById("apPatient")
-.value
-.trim();
-
-const phone =
-document
-.getElementById("apPhone")
-.value
-.trim();
-
-const doctor =
-document
-.getElementById("apDoctor")
-.value
-.trim();
-
-const location =
-document
-.getElementById("apLocation")
-.value
-.trim();
-
-const date =
-document
-.getElementById("apDate")
-.value;
-
-const time =
-document
-.getElementById("apTime")
-.value;
-
-
-if(!patient || !phone || !doctor){
-
-alert(
-"Patient, mobile এবং doctor-এর তথ্য দিন।"
-);
-
-return;
-
-}
-
-
-const appointment={
-
-patient,
-phone,
-doctor,
-location,
-date,
-time,
-
-createdAt:
-new Date().toISOString()
-
-};
-
-
-localStorage.setItem(
-"medivoice_appointment",
-JSON.stringify(appointment)
-);
-
-
-document.getElementById(
-"appointmentResult"
-).innerHTML=`
-
-<div class="result">
-
-<span class="pill">
-✓ SERIAL REQUEST CREATED
-</span>
-
-<br><br>
-
-<strong>Patient:</strong>
-${safe(patient)}
-
-<br>
-
-<strong>Doctor:</strong>
-${safe(doctor)}
-
-<br>
-
-<strong>Date:</strong>
-${safe(date)}
-
-<br>
-
-<strong>Time:</strong>
-${safe(time)}
-
-<br>
-
-<strong>Location:</strong>
-${safe(location || "To be confirmed")}
-
-<br><br>
-
-<small>
-SMS/Phone API যুক্ত হলে এই তথ্য বাস্তবে রোগীকে পাঠানো যাবে।
-</small>
-
-</div>
-
-`;
-
-
-document.getElementById(
-"appointmentHistory"
-).innerHTML=`
-
-<div class="appointment">
-
-<strong>
-📅 ${safe(doctor)}
-</strong>
-
-<br><br>
-
-👤 ${safe(patient)}
-
-<br>
-
-📱 ${safe(phone)}
-
-<br>
-
-📍 ${safe(location || "To be confirmed")}
-
-<br>
-
-🕐 ${safe(date)}
- — ${safe(time)}
-
-</div>
-
-`;
-
-}
-
-
-/* =========================
-   AI ATTENDANT VOICE
-========================= */
-
-function attendantVoice(){
-
-const status =
-document.getElementById("callStatus");
-
-
-if(!("speechSynthesis" in window)){
-
-status.innerText=
-"Voice support unavailable.";
-
-return;
-
-}
-
-
-status.innerText=
-"🎙️ Assistant speaking...";
-
-
-const text=
-
-"আসসালামু আলাইকুম। "+
-"Medivoice AI Attendant-এ আপনাকে স্বাগতম। "+
-"ডাক্তারের সিরিয়াল, সময় অথবা চেম্বারের তথ্যের জন্য "+
-"আপনার অনুরোধটি বলুন।";
-
-
-const speech =
-new SpeechSynthesisUtterance(text);
-
-speech.lang="bn-BD";
-
-speech.rate=.9;
-
-speech.volume=1;
-
-
-speech.onend=function(){
-
-status.innerText=
-"● Assistant Ready";
-
-};
-
-
-speechSynthesis.cancel();
-
-speechSynthesis.speak(speech);
-
-}
-
-
-/* =========================
-   HTML SECURITY
-========================= */
-
-function safe(value){
-
-return String(value || "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================
-   STARTUP
-========================= */
-
-renderMedicines();
-
-</script>
-
-</body>
-</html>
+<option>দু
