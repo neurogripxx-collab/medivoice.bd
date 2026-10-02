@@ -2,7 +2,7 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
 
 <title>Medivoice | Smart Patient Care</title>
@@ -15,6 +15,7 @@ body{
     background:#07111f;
     color:#fff;
     font-family:system-ui,"Noto Sans Bengali",sans-serif;
+    padding-bottom:75px
 }
 
 header{
@@ -23,13 +24,13 @@ header{
     z-index:10;
     background:#0e1b32;
     padding:14px 18px;
-    border-bottom:1px solid #f5d58f33;
+    border-bottom:1px solid #f5d58f33
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:12px
 }
 
 .logo{
@@ -41,43 +42,37 @@ header{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:24px;
-    font-weight:900;
+    font-size:23px;
+    font-weight:900
 }
 
 .brand h2{
     margin:0;
-    color:#f5d58f;
+    color:#f5d58f
 }
 
 .brand small{
-    color:#9caac0;
+    color:#9caac0
 }
 
 .container{
     max-width:900px;
     margin:auto;
-    padding:18px;
+    padding:18px
 }
 
 .hero{
-    padding:25px 0;
+    padding:22px 0
 }
 
 .hero h1{
-    font-size:30px;
     margin:0 0 8px;
+    font-size:28px
 }
 
 .hero p{
-    color:#aab7ca;
     margin:0;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+    color:#aab7ca
 }
 
 .card{
@@ -86,22 +81,30 @@ header{
     border-radius:18px;
     padding:18px;
     margin-bottom:15px;
-    box-shadow:0 8px 30px #00000025;
+    box-shadow:0 8px 30px #0003
 }
 
-.card h3{
-    margin-top:0;
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px
+}
+
+.value{
+    font-size:26px;
+    color:#f5d58f;
+    font-weight:800
 }
 
 input,select{
     width:100%;
     padding:13px;
     margin:7px 0;
-    border:1px solid #ffffff18;
     border-radius:12px;
+    border:1px solid #ffffff18;
     background:#07111f;
-    color:white;
-    outline:none;
+    color:#fff;
+    outline:none
 }
 
 button{
@@ -110,46 +113,60 @@ button{
     padding:12px 16px;
     margin-top:8px;
     cursor:pointer;
-    font-weight:700;
+    font-weight:700
 }
 
 .primary{
     background:#f5d58f;
-    color:#07111f;
+    color:#07111f
 }
 
 .green{
     background:#2ee6a6;
-    color:#07111f;
+    color:#07111f
 }
 
 .dark{
     background:#172641;
-    color:white;
+    color:#fff
 }
 
-.danger{
-    background:#ff6b6b;
-    color:white;
-}
-
-.value{
-    font-size:27px;
-    font-weight:800;
-    color:#f5d58f;
+.red{
+    background:#ff6464;
+    color:#fff
 }
 
 .record{
     background:#07111f;
     border-radius:13px;
-    padding:13px;
-    margin-top:9px;
+    padding:14px;
+    margin-top:10px
+}
+
+.reminder{
+    border-left:4px solid #2ee6a6
+}
+
+.status{
+    background:#10233d;
+    border-radius:12px;
+    padding:12px;
+    margin-top:10px;
+    color:#b9c5d6
 }
 
 .empty{
-    color:#8290a5;
     text-align:center;
-    padding:10px;
+    color:#8290a5;
+    padding:12px
+}
+
+section{
+    display:none
+}
+
+section.active{
+    display:block
 }
 
 nav{
@@ -157,47 +174,35 @@ nav{
     bottom:0;
     left:0;
     right:0;
+    z-index:20;
     background:#0e1b32;
     border-top:1px solid #ffffff15;
     display:flex;
     justify-content:space-around;
-    padding:8px;
-    z-index:20;
+    padding:8px
 }
 
 nav button{
     background:none;
     color:#aab7ca;
     margin:0;
+    padding:5px 8px
 }
 
-section{
-    display:none;
+hr{
+    border:0;
+    border-top:1px solid #ffffff12;
+    margin:20px 0
 }
 
-section.active{
-    display:block;
-}
-
-.reminder{
-    border-left:4px solid #2ee6a6;
-}
-
-.status{
-    padding:10px;
-    border-radius:10px;
-    background:#10233d;
-    color:#aab7ca;
-    margin-top:10px;
+.small{
+    font-size:13px;
+    color:#8e9db2
 }
 
 @media(max-width:650px){
     .grid{
-        grid-template-columns:1fr;
-    }
-
-    .hero h1{
-        font-size:25px;
+        grid-template-columns:1fr
     }
 }
 </style>
@@ -206,13 +211,13 @@ section.active{
 <body>
 
 <header>
-    <div class="brand">
-        <div class="logo">M</div>
-        <div>
-            <h2>Medivoice</h2>
-            <small>Smart Patient Care</small>
-        </div>
-    </div>
+<div class="brand">
+<div class="logo">M</div>
+<div>
+<h2>Medivoice</h2>
+<small>Smart Patient Care</small>
+</div>
+</div>
 </header>
 
 <main class="container">
@@ -221,36 +226,53 @@ section.active{
 <section id="home" class="active">
 
 <div class="hero">
-    <h1>আপনার স্বাস্থ্য, আপনার হাতেই।</h1>
-    <p>ওষুধের সময় মনে করানো থেকে স্বাস্থ্য রেকর্ড—সব এক জায়গায়।</p>
+<h1>আপনার স্বাস্থ্য, আপনার হাতেই।</h1>
+<p>ওষুধ, স্বাস্থ্য রেকর্ড ও রিপোর্ট—এক জায়গায়।</p>
 </div>
 
 <div class="card reminder">
-    <h3>🔔 আজকের Reminder</h3>
-    <div id="nextReminder">কোনো ওষুধের Reminder নেই</div>
+<h3>🔔 পরবর্তী Reminder</h3>
+<div id="nextReminder">
+কোনো Reminder নেই
+</div>
 </div>
 
 <div class="grid">
 
 <div class="card">
-    <h3>🩺 Blood Pressure</h3>
-    <div class="value" id="bpHome">-- / --</div>
+<h3>🩺 Blood Pressure</h3>
+<div class="value" id="homeBP">-- / --</div>
 </div>
 
 <div class="card">
-    <h3>🫁 SpO₂</h3>
-    <div class="value" id="spoHome">-- %</div>
+<h3>🫁 SpO₂</h3>
+<div class="value" id="homeSPO">--%</div>
 </div>
 
 <div class="card">
-    <h3>🩸 Blood Sugar</h3>
-    <div class="value" id="sugarHome">--</div>
+<h3>🩸 Blood Sugar</h3>
+<div class="value" id="homeSugar">--</div>
 </div>
 
 <div class="card">
-    <h3>❤️ Pulse</h3>
-    <div class="value" id="pulseHome">-- BPM</div>
+<h3>❤️ Pulse</h3>
+<div class="value" id="homePulse">-- BPM</div>
 </div>
+
+</div>
+
+<div class="card">
+<h3>🔔 Notification</h3>
+
+<div id="notificationStatus" class="status">
+Notification permission এখনো নেওয়া হয়নি।
+</div>
+
+<button
+class="primary"
+onclick="requestNotificationPermission()">
+🔔 Notification চালু করুন
+</button>
 
 </div>
 
@@ -261,34 +283,63 @@ section.active{
 <section id="medicine">
 
 <div class="hero">
-    <h1>💊 Medicine Reminder</h1>
-    <p>ওষুধের সময় ও নিয়ম সংরক্ষণ করুন।</p>
+<h1>💊 Medicine Reminder</h1>
+<p>ডাক্তারের দেওয়া সময়সূচি অনুযায়ী Reminder তৈরি করুন।</p>
 </div>
 
 <div class="card">
 
-<input id="medicineName" placeholder="ওষুধের নাম">
+<h3>নতুন ওষুধ</h3>
 
-<input id="medicineDose" placeholder="ডোজ যেমন: ১ ট্যাবলেট">
+<input
+id="medicineName"
+placeholder="ওষুধের নাম">
 
-<input id="medicineTime" type="time">
+<input
+id="medicineDose"
+placeholder="ডোজ যেমন: ১ ট্যাবলেট">
+
+<input
+id="medicineTime"
+type="time">
 
 <select id="foodRule">
-    <option value="খালি পেটে">খালি পেটে</option>
-    <option value="খাওয়ার পরে">খাওয়ার পরে</option>
-    <option value="খাওয়ার আগে">খাওয়ার আগে</option>
-    <option value="যেকোনো সময়">যেকোনো সময়</option>
+
+<option value="খালি পেটে">
+খালি পেটে
+</option>
+
+<option value="খাওয়ার আগে">
+খাওয়ার আগে
+</option>
+
+<option value="খাওয়ার পরে">
+খাওয়ার পরে
+</option>
+
+<option value="যেকোনো সময়">
+যেকোনো সময়
+</option>
+
 </select>
 
-<button class="primary" onclick="addMedicine()">
-    + Reminder যোগ করুন
+<button
+class="primary"
+onclick="addMedicine()">
+
+＋ Reminder যোগ করুন
+
 </button>
 
 </div>
 
+
 <div class="card">
-    <h3>আমার ওষুধ</h3>
-    <div id="medicineList"></div>
+
+<h3>আমার ওষুধ</h3>
+
+<div id="medicineList"></div>
+
 </div>
 
 </section>
@@ -298,48 +349,88 @@ section.active{
 <section id="health">
 
 <div class="hero">
-    <h1>📊 Health Record</h1>
-    <p>আপনার দৈনিক স্বাস্থ্য তথ্য সংরক্ষণ করুন।</p>
+<h1>📊 Health Record</h1>
+<p>স্বাস্থ্য পরিমাপগুলো লিখে রাখুন।</p>
 </div>
+
 
 <div class="card">
 
 <h3>🩺 Blood Pressure</h3>
 
-<input id="sys" type="number" placeholder="Systolic যেমন 120">
-<input id="dia" type="number" placeholder="Diastolic যেমন 80">
+<input
+id="sys"
+type="number"
+placeholder="Systolic যেমন 120">
 
-<button class="primary" onclick="saveBP()">BP Save</button>
+<input
+id="dia"
+type="number"
+placeholder="Diastolic যেমন 80">
+
+<button
+class="primary"
+onclick="saveBP()">
+Save BP
+</button>
+
 
 <hr>
+
 
 <h3>🫁 SpO₂</h3>
 
-<input id="spo" type="number" placeholder="যেমন 98">
+<input
+id="spo"
+type="number"
+placeholder="যেমন 98">
 
-<button class="green" onclick="saveSpo()">SpO₂ Save</button>
+<button
+class="green"
+onclick="saveSPO()">
+Save SpO₂
+</button>
+
 
 <hr>
+
 
 <h3>🩸 Blood Sugar</h3>
 
-<input id="sugar" type="number" placeholder="যেমন 6.2">
+<input
+id="sugar"
+type="number"
+placeholder="যেমন 6.2">
 
-<button class="primary" onclick="saveSugar()">Sugar Save</button>
+<button
+class="primary"
+onclick="saveSugar()">
+Save Sugar
+</button>
+
 
 <hr>
 
+
 <h3>❤️ Pulse</h3>
 
-<input id="pulse" type="number" placeholder="BPM">
+<input
+id="pulse"
+type="number"
+placeholder="যেমন 78">
 
-<button class="green" onclick="savePulse()">Pulse Save</button>
+<button
+class="green"
+onclick="savePulse()">
+Save Pulse
+</button>
 
 </div>
 
+
 <div class="card">
 
-<h3>📜 History</h3>
+<h3>📜 Health History</h3>
 
 <div id="history"></div>
 
@@ -352,24 +443,23 @@ section.active{
 <section id="report">
 
 <div class="hero">
-    <h1>📷 Report Scanner</h1>
-    <p>ল্যাব রিপোর্টের ছবি নির্বাচন করুন।</p>
+<h1>📷 Report Scanner</h1>
+<p>ল্যাব রিপোর্টের ছবি নির্বাচন করুন।</p>
 </div>
 
 <div class="card">
 
 <input
-    type="file"
-    id="reportImage"
-    accept="image/*"
-    onchange="scanReport()"
->
+type="file"
+id="reportImage"
+accept="image/*"
+onchange="previewReport()">
 
-<div id="scanStatus" class="status">
-    রিপোর্ট স্ক্যান করার জন্য ছবি নির্বাচন করুন।
+<div id="reportPreview"></div>
+
+<div id="reportStatus" class="status">
+রিপোর্ট নির্বাচন করলে এখানে দেখা যাবে।
 </div>
-
-<div id="reportText"></div>
 
 </div>
 
@@ -380,111 +470,698 @@ section.active{
 
 <nav>
 
-<button onclick="showPage('home')">🏠<br>Home</button>
+<button onclick="showPage('home')">
+🏠<br>Home
+</button>
 
-<button onclick="showPage('medicine')">💊<br>Medicine</button>
+<button onclick="showPage('medicine')">
+💊<br>Medicine
+</button>
 
-<button onclick="showPage('health')">📊<br>Health</button>
+<button onclick="showPage('health')">
+📊<br>Health
+</button>
 
-<button onclick="showPage('report')">📷<br>Report</button>
+<button onclick="showPage('report')">
+📷<br>Report
+</button>
 
 </nav>
 
 
 <script>
 
-/* =========================
-   STORAGE
-========================= */
+/* ==============================
+   DATA
+================================ */
 
 let medicines =
-JSON.parse(localStorage.getItem("medivoice_medicines") || "[]");
+JSON.parse(
+localStorage.getItem("medivoice_medicines") || "[]"
+);
 
-let healthRecords =
-JSON.parse(localStorage.getItem("medivoice_health") || "[]");
+let health =
+JSON.parse(
+localStorage.getItem("medivoice_health") || "[]"
+);
 
 
-/* =========================
-   PAGE NAVIGATION
-========================= */
+/* ==============================
+   PAGE
+================================ */
 
 function showPage(page){
 
-    document.querySelectorAll("section")
-    .forEach(s => s.classList.remove("active"));
+document
+.querySelectorAll("section")
+.forEach(section=>{
+section.classList.remove("active");
+});
 
-    document.getElementById(page)
-    .classList.add("active");
+document
+.getElementById(page)
+.classList.add("active");
 
-    if(page === "health"){
-        renderHistory();
-    }
+if(page==="medicine"){
+renderMedicines();
+}
 
-    if(page === "medicine"){
-        renderMedicines();
-    }
+if(page==="health"){
+renderHistory();
+}
+
 }
 
 
-/* =========================
+/* ==============================
+   NOTIFICATION
+================================ */
+
+async function requestNotificationPermission(){
+
+if(!("Notification" in window)){
+
+document.getElementById("notificationStatus")
+.innerText =
+"এই Browser Notification support করছে না।";
+
+return;
+}
+
+const permission =
+await Notification.requestPermission();
+
+if(permission==="granted"){
+
+document.getElementById("notificationStatus")
+.innerText =
+"✅ Notification চালু হয়েছে।";
+
+new Notification("Medivoice",{
+body:"Medicine Reminder এখন প্রস্তুত।"
+});
+
+}else{
+
+document.getElementById("notificationStatus")
+.innerText =
+"⚠️ Notification permission দেওয়া হয়নি।";
+
+}
+
+}
+
+
+function sendNotification(medicine){
+
+if(
+"Notification" in window &&
+Notification.permission==="granted"
+){
+
+new Notification(
+"💊 Medivoice Medicine Reminder",
+{
+body:
+`${medicine.name}\n`+
+`${medicine.dose || ""}\n`+
+`🍽️ ${medicine.food}`,
+tag:
+"medicine-"+medicine.id
+}
+);
+
+}
+
+}
+
+
+/* ==============================
    MEDICINE
-========================= */
+================================ */
 
 function addMedicine(){
 
-    const name =
-    document.getElementById("medicineName").value.trim();
+const name =
+document
+.getElementById("medicineName")
+.value
+.trim();
 
-    const dose =
-    document.getElementById("medicineDose").value.trim();
+const dose =
+document
+.getElementById("medicineDose")
+.value
+.trim();
 
-    const time =
-    document.getElementById("medicineTime").value;
+const time =
+document
+.getElementById("medicineTime")
+.value;
 
-    const food =
-    document.getElementById("foodRule").value;
+const food =
+document
+.getElementById("foodRule")
+.value;
 
-    if(!name || !time){
+if(!name){
 
-        alert("ওষুধের নাম এবং সময় দিন।");
-        return;
-    }
+alert("ওষুধের নাম দিন।");
+return;
 
-    medicines.push({
-        id:Date.now(),
-        name,
-        dose,
-        time,
-        food
-    });
+}
 
-    localStorage.setItem(
-        "medivoice_medicines",
-        JSON.stringify(medicines)
-    );
+if(!time){
 
-    document.getElementById("medicineName").value="";
-    document.getElementById("medicineDose").value="";
-    document.getElementById("medicineTime").value="";
+alert("ওষুধের সময় দিন।");
+return;
 
-    renderMedicines();
+}
 
-    alert("Reminder সফলভাবে যোগ হয়েছে।");
+medicines.push({
+
+id:Date.now(),
+
+name:name,
+
+dose:dose,
+
+time:time,
+
+food:food
+
+});
+
+localStorage.setItem(
+"medivoice_medicines",
+JSON.stringify(medicines)
+);
+
+document.getElementById("medicineName").value="";
+document.getElementById("medicineDose").value="";
+document.getElementById("medicineTime").value="";
+
+renderMedicines();
+
+updateNextReminder();
+
+alert("✅ Medicine Reminder যোগ হয়েছে।");
+
 }
 
 
 function deleteMedicine(id){
 
-    medicines =
-    medicines.filter(m => m.id !== id);
+medicines =
+medicines.filter(
+medicine=>medicine.id!==id
+);
 
-    localStorage.setItem(
-        "medivoice_medicines",
-        JSON.stringify(medicines)
-    );
+localStorage.setItem(
+"medivoice_medicines",
+JSON.stringify(medicines)
+);
 
-    renderMedicines();
+renderMedicines();
+
+updateNextReminder();
+
 }
 
 
-function renderMedicines
+function renderMedicines(){
+
+const box =
+document.getElementById("medicineList");
+
+if(!medicines.length){
+
+box.innerHTML=
+`<div class="empty">
+এখনো কোনো ওষুধ যোগ করা হয়নি।
+</div>`;
+
+return;
+
+}
+
+box.innerHTML =
+medicines
+.sort((a,b)=>
+a.time.localeCompare(b.time)
+)
+.map(m=>`
+
+<div class="record">
+
+<strong>
+💊 ${escapeHTML(m.name)}
+</strong>
+
+<br>
+
+<span class="small">
+${escapeHTML(m.dose || "ডোজ উল্লেখ নেই")}
+</span>
+
+<br>
+
+⏰ ${m.time}
+
+<br>
+
+🍽️ ${escapeHTML(m.food)}
+
+<br>
+
+<button
+class="red"
+onclick="deleteMedicine(${m.id})">
+
+Delete
+
+</button>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+function updateNextReminder(){
+
+const box =
+document.getElementById("nextReminder");
+
+if(!medicines.length){
+
+box.innerText =
+"কোনো Reminder নেই";
+
+return;
+
+}
+
+const now = new Date();
+
+const current =
+now.getHours()*60+
+now.getMinutes();
+
+let list =
+medicines
+.map(m=>{
+
+const parts =
+m.time.split(":");
+
+return{
+
+...m,
+
+minutes:
+Number(parts[0])*60+
+Number(parts[1])
+
+};
+
+})
+.filter(m=>m.minutes>=current)
+.sort((a,b)=>
+a.minutes-b.minutes
+);
+
+const next =
+list[0] || medicines[0];
+
+box.innerHTML=`
+
+💊 <strong>
+${escapeHTML(next.name)}
+</strong>
+
+<br>
+
+⏰ ${next.time}
+
+<br>
+
+🍽️ ${escapeHTML(next.food)}
+
+`;
+
+}
+
+
+/* ==============================
+   REMINDER ENGINE
+================================ */
+
+function checkMedicineReminder(){
+
+const now = new Date();
+
+const hour =
+String(now.getHours())
+.padStart(2,"0");
+
+const minute =
+String(now.getMinutes())
+.padStart(2,"0");
+
+const currentTime =
+hour+":"+minute;
+
+const today =
+now.toDateString();
+
+medicines.forEach(medicine=>{
+
+if(medicine.time!==currentTime){
+return;
+}
+
+const key =
+`medivoice_reminder_${medicine.id}_${today}_${currentTime}`;
+
+if(localStorage.getItem(key)){
+return;
+}
+
+localStorage.setItem(key,"1");
+
+sendNotification(medicine);
+
+});
+
+updateNextReminder();
+
+}
+
+
+/*
+প্রতি ২০ সেকেন্ডে Reminder check
+*/
+
+setInterval(
+checkMedicineReminder,
+20000
+);
+
+
+/* ==============================
+   HEALTH
+================================ */
+
+function saveBP(){
+
+const sys =
+document.getElementById("sys").value;
+
+const dia =
+document.getElementById("dia").value;
+
+if(!sys || !dia){
+
+alert("BP-এর দুইটি মান দিন।");
+return;
+
+}
+
+addHealth(
+"Blood Pressure",
+`${sys}/${dia}`,
+"mmHg"
+);
+
+document.getElementById("homeBP")
+.innerText =
+`${sys} / ${dia}`;
+
+document.getElementById("sys").value="";
+document.getElementById("dia").value="";
+
+}
+
+
+function saveSPO(){
+
+const value =
+document.getElementById("spo").value;
+
+if(!value){
+
+alert("SpO₂ মান দিন।");
+return;
+
+}
+
+addHealth(
+"SpO₂",
+value,
+"%"
+);
+
+document.getElementById("homeSPO")
+.innerText =
+value+"%";
+
+document.getElementById("spo").value="";
+
+}
+
+
+function saveSugar(){
+
+const value =
+document.getElementById("sugar").value;
+
+if(!value){
+
+alert("Sugar মান দিন।");
+return;
+
+}
+
+addHealth(
+"Blood Sugar",
+value,
+"mmol/L"
+);
+
+document.getElementById("homeSugar")
+.innerText =
+value;
+
+document.getElementById("sugar").value="";
+
+}
+
+
+function savePulse(){
+
+const value =
+document.getElementById("pulse").value;
+
+if(!value){
+
+alert("Pulse মান দিন।");
+return;
+
+}
+
+addHealth(
+"Pulse",
+value,
+"BPM"
+);
+
+document.getElementById("homePulse")
+.innerText =
+value+" BPM";
+
+document.getElementById("pulse").value="";
+
+}
+
+
+function addHealth(
+type,
+value,
+unit
+){
+
+health.unshift({
+
+id:Date.now(),
+
+type:type,
+
+value:value,
+
+unit:unit,
+
+date:new Date()
+.toLocaleString("bn-BD")
+
+});
+
+localStorage.setItem(
+"medivoice_health",
+JSON.stringify(health)
+);
+
+renderHistory();
+
+}
+
+
+function renderHistory(){
+
+const box =
+document.getElementById("history");
+
+if(!health.length){
+
+box.innerHTML=
+`<div class="empty">
+কোনো স্বাস্থ্য রেকর্ড নেই।
+</div>`;
+
+return;
+
+}
+
+box.innerHTML =
+health
+.map(item=>`
+
+<div class="record">
+
+<strong>
+${escapeHTML(item.type)}
+</strong>
+
+<br>
+
+<span class="value">
+${escapeHTML(item.value)}
+</span>
+
+${escapeHTML(item.unit)}
+
+<br>
+
+<span class="small">
+${escapeHTML(item.date)}
+</span>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+/* ==============================
+   REPORT PREVIEW
+================================ */
+
+function previewReport(){
+
+const file =
+document
+.getElementById("reportImage")
+.files[0];
+
+if(!file){
+return;
+}
+
+const url =
+URL.createObjectURL(file);
+
+document.getElementById("reportPreview")
+.innerHTML=`
+
+<img
+src="${url}"
+style="
+width:100%;
+border-radius:15px;
+margin-top:12px;
+max-height:450px;
+object-fit:contain;
+">
+
+`;
+
+document.getElementById("reportStatus")
+.innerHTML=`
+
+<strong>📷 রিপোর্ট গ্রহণ করা হয়েছে।</strong>
+
+<br><br>
+
+পরবর্তী V3-তে এখানে
+OCR + AI Report Explanation
+যুক্ত করা হবে।
+
+`;
+
+}
+
+
+/* ==============================
+   SECURITY
+================================ */
+
+function escapeHTML(value){
+
+return String(value)
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+}
+
+
+/* ==============================
+   START
+================================ */
+
+renderMedicines();
+
+renderHistory();
+
+updateNextReminder();
+
+checkMedicineReminder();
+
+
+if(
+"Notification" in window &&
+Notification.permission==="granted"
+){
+
+document.getElementById(
+"notificationStatus"
+).innerText =
+"✅ Notification আগে থেকেই চালু আছে।";
+
+}
+
+</script>
+
+</body>
+</html>
