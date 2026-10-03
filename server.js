@@ -1,6 +1,6 @@
 /*
 ===========================================================
- MEDIVOICE BACKEND V2
+ MEDIVOICE BACKEND V3
  Patient + Doctor + Prescription + Health Record API
 
  Node.js backend
@@ -14,8 +14,8 @@ DEFAULT:
     http://localhost:3000
 
 IMPORTANT:
-    This backend stores development data in JSON.
-    Do NOT put real patient/NID/medical data here yet.
+    This backend uses JSON storage for DEVELOPMENT only.
+    Do NOT store real patient/NID/medical data in production.
 ===========================================================
 */
 
@@ -56,7 +56,6 @@ DATABASE
 function emptyDatabase() {
 
     return {
-
         users: [],
         patients: [],
         doctors: [],
@@ -66,7 +65,6 @@ function emptyDatabase() {
         reports: [],
         sessions: [],
         auditLogs: []
-
     };
 
 }
@@ -282,7 +280,10 @@ function verifyPassword(
                 "hex"
             );
 
-        if (a.length !== b.length) {
+        if (
+            a.length !==
+            b.length
+        ) {
 
             return false;
 
@@ -397,7 +398,8 @@ function readBody(request) {
                         return;
                     }
 
-                    body += chunk.toString();
+                    body +=
+                        chunk.toString();
 
                     if (
                         body.length >
@@ -427,7 +429,9 @@ function readBody(request) {
                         return;
                     }
 
-                    if (!body.trim()) {
+                    if (
+                        !body.trim()
+                    ) {
 
                         resolve({});
 
@@ -526,7 +530,8 @@ function createSession(
 
     db.sessions.push({
 
-        id: createId("SES"),
+        id:
+            createId("SES"),
 
         token,
 
@@ -534,7 +539,8 @@ function createSession(
 
         role,
 
-        createdAt: now(),
+        createdAt:
+            now(),
 
         expiresAt
 
@@ -550,7 +556,8 @@ function createSession(
 function getToken(request) {
 
     const authorization =
-        request.headers.authorization || "";
+        request.headers.authorization ||
+        "";
 
     if (
         !authorization.startsWith(
@@ -589,7 +596,8 @@ function authenticate(request) {
                 item.token === token &&
                 new Date(
                     item.expiresAt
-                ).getTime() > Date.now()
+                ).getTime() >
+                Date.now()
         );
 
     if (!session) {
@@ -638,7 +646,8 @@ function audit(
 
     db.auditLogs.push({
 
-        id: createId("AUD"),
+        id:
+            createId("AUD"),
 
         action,
 
@@ -653,15 +662,46 @@ function audit(
                 : null,
 
         targetId:
-            targetId || null,
+            targetId ||
+            null,
 
         details,
 
-        createdAt: now()
+        createdAt:
+            now()
 
     });
 
     writeDB(db);
+
+}
+
+
+/* =========================================================
+ROLE CHECK
+========================================================= */
+
+function requireRole(
+    response,
+    user,
+    role
+) {
+
+    if (
+        user.role !== role
+    ) {
+
+        error(
+            response,
+            403,
+            `${role} access only.`
+        );
+
+        return false;
+
+    }
+
+    return true;
 
 }
 
@@ -686,7 +726,8 @@ async function router(
 
     const method =
         String(
-            request.method || "GET"
+            request.method ||
+            "GET"
         ).toUpperCase();
 
 
@@ -694,7 +735,9 @@ async function router(
        CORS
     ===================================================== */
 
-    if (method === "OPTIONS") {
+    if (
+        method === "OPTIONS"
+    ) {
 
         response.writeHead(
             204,
@@ -731,13 +774,17 @@ async function router(
             200,
             {
 
-                app: "Medivoice",
+                app:
+                    "Medivoice",
 
-                backend: "online",
+                backend:
+                    "online",
 
-                version: "2.0.0",
+                version:
+                    "3.0.0",
 
-                time: now()
+                time:
+                    now()
 
             }
         );
@@ -753,7 +800,8 @@ async function router(
 
     if (
         method === "POST" &&
-        pathname === "/api/auth/register"
+        pathname ===
+            "/api/auth/register"
     ) {
 
         let body;
@@ -781,10 +829,11 @@ async function router(
 
         const role =
             String(
-                body.role || ""
+                body.role ||
+                ""
             )
-            .trim()
-            .toLowerCase();
+                .trim()
+                .toLowerCase();
 
 
         if (
@@ -805,7 +854,8 @@ async function router(
 
         const name =
             String(
-                body.name || ""
+                body.name ||
+                ""
             ).trim();
 
         const phone =
@@ -815,7 +865,8 @@ async function router(
 
         const password =
             String(
-                body.password || ""
+                body.password ||
+                ""
             );
 
 
@@ -858,7 +909,8 @@ async function router(
         const existingUser =
             db.users.find(
                 user =>
-                    user.phone === phone
+                    user.phone ===
+                    phone
             );
 
 
@@ -881,7 +933,9 @@ async function router(
 
         let nidHash = null;
 
-        if (role === "patient") {
+        if (
+            role === "patient"
+        ) {
 
             const nid =
                 normalizeNID(
@@ -901,7 +955,9 @@ async function router(
             }
 
             nidHash =
-                hashNID(nid);
+                hashNID(
+                    nid
+                );
 
 
             const duplicate =
@@ -928,7 +984,7 @@ async function router(
 
 
         /* -------------------------------------------------
-           CREATE USER
+           PASSWORD
         ------------------------------------------------- */
 
         const passwordData =
@@ -936,6 +992,10 @@ async function router(
                 password
             );
 
+
+        /* -------------------------------------------------
+           USER ID
+        ------------------------------------------------- */
 
         const userId =
             role === "patient"
@@ -945,7 +1005,8 @@ async function router(
 
         const user = {
 
-            id: userId,
+            id:
+                userId,
 
             role,
 
@@ -964,7 +1025,8 @@ async function router(
                     ? "pending_verification"
                     : "active",
 
-            createdAt: now()
+            createdAt:
+                now()
 
         };
 
@@ -978,13 +1040,17 @@ async function router(
            PATIENT PROFILE
         ------------------------------------------------- */
 
-        if (role === "patient") {
+        if (
+            role === "patient"
+        ) {
 
             db.patients.push({
 
-                id: userId,
+                id:
+                    userId,
 
-                userId,
+                userId:
+                    userId,
 
                 name,
 
@@ -992,7 +1058,8 @@ async function router(
 
                 nidHash,
 
-                photo: null,
+                photo:
+                    null,
 
                 dateOfBirth:
                     body.dateOfBirth ||
@@ -1010,7 +1077,8 @@ async function router(
                     body.emergencyContact ||
                     null,
 
-                createdAt: now()
+                createdAt:
+                    now()
 
             });
 
@@ -1021,13 +1089,17 @@ async function router(
            DOCTOR PROFILE
         ------------------------------------------------- */
 
-        if (role === "doctor") {
+        if (
+            role === "doctor"
+        ) {
 
             db.doctors.push({
 
-                id: userId,
+                id:
+                    userId,
 
-                userId,
+                userId:
+                    userId,
 
                 name,
 
@@ -1037,32 +1109,37 @@ async function router(
                     String(
                         body.specialty ||
                         ""
-                    ),
+                    ).trim(),
 
                 bmdcNumber:
                     String(
                         body.bmdcNumber ||
                         ""
-                    ),
+                    ).trim(),
 
                 verificationStatus:
                     "pending",
 
-                createdAt: now()
+                createdAt:
+                    now()
 
             });
 
         }
 
 
-        writeDB(db);
+        writeDB(
+            db
+        );
 
 
         audit(
             "REGISTER",
             user,
             user.id,
-            "New " + role + " account"
+            "New " +
+            role +
+            " account"
         );
 
 
@@ -1086,7 +1163,9 @@ async function router(
                 token,
 
                 user:
-                    safeUser(user)
+                    safeUser(
+                        user
+                    )
 
             }
         );
@@ -1102,7 +1181,8 @@ async function router(
 
     if (
         method === "POST" &&
-        pathname === "/api/auth/login"
+        pathname ===
+            "/api/auth/login"
     ) {
 
         let body;
@@ -1135,7 +1215,8 @@ async function router(
 
         const password =
             String(
-                body.password || ""
+                body.password ||
+                ""
             );
 
 
@@ -1146,7 +1227,8 @@ async function router(
         const user =
             db.users.find(
                 item =>
-                    item.phone === phone
+                    item.phone ===
+                    phone
             );
 
 
@@ -1209,7 +1291,9 @@ async function router(
                 token,
 
                 user:
-                    safeUser(user)
+                    safeUser(
+                        user
+                    )
 
             }
         );
@@ -1225,11 +1309,14 @@ async function router(
 
     if (
         method === "POST" &&
-        pathname === "/api/auth/logout"
+        pathname ===
+            "/api/auth/logout"
     ) {
 
         const token =
-            getToken(request);
+            getToken(
+                request
+            );
 
         if (token) {
 
@@ -1243,6 +1330,7 @@ async function router(
                         token
                 );
 
+
             db.sessions =
                 db.sessions.filter(
                     item =>
@@ -1250,7 +1338,11 @@ async function router(
                         token
                 );
 
-            writeDB(db);
+
+            writeDB(
+                db
+            );
+
 
             if (session) {
 
@@ -1260,6 +1352,7 @@ async function router(
                             item.id ===
                             session.userId
                     );
+
 
                 if (user) {
 
@@ -1288,11 +1381,13 @@ async function router(
 
 
     /* =====================================================
-       AUTHENTICATION FOR PRIVATE ROUTES
+       PRIVATE ROUTES
     ===================================================== */
 
     const current =
-        authenticate(request);
+        authenticate(
+            request
+        );
 
 
     if (!current) {
@@ -1326,8 +1421,10 @@ async function router(
 
         let profile = null;
 
+
         if (
-            user.role === "patient"
+            user.role ===
+            "patient"
         ) {
 
             profile =
@@ -1335,12 +1432,15 @@ async function router(
                     item =>
                         item.userId ===
                         user.id
-                ) || null;
+                ) ||
+                null;
 
         }
 
+
         if (
-            user.role === "doctor"
+            user.role ===
+            "doctor"
         ) {
 
             profile =
@@ -1348,7 +1448,8 @@ async function router(
                     item =>
                         item.userId ===
                         user.id
-                ) || null;
+                ) ||
+                null;
 
         }
 
@@ -1359,7 +1460,9 @@ async function router(
             {
 
                 user:
-                    safeUser(user),
+                    safeUser(
+                        user
+                    ),
 
                 profile
 
@@ -1377,21 +1480,18 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/patient/profile"
+        pathname ===
+            "/api/patient/profile"
     ) {
 
         if (
-            user.role !== "patient"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Patient access only."
-            );
-
+                user,
+                "patient"
+            )
+        ) {
             return;
-
         }
 
 
@@ -1407,8 +1507,11 @@ async function router(
             response,
             200,
             {
+
                 patient:
-                    patient || null
+                    patient ||
+                    null
+
             }
         );
 
@@ -1423,21 +1526,18 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/doctor/profile"
+        pathname ===
+            "/api/doctor/profile"
     ) {
 
         if (
-            user.role !== "doctor"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Doctor access only."
-            );
-
+                user,
+                "doctor"
+            )
+        ) {
             return;
-
         }
 
 
@@ -1453,8 +1553,11 @@ async function router(
             response,
             200,
             {
+
                 doctor:
-                    doctor || null
+                    doctor ||
+                    null
+
             }
         );
 
@@ -1465,21 +1568,44 @@ async function router(
 
     /* =====================================================
        DOCTOR PATIENT LIST
+       VERIFIED DOCTOR ONLY
     ===================================================== */
 
     if (
         method === "GET" &&
-        pathname === "/api/doctor/patients"
+        pathname ===
+            "/api/doctor/patients"
     ) {
 
         if (
-            user.role !== "doctor"
+            !requireRole(
+                response,
+                user,
+                "doctor"
+            )
+        ) {
+            return;
+        }
+
+
+        const doctor =
+            db.doctors.find(
+                item =>
+                    item.userId ===
+                    user.id
+            );
+
+
+        if (
+            !doctor ||
+            doctor.verificationStatus !==
+                "verified"
         ) {
 
             error(
                 response,
                 403,
-                "Doctor access only."
+                "Verified doctor access required."
             );
 
             return;
@@ -1538,21 +1664,18 @@ async function router(
 
     if (
         method === "POST" &&
-        pathname === "/api/prescriptions"
+        pathname ===
+            "/api/prescriptions"
     ) {
 
         if (
-            user.role !== "doctor"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Doctor access only."
-            );
-
+                user,
+                "doctor"
+            )
+        ) {
             return;
-
         }
 
 
@@ -1802,7 +1925,9 @@ async function router(
         );
 
 
-        writeDB(db);
+        writeDB(
+            db
+        );
 
 
         audit(
@@ -1817,7 +1942,9 @@ async function router(
             response,
             201,
             {
+
                 prescription
+
             }
         );
 
@@ -1832,21 +1959,18 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/patient/prescriptions"
+        pathname ===
+            "/api/patient/prescriptions"
     ) {
 
         if (
-            user.role !== "patient"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Patient access only."
-            );
-
+                user,
+                "patient"
+            )
+        ) {
             return;
-
         }
 
 
@@ -1898,17 +2022,39 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/doctor/prescriptions"
+        pathname ===
+            "/api/doctor/prescriptions"
     ) {
 
         if (
-            user.role !== "doctor"
+            !requireRole(
+                response,
+                user,
+                "doctor"
+            )
+        ) {
+            return;
+        }
+
+
+        const doctor =
+            db.doctors.find(
+                item =>
+                    item.userId ===
+                    user.id
+            );
+
+
+        if (
+            !doctor ||
+            doctor.verificationStatus !==
+                "verified"
         ) {
 
             error(
                 response,
                 403,
-                "Doctor access only."
+                "Verified doctor access required."
             );
 
             return;
@@ -1943,21 +2089,18 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/patient/medicines"
+        pathname ===
+            "/api/patient/medicines"
     ) {
 
         if (
-            user.role !== "patient"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Patient access only."
-            );
-
+                user,
+                "patient"
+            )
+        ) {
             return;
-
         }
 
 
@@ -1992,17 +2135,13 @@ async function router(
     ) {
 
         if (
-            user.role !== "patient"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Patient access only."
-            );
-
+                user,
+                "patient"
+            )
+        ) {
             return;
-
         }
 
 
@@ -2089,7 +2228,9 @@ async function router(
         );
 
 
-        writeDB(db);
+        writeDB(
+            db
+        );
 
 
         audit(
@@ -2123,17 +2264,13 @@ async function router(
     ) {
 
         if (
-            user.role !== "patient"
-        ) {
-
-            error(
+            !requireRole(
                 response,
-                403,
-                "Patient access only."
-            );
-
+                user,
+                "patient"
+            )
+        ) {
             return;
-
         }
 
 
@@ -2146,8 +2283,12 @@ async function router(
                 )
                 .sort(
                     (a, b) =>
-                        new Date(b.createdAt) -
-                        new Date(a.createdAt)
+                        new Date(
+                            b.createdAt
+                        ) -
+                        new Date(
+                            a.createdAt
+                        )
                 );
 
 
@@ -2170,7 +2311,8 @@ async function router(
 
     if (
         method === "GET" &&
-        pathname === "/api/patient/by-id"
+        pathname ===
+            "/api/patient/by-id"
     ) {
 
         const patientId =
@@ -2214,10 +2356,63 @@ async function router(
         }
 
 
+        /* -----------------------------------------------
+           PATIENT CAN VIEW OWN PROFILE
+           VERIFIED DOCTOR CAN VIEW PATIENT
+        ------------------------------------------------ */
+
         if (
-            user.role !== "doctor" &&
-            user.id !== patient.userId
+            user.role ===
+            "patient"
         ) {
+
+            if (
+                user.id !==
+                patient.userId
+            ) {
+
+                error(
+                    response,
+                    403,
+                    "Permission denied."
+                );
+
+                return;
+
+            }
+
+        }
+        else if (
+            user.role ===
+            "doctor"
+        ) {
+
+            const doctor =
+                db.doctors.find(
+                    item =>
+                        item.userId ===
+                        user.id
+                );
+
+
+            if (
+                !doctor ||
+                doctor.verificationStatus !==
+                    "verified"
+            ) {
+
+                error(
+                    response,
+                    403,
+                    "Verified doctor access required."
+                );
+
+                return;
+
+            }
+
+        }
+        else {
 
             error(
                 response,
@@ -2336,7 +2531,7 @@ server.listen(
         );
 
         console.log(
-            " Medivoice Backend V2"
+            " Medivoice Backend V3"
         );
 
         console.log(
