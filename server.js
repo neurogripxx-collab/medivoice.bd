@@ -1,22 +1,9 @@
 /*
-===========================================================
- MEDIVOICE BACKEND V3
- Patient + Doctor + Prescription + Health Record API
-
- Node.js backend
-===========================================================
-
-RUN:
-    npm install
-    npm start
-
-DEFAULT:
-    http://localhost:3000
-
-IMPORTANT:
-    This backend uses JSON storage for DEVELOPMENT only.
-    Do NOT store real patient/NID/medical data in production.
-===========================================================
+========================================================
+ MEDIVOICE BACKEND V3.1
+ cPanel / Passenger compatible
+ API prefix support: /medivoice
+========================================================
 */
 
 "use strict";
@@ -25,1465 +12,1018 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
-const url = require("url");
+const { URL } = require("url");
 
-/* =========================================================
-CONFIG
-========================================================= */
+/* ======================================================
+   CONFIG
+====================================================== */
 
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "0.0.0.0";
 
+const APP_NAME = "Medivoice";
+const APP_VERSION = "3.1.0";
+
+const DATA_DIR = path.join(__dirname, "medivoice-data");
+const DB_FILE = path.join(DATA_DIR, "database.json");
+
 const SESSION_DAYS = 7;
 
-const MAX_BODY_SIZE = 2 * 1024 * 1024;
+/* ======================================================
+   DATABASE
+====================================================== */
 
-const DATA_DIR = path.join(
-    __dirname,
-    "medivoice-data"
-);
-
-const DB_FILE = path.join(
-    DATA_DIR,
-    "database.json"
-);
-
-
-/* =========================================================
-DATABASE
-========================================================= */
-
-function emptyDatabase() {
-
+function defaultDatabase() {
     return {
         users: [],
-        patients: [],
-        doctors: [],
+        patientProfiles: [],
+        doctorProfiles: [],
         prescriptions: [],
         medicines: [],
         healthRecords: [],
-        reports: [],
-        sessions: [],
         auditLogs: []
     };
-
 }
 
-
 function ensureDatabase() {
-
     if (!fs.existsSync(DATA_DIR)) {
-
-        fs.mkdirSync(
-            DATA_DIR,
-            {
-                recursive: true
-            }
-        );
-
+        fs.mkdirSync(DATA_DIR, { recursive: true });
     }
 
     if (!fs.existsSync(DB_FILE)) {
-
         fs.writeFileSync(
             DB_FILE,
-            JSON.stringify(
-                emptyDatabase(),
-                null,
-                2
-            ),
+            JSON.stringify(defaultDatabase(), null, 2),
             "utf8"
         );
-
     }
-
 }
 
-
-ensureDatabase();
-
-
-function readDB() {
+function loadDatabase() {
+    ensureDatabase();
 
     try {
+        const raw = fs.readFileSync(DB_FILE, "utf8");
 
-        const raw =
-            fs.readFileSync(
-                DB_FILE,
-                "utf8"
-            );
+        if (!raw.trim()) {
+            const db = defaultDatabase();
+            saveDatabase(db);
+            return db;
+        }
 
-        const db =
-            JSON.parse(raw);
+        const db = JSON.parse(raw);
 
-        return {
-            ...emptyDatabase(),
-            ...db
-        };
+        const base = defaultDatabase();
 
+        for (const key of Object.keys(base)) {
+            if (!Array.isArray(db[key])) {
+                db[key] = [];
+            }
+        }
+
+        return db;
+    } catch (error) {
+        console.error("Database read error:", error);
+
+        const db = defaultDatabase();
+        saveDatabase(db);
+
+        return db;
     }
-    catch (err) {
-
-        console.error(
-            "Database read error:",
-            err.message
-        );
-
-        return emptyDatabase();
-
-    }
-
 }
 
+function saveDatabase(db) {
+    ensureDatabase();
 
-function writeDB(db) {
-
-    const tempFile =
-        DB_FILE + ".tmp";
+    const tempFile = `${DB_FILE}.tmp`;
 
     fs.writeFileSync(
         tempFile,
-        JSON.stringify(
-            db,
-            null,
-            2
-        ),
+        JSON.stringify(db, null, 2),
         "utf8"
     );
 
-    fs.renameSync(
-        tempFile,
-        DB_FILE
-    );
-
+    fs.renameSync(tempFile, DB_FILE);
 }
 
-
-/* =========================================================
-GENERAL HELPERS
-========================================================= */
-
-function createId(prefix) {
-
-    return (
-        prefix +
-        "-" +
-        crypto
-            .randomBytes(10)
-            .toString("hex")
-            .toUpperCase()
-    );
-
-}
-
+/* ======================================================
+   BASIC HELPERS
+====================================================== */
 
 function now() {
-
-    return new Date()
-        .toISOString();
-
+    return new Date().toISOString();
 }
 
-
-function normalizePhone(phone) {
-
-    return String(
-        phone || ""
-    )
-        .replace(/\s+/g, "")
-        .trim();
-
+function makeId(prefix) {
+    return (
+        prefix +
+        "_" +
+        crypto.randomBytes(12).toString("hex")
+    );
 }
 
+function cleanString(value, max = 500) {
+    if (value === undefined || value === null) {
+        return "";
+    }
 
-function normalizeNID(nid) {
-
-    return String(
-        nid || ""
-    )
-        .replace(/\s+/g, "")
-        .trim();
-
+    return String(value).trim().slice(0, max);
 }
 
-
-function hashNID(nid) {
-
-    return crypto
-        .createHash("sha256")
-        .update(
-            normalizeNID(nid)
-        )
-        .digest("hex");
-
+function normalizeEmail(email) {
+    return cleanString(email, 200).toLowerCase();
 }
 
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
-/* =========================================================
-PASSWORD
-========================================================= */
+/* ======================================================
+   PASSWORD HASHING
+====================================================== */
 
 function hashPassword(password) {
+    const salt = crypto.randomBytes(16).toString("hex");
 
-    const salt =
-        crypto
-            .randomBytes(16)
-            .toString("hex");
-
-    const hash =
-        crypto
-            .pbkdf2Sync(
-                password,
-                salt,
-                120000,
-                64,
-                "sha512"
-            )
-            .toString("hex");
+    const hash = crypto
+        .pbkdf2Sync(
+            String(password),
+            salt,
+            100000,
+            64,
+            "sha512"
+        )
+        .toString("hex");
 
     return {
         salt,
         hash
     };
-
 }
 
+function verifyPassword(password, salt, storedHash) {
+    const hash = crypto
+        .pbkdf2Sync(
+            String(password),
+            salt,
+            100000,
+            64,
+            "sha512"
+        )
+        .toString("hex");
 
-function verifyPassword(
-    password,
-    salt,
-    storedHash
-) {
-
-    try {
-
-        const hash =
-            crypto
-                .pbkdf2Sync(
-                    password,
-                    salt,
-                    120000,
-                    64,
-                    "sha512"
-                )
-                .toString("hex");
-
-        const a =
-            Buffer.from(
-                hash,
-                "hex"
-            );
-
-        const b =
-            Buffer.from(
-                storedHash,
-                "hex"
-            );
-
-        if (
-            a.length !==
-            b.length
-        ) {
-
-            return false;
-
-        }
-
-        return crypto.timingSafeEqual(
-            a,
-            b
-        );
-
-    }
-    catch (err) {
-
-        return false;
-
-    }
-
-}
-
-
-/* =========================================================
-HTTP RESPONSE
-========================================================= */
-
-function json(
-    response,
-    status,
-    data
-) {
-
-    response.writeHead(
-        status,
-        {
-            "Content-Type":
-                "application/json; charset=utf-8",
-
-            "Access-Control-Allow-Origin":
-                "*",
-
-            "Access-Control-Allow-Headers":
-                "Content-Type, Authorization",
-
-            "Access-Control-Allow-Methods":
-                "GET,POST,PUT,DELETE,OPTIONS",
-
-            "Cache-Control":
-                "no-store"
-        }
+    return crypto.timingSafeEqual(
+        Buffer.from(hash, "hex"),
+        Buffer.from(storedHash, "hex")
     );
+}
+
+/* ======================================================
+   RESPONSE HELPERS
+====================================================== */
+
+function setCommonHeaders(response) {
+    response.setHeader(
+        "Access-Control-Allow-Origin",
+        "*"
+    );
+
+    response.setHeader(
+        "Access-Control-Allow-Methods",
+        "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+    );
+
+    response.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+    );
+
+    response.setHeader(
+        "Content-Type",
+        "application/json; charset=utf-8"
+    );
+}
+
+function send(response, statusCode, payload) {
+    setCommonHeaders(response);
+
+    response.writeHead(statusCode);
 
     response.end(
-        JSON.stringify(data)
+        JSON.stringify(payload)
     );
-
 }
 
-
-function success(
-    response,
-    status,
-    data = {}
-) {
-
-    json(
-        response,
-        status,
-        {
-            success: true,
-            ...data
-        }
-    );
-
+function success(response, statusCode, data = {}) {
+    send(response, statusCode, {
+        success: true,
+        ...data
+    });
 }
 
-
-function error(
-    response,
-    status,
-    message
-) {
-
-    json(
-        response,
-        status,
-        {
-            success: false,
-            error: message
-        }
-    );
-
+function failure(response, statusCode, error) {
+    send(response, statusCode, {
+        success: false,
+        error
+    });
 }
 
-
-/* =========================================================
-REQUEST BODY
-========================================================= */
+/* ======================================================
+   REQUEST BODY
+====================================================== */
 
 function readBody(request) {
+    return new Promise((resolve, reject) => {
+        let body = "";
 
-    return new Promise(
-        (resolve, reject) => {
+        request.on("data", chunk => {
+            body += chunk.toString();
 
-            let body = "";
+            if (body.length > 2 * 1024 * 1024) {
+                reject(
+                    new Error("Request body too large.")
+                );
 
-            let finished = false;
+                request.destroy();
+            }
+        });
 
-            request.on(
-                "data",
-                chunk => {
+        request.on("end", () => {
+            if (!body.trim()) {
+                resolve({});
+                return;
+            }
 
-                    if (finished) {
-                        return;
-                    }
+            try {
+                resolve(JSON.parse(body));
+            } catch (error) {
+                reject(
+                    new Error("Invalid JSON body.")
+                );
+            }
+        });
 
-                    body +=
-                        chunk.toString();
-
-                    if (
-                        body.length >
-                        MAX_BODY_SIZE
-                    ) {
-
-                        finished = true;
-
-                        reject(
-                            new Error(
-                                "Request body too large."
-                            )
-                        );
-
-                        request.destroy();
-
-                    }
-
-                }
-            );
-
-            request.on(
-                "end",
-                () => {
-
-                    if (finished) {
-                        return;
-                    }
-
-                    if (
-                        !body.trim()
-                    ) {
-
-                        resolve({});
-
-                        return;
-
-                    }
-
-                    try {
-
-                        resolve(
-                            JSON.parse(body)
-                        );
-
-                    }
-                    catch (err) {
-
-                        reject(
-                            new Error(
-                                "Invalid JSON."
-                            )
-                        );
-
-                    }
-
-                }
-            );
-
-            request.on(
-                "error",
-                err => {
-
-                    if (!finished) {
-                        reject(err);
-                    }
-
-                }
-            );
-
-        }
-    );
-
+        request.on("error", reject);
+    });
 }
 
-
-/* =========================================================
-SAFE USER
-========================================================= */
+/* ======================================================
+   SAFE USER
+====================================================== */
 
 function safeUser(user) {
+    if (!user) {
+        return null;
+    }
 
     return {
-
         id: user.id,
-
         role: user.role,
-
         name: user.name,
-
-        phone: user.phone,
-
-        status: user.status,
-
+        email: user.email,
+        phone: user.phone || "",
+        verificationStatus:
+            user.verificationStatus || null,
         createdAt: user.createdAt
-
     };
-
 }
 
+/* ======================================================
+   SESSIONS
+====================================================== */
 
-/* =========================================================
-SESSION
-========================================================= */
+const sessions = new Map();
 
-function createSession(
-    userId,
-    role
-) {
+function createSession(userId) {
+    const token = crypto
+        .randomBytes(32)
+        .toString("hex");
 
-    const db =
-        readDB();
-
-    const token =
-        crypto
-            .randomBytes(48)
-            .toString("hex");
-
-    const expiresAt =
-        new Date(
-            Date.now() +
-            SESSION_DAYS *
-            24 *
-            60 *
-            60 *
-            1000
-        ).toISOString();
-
-    db.sessions.push({
-
-        id:
-            createId("SES"),
-
-        token,
-
+    sessions.set(token, {
         userId,
-
-        role,
-
-        createdAt:
-            now(),
-
-        expiresAt
-
+        createdAt: Date.now(),
+        expiresAt:
+            Date.now() +
+            SESSION_DAYS * 24 * 60 * 60 * 1000
     });
-
-    writeDB(db);
 
     return token;
-
 }
-
 
 function getToken(request) {
-
-    const authorization =
-        request.headers.authorization ||
-        "";
+    const auth =
+        request.headers.authorization || "";
 
     if (
-        !authorization.startsWith(
-            "Bearer "
-        )
+        auth.startsWith("Bearer ")
     ) {
-
-        return null;
-
+        return auth.slice(7).trim();
     }
 
-    return authorization
-        .slice(7)
-        .trim();
-
+    return null;
 }
 
-
-function authenticate(request) {
-
-    const token =
-        getToken(request);
+function getCurrentUser(request, db) {
+    const token = getToken(request);
 
     if (!token) {
-
         return null;
-
     }
 
-    const db =
-        readDB();
-
-    const session =
-        db.sessions.find(
-            item =>
-                item.token === token &&
-                new Date(
-                    item.expiresAt
-                ).getTime() >
-                Date.now()
-        );
+    const session = sessions.get(token);
 
     if (!session) {
-
         return null;
-
     }
 
-    const user =
+    if (session.expiresAt < Date.now()) {
+        sessions.delete(token);
+        return null;
+    }
+
+    return (
         db.users.find(
-            item =>
-                item.id ===
-                session.userId
-        );
+            user => user.id === session.userId
+        ) || null
+    );
+}
+
+function requireLogin(request, response, db) {
+    const user = getCurrentUser(
+        request,
+        db
+    );
 
     if (!user) {
+        failure(
+            response,
+            401,
+            "Login required."
+        );
 
         return null;
-
     }
 
-    return {
-
-        user,
-
-        session
-
-    };
-
+    return user;
 }
-
-
-/* =========================================================
-AUDIT
-========================================================= */
-
-function audit(
-    action,
-    actor,
-    targetId,
-    details = ""
-) {
-
-    const db =
-        readDB();
-
-    db.auditLogs.push({
-
-        id:
-            createId("AUD"),
-
-        action,
-
-        actorId:
-            actor
-                ? actor.id
-                : null,
-
-        actorRole:
-            actor
-                ? actor.role
-                : null,
-
-        targetId:
-            targetId ||
-            null,
-
-        details,
-
-        createdAt:
-            now()
-
-    });
-
-    writeDB(db);
-
-}
-
-
-/* =========================================================
-ROLE CHECK
-========================================================= */
 
 function requireRole(
     response,
     user,
     role
 ) {
-
-    if (
-        user.role !== role
-    ) {
-
-        error(
-            response,
-            403,
-            `${role} access only.`
-        );
-
-        return false;
-
-    }
-
-    return true;
-
-}
-
-
-/* =========================================================
-ROUTER
-========================================================= */
-
-async function router(
-    request,
-    response
-) {
-
-    const parsed =
-        url.parse(
-            request.url,
-            true
-        );
-
-    const pathname =
-        parsed.pathname;
-
-    const method =
-        String(
-            request.method ||
-            "GET"
-        ).toUpperCase();
-
-
-    /* =====================================================
-       CORS
-    ===================================================== */
-
-    if (
-        method === "OPTIONS"
-    ) {
-
-        response.writeHead(
-            204,
-            {
-                "Access-Control-Allow-Origin":
-                    "*",
-
-                "Access-Control-Allow-Headers":
-                    "Content-Type, Authorization",
-
-                "Access-Control-Allow-Methods":
-                    "GET,POST,PUT,DELETE,OPTIONS"
-            }
-        );
-
-        response.end();
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       HEALTH
-    ===================================================== */
-
-    if (
-        method === "GET" &&
-        pathname === "/api/health"
-    ) {
-
-        success(
-            response,
-            200,
-            {
-
-                app:
-                    "Medivoice",
-
-                backend:
-                    "online",
-
-                version:
-                    "3.0.0",
-
-                time:
-                    now()
-
-            }
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       REGISTER
-    ===================================================== */
-
-    if (
-        method === "POST" &&
-        pathname ===
-            "/api/auth/register"
-    ) {
-
-        let body;
-
-        try {
-
-            body =
-                await readBody(
-                    request
-                );
-
-        }
-        catch (err) {
-
-            error(
-                response,
-                400,
-                err.message
-            );
-
-            return;
-
-        }
-
-
-        const role =
-            String(
-                body.role ||
-                ""
-            )
-                .trim()
-                .toLowerCase();
-
-
-        if (
-            role !== "patient" &&
-            role !== "doctor"
-        ) {
-
-            error(
-                response,
-                400,
-                "Role must be patient or doctor."
-            );
-
-            return;
-
-        }
-
-
-        const name =
-            String(
-                body.name ||
-                ""
-            ).trim();
-
-        const phone =
-            normalizePhone(
-                body.phone
-            );
-
-        const password =
-            String(
-                body.password ||
-                ""
-            );
-
-
-        if (
-            !name ||
-            !phone ||
-            !password
-        ) {
-
-            error(
-                response,
-                400,
-                "Name, phone and password are required."
-            );
-
-            return;
-
-        }
-
-
-        if (
-            password.length < 8
-        ) {
-
-            error(
-                response,
-                400,
-                "Password must be at least 8 characters."
-            );
-
-            return;
-
-        }
-
-
-        const db =
-            readDB();
-
-
-        const existingUser =
-            db.users.find(
-                user =>
-                    user.phone ===
-                    phone
-            );
-
-
-        if (existingUser) {
-
-            error(
-                response,
-                409,
-                "এই মোবাইল নম্বর দিয়ে account already আছে।"
-            );
-
-            return;
-
-        }
-
-
-        /* -------------------------------------------------
-           PATIENT VALIDATION
-        ------------------------------------------------- */
-
-        let nidHash = null;
-
-        if (
-            role === "patient"
-        ) {
-
-            const nid =
-                normalizeNID(
-                    body.nid
-                );
-
-            if (!nid) {
-
-                error(
-                    response,
-                    400,
-                    "Patient registration-এর জন্য NID required."
-                );
-
-                return;
-
-            }
-
-            nidHash =
-                hashNID(
-                    nid
-                );
-
-
-            const duplicate =
-                db.patients.find(
-                    patient =>
-                        patient.nidHash ===
-                        nidHash
-                );
-
-
-            if (duplicate) {
-
-                error(
-                    response,
-                    409,
-                    "এই NID ইতিমধ্যে registered."
-                );
-
-                return;
-
-            }
-
-        }
-
-
-        /* -------------------------------------------------
-           PASSWORD
-        ------------------------------------------------- */
-
-        const passwordData =
-            hashPassword(
-                password
-            );
-
-
-        /* -------------------------------------------------
-           USER ID
-        ------------------------------------------------- */
-
-        const userId =
-            role === "patient"
-                ? createId("PAT")
-                : createId("DOC");
-
-
-        const user = {
-
-            id:
-                userId,
-
-            role,
-
-            name,
-
-            phone,
-
-            passwordHash:
-                passwordData.hash,
-
-            passwordSalt:
-                passwordData.salt,
-
-            status:
-                role === "doctor"
-                    ? "pending_verification"
-                    : "active",
-
-            createdAt:
-                now()
-
-        };
-
-
-        db.users.push(
-            user
-        );
-
-
-        /* -------------------------------------------------
-           PATIENT PROFILE
-        ------------------------------------------------- */
-
-        if (
-            role === "patient"
-        ) {
-
-            db.patients.push({
-
-                id:
-                    userId,
-
-                userId:
-                    userId,
-
-                name,
-
-                phone,
-
-                nidHash,
-
-                photo:
-                    null,
-
-                dateOfBirth:
-                    body.dateOfBirth ||
-                    null,
-
-                gender:
-                    body.gender ||
-                    null,
-
-                bloodGroup:
-                    body.bloodGroup ||
-                    null,
-
-                emergencyContact:
-                    body.emergencyContact ||
-                    null,
-
-                createdAt:
-                    now()
-
-            });
-
-        }
-
-
-        /* -------------------------------------------------
-           DOCTOR PROFILE
-        ------------------------------------------------- */
-
-        if (
-            role === "doctor"
-        ) {
-
-            db.doctors.push({
-
-                id:
-                    userId,
-
-                userId:
-                    userId,
-
-                name,
-
-                phone,
-
-                specialty:
-                    String(
-                        body.specialty ||
-                        ""
-                    ).trim(),
-
-                bmdcNumber:
-                    String(
-                        body.bmdcNumber ||
-                        ""
-                    ).trim(),
-
-                verificationStatus:
-                    "pending",
-
-                createdAt:
-                    now()
-
-            });
-
-        }
-
-
-        writeDB(
-            db
-        );
-
-
-        audit(
-            "REGISTER",
-            user,
-            user.id,
-            "New " +
-            role +
-            " account"
-        );
-
-
-        const token =
-            createSession(
-                user.id,
-                user.role
-            );
-
-
-        success(
-            response,
-            201,
-            {
-
-                message:
-                    role === "doctor"
-                        ? "Doctor account created. Verification required."
-                        : "Patient account created.",
-
-                token,
-
-                user:
-                    safeUser(
-                        user
-                    )
-
-            }
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       LOGIN
-    ===================================================== */
-
-    if (
-        method === "POST" &&
-        pathname ===
-            "/api/auth/login"
-    ) {
-
-        let body;
-
-        try {
-
-            body =
-                await readBody(
-                    request
-                );
-
-        }
-        catch (err) {
-
-            error(
-                response,
-                400,
-                err.message
-            );
-
-            return;
-
-        }
-
-
-        const phone =
-            normalizePhone(
-                body.phone
-            );
-
-        const password =
-            String(
-                body.password ||
-                ""
-            );
-
-
-        const db =
-            readDB();
-
-
-        const user =
-            db.users.find(
-                item =>
-                    item.phone ===
-                    phone
-            );
-
-
-        if (
-            !user ||
-            !verifyPassword(
-                password,
-                user.passwordSalt,
-                user.passwordHash
-            )
-        ) {
-
-            error(
-                response,
-                401,
-                "মোবাইল বা password সঠিক নয়।"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            user.status ===
-            "blocked"
-        ) {
-
-            error(
-                response,
-                403,
-                "Account blocked."
-            );
-
-            return;
-
-        }
-
-
-        const token =
-            createSession(
-                user.id,
-                user.role
-            );
-
-
-        audit(
-            "LOGIN",
-            user,
-            user.id,
-            "Successful login"
-        );
-
-
-        success(
-            response,
-            200,
-            {
-
-                token,
-
-                user:
-                    safeUser(
-                        user
-                    )
-
-            }
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       LOGOUT
-    ===================================================== */
-
-    if (
-        method === "POST" &&
-        pathname ===
-            "/api/auth/logout"
-    ) {
-
-        const token =
-            getToken(
-                request
-            );
-
-        if (token) {
-
-            const db =
-                readDB();
-
-            const session =
-                db.sessions.find(
-                    item =>
-                        item.token ===
-                        token
-                );
-
-
-            db.sessions =
-                db.sessions.filter(
-                    item =>
-                        item.token !==
-                        token
-                );
-
-
-            writeDB(
-                db
-            );
-
-
-            if (session) {
-
-                const user =
-                    db.users.find(
-                        item =>
-                            item.id ===
-                            session.userId
-                    );
-
-
-                if (user) {
-
-                    audit(
-                        "LOGOUT",
-                        user,
-                        user.id,
-                        "User logout"
-                    );
-
-                }
-
-            }
-
-        }
-
-
-        success(
-            response,
-            200
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       PRIVATE ROUTES
-    ===================================================== */
-
-    const current =
-        authenticate(
-            request
-        );
-
-
-    if (!current) {
-
-        error(
+    if (!user) {
+        failure(
             response,
             401,
             "Login required."
         );
 
-        return;
-
+        return false;
     }
 
+    if (user.role !== role) {
+        failure(
+            response,
+            403,
+            "Access denied."
+        );
 
-    const db =
-        readDB();
+        return false;
+    }
 
-    const user =
-        current.user;
+    return true;
+}
 
+function requireVerifiedDoctor(
+    response,
+    user
+) {
+    if (
+        !requireRole(
+            response,
+            user,
+            "doctor"
+        )
+    ) {
+        return false;
+    }
 
-    /* =====================================================
-       ME
-    ===================================================== */
+    if (
+        user.verificationStatus !==
+        "verified"
+    ) {
+        failure(
+            response,
+            403,
+            "Doctor account is not verified."
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
+/* ======================================================
+   AUDIT
+====================================================== */
+
+function audit(
+    db,
+    userId,
+    action,
+    details = {}
+) {
+    db.auditLogs.push({
+        id: makeId("audit"),
+        userId: userId || null,
+        action,
+        details,
+        createdAt: now()
+    });
+
+    if (db.auditLogs.length > 5000) {
+        db.auditLogs =
+            db.auditLogs.slice(-5000);
+    }
+}
+
+/* ======================================================
+   URL PREFIX NORMALIZATION
+======================================================
+
+   cPanel application URL:
+
+       https://gyanverse.xyz/medivoice
+
+   Passenger may send:
+
+       /medivoice/api/health
+
+   But our Node routes are:
+
+       /api/health
+
+   So we remove /medivoice before routing.
+====================================================== */
+
+function normalizePathname(pathname) {
+    if (!pathname) {
+        return "/";
+    }
+
+    let cleanPath = pathname;
+
+    if (
+        cleanPath === "/medivoice"
+    ) {
+        return "/";
+    }
+
+    if (
+        cleanPath.startsWith(
+            "/medivoice/"
+        )
+    ) {
+        cleanPath =
+            cleanPath.slice(
+                "/medivoice".length
+            );
+    }
+
+    if (!cleanPath.startsWith("/")) {
+        cleanPath =
+            "/" + cleanPath;
+    }
+
+    return cleanPath;
+}
+
+/* ======================================================
+   ROUTER
+====================================================== */
+
+async function router(
+    request,
+    response
+) {
+    setCommonHeaders(response);
+
+    if (
+        request.method === "OPTIONS"
+    ) {
+        response.writeHead(204);
+        response.end();
+        return;
+    }
+
+    let parsed;
+
+    try {
+        parsed = new URL(
+            request.url,
+            `http://${request.headers.host || "localhost"}`
+        );
+    } catch (error) {
+        failure(
+            response,
+            400,
+            "Invalid request URL."
+        );
+
+        return;
+    }
+
+    const method = request.method;
+
+    let pathname =
+        normalizePathname(
+            parsed.pathname
+        );
+
+    const query = parsed.searchParams;
+
+    const db = loadDatabase();
+
+    /* ==================================================
+       PUBLIC HEALTH CHECK
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname === "/api/me"
+        pathname === "/api/health"
     ) {
+        success(
+            response,
+            200,
+            {
+                app: APP_NAME,
+                backend: "online",
+                version: APP_VERSION,
+                time: now()
+            }
+        );
 
-        let profile = null;
+        return;
+    }
 
+    /* ==================================================
+       PUBLIC ROOT
+    ================================================== */
 
-        if (
-            user.role ===
-            "patient"
-        ) {
+    if (
+        method === "GET" &&
+        (
+            pathname === "/" ||
+            pathname === ""
+        )
+    ) {
+        success(
+            response,
+            200,
+            {
+                app: APP_NAME,
+                backend: "online",
+                version: APP_VERSION,
+                message:
+                    "MediVoice backend is running."
+            }
+        );
 
-            profile =
-                db.patients.find(
-                    item =>
-                        item.userId ===
-                        user.id
-                ) ||
-                null;
+        return;
+    }
 
+    /* ==================================================
+       REGISTER
+    ================================================== */
+
+    if (
+        method === "POST" &&
+        pathname === "/api/register"
+    ) {
+        let body;
+
+        try {
+            body = await readBody(request);
+        } catch (error) {
+            failure(
+                response,
+                400,
+                error.message
+            );
+
+            return;
         }
 
+        const name =
+            cleanString(body.name, 120);
 
-        if (
-            user.role ===
-            "doctor"
-        ) {
+        const email =
+            normalizeEmail(body.email);
 
-            profile =
-                db.doctors.find(
-                    item =>
-                        item.userId ===
-                        user.id
-                ) ||
-                null;
+        const phone =
+            cleanString(body.phone, 50);
 
+        const password =
+            String(body.password || "");
+
+        const role =
+            cleanString(
+                body.role || "patient",
+                30
+            ).toLowerCase();
+
+        if (!name) {
+            failure(
+                response,
+                400,
+                "Name is required."
+            );
+
+            return;
         }
 
+        if (
+            !email ||
+            !isValidEmail(email)
+        ) {
+            failure(
+                response,
+                400,
+                "Valid email is required."
+            );
+
+            return;
+        }
+
+        if (
+            password.length < 6
+        ) {
+            failure(
+                response,
+                400,
+                "Password must be at least 6 characters."
+            );
+
+            return;
+        }
+
+        if (
+            role !== "patient" &&
+            role !== "doctor"
+        ) {
+            failure(
+                response,
+                400,
+                "Invalid role."
+            );
+
+            return;
+        }
+
+        const existing =
+            db.users.find(
+                user =>
+                    user.email === email
+            );
+
+        if (existing) {
+            failure(
+                response,
+                409,
+                "Email already registered."
+            );
+
+            return;
+        }
+
+        const passwordData =
+            hashPassword(password);
+
+        const user = {
+            id: makeId("user"),
+            name,
+            email,
+            phone,
+            role,
+            passwordHash:
+                passwordData.hash,
+            passwordSalt:
+                passwordData.salt,
+            verificationStatus:
+                role === "doctor"
+                    ? "pending"
+                    : "not_required",
+            createdAt: now(),
+            updatedAt: now()
+        };
+
+        db.users.push(user);
+
+        if (role === "patient") {
+            db.patientProfiles.push({
+                id: user.id,
+                userId: user.id,
+                name,
+                email,
+                phone,
+                dateOfBirth:
+                    cleanString(
+                        body.dateOfBirth,
+                        30
+                    ),
+                gender:
+                    cleanString(
+                        body.gender,
+                        30
+                    ),
+                bloodGroup:
+                    cleanString(
+                        body.bloodGroup,
+                        20
+                    ),
+                address:
+                    cleanString(
+                        body.address,
+                        500
+                    ),
+                emergencyContact:
+                    cleanString(
+                        body.emergencyContact,
+                        100
+                    ),
+                nid:
+                    cleanString(
+                        body.nid,
+                        100
+                    ),
+                createdAt: now(),
+                updatedAt: now()
+            });
+        }
+
+        if (role === "doctor") {
+            db.doctorProfiles.push({
+                id: user.id,
+                userId: user.id,
+                name,
+                email,
+                phone,
+                specialization:
+                    cleanString(
+                        body.specialization,
+                        120
+                    ),
+                licenseNumber:
+                    cleanString(
+                        body.licenseNumber,
+                        120
+                    ),
+                chamber:
+                    cleanString(
+                        body.chamber,
+                        300
+                    ),
+                qualification:
+                    cleanString(
+                        body.qualification,
+                        300
+                    ),
+                createdAt: now(),
+                updatedAt: now()
+            });
+        }
+
+        audit(
+            db,
+            user.id,
+            "REGISTER",
+            { role }
+        );
+
+        saveDatabase(db);
+
+        success(
+            response,
+            201,
+            {
+                user: safeUser(user),
+                message:
+                    role === "doctor"
+                        ? "Doctor registered. Verification is pending."
+                        : "Registration successful."
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
+       LOGIN
+    ================================================== */
+
+    if (
+        method === "POST" &&
+        pathname === "/api/login"
+    ) {
+        let body;
+
+        try {
+            body = await readBody(request);
+        } catch (error) {
+            failure(
+                response,
+                400,
+                error.message
+            );
+
+            return;
+        }
+
+        const email =
+            normalizeEmail(body.email);
+
+        const password =
+            String(body.password || "");
+
+        if (!email || !password) {
+            failure(
+                response,
+                400,
+                "Email and password are required."
+            );
+
+            return;
+        }
+
+        const user =
+            db.users.find(
+                item =>
+                    item.email === email
+            );
+
+        if (!user) {
+            failure(
+                response,
+                401,
+                "Invalid email or password."
+            );
+
+            return;
+        }
+
+        let valid = false;
+
+        try {
+            valid = verifyPassword(
+                password,
+                user.passwordSalt,
+                user.passwordHash
+            );
+        } catch (error) {
+            valid = false;
+        }
+
+        if (!valid) {
+            failure(
+                response,
+                401,
+                "Invalid email or password."
+            );
+
+            return;
+        }
+
+        const token =
+            createSession(user.id);
+
+        audit(
+            db,
+            user.id,
+            "LOGIN"
+        );
+
+        saveDatabase(db);
 
         success(
             response,
             200,
             {
-
-                user:
-                    safeUser(
-                        user
-                    ),
-
-                profile
-
+                token,
+                user: safeUser(user)
             }
         );
 
         return;
-
     }
 
+    /* ==================================================
+       LOGOUT
+    ================================================== */
 
-    /* =====================================================
-       PATIENT PROFILE
-    ===================================================== */
+    if (
+        method === "POST" &&
+        pathname === "/api/logout"
+    ) {
+        const token =
+            getToken(request);
+
+        const user =
+            getCurrentUser(
+                request,
+                db
+            );
+
+        if (token) {
+            sessions.delete(token);
+        }
+
+        if (user) {
+            audit(
+                db,
+                user.id,
+                "LOGOUT"
+            );
+
+            saveDatabase(db);
+        }
+
+        success(
+            response,
+            200,
+            {
+                message:
+                    "Logged out successfully."
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
+       AUTHENTICATED USER
+    ================================================== */
+
+    const user =
+        requireLogin(
+            request,
+            response,
+            db
+        );
+
+    if (!user) {
+        return;
+    }
+
+    /* ==================================================
+       ME
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname ===
-            "/api/patient/profile"
+        pathname === "/api/me"
     ) {
+        let profile = null;
 
+        if (user.role === "patient") {
+            profile =
+                db.patientProfiles.find(
+                    item =>
+                        item.userId ===
+                        user.id
+                );
+        }
+
+        if (user.role === "doctor") {
+            profile =
+                db.doctorProfiles.find(
+                    item =>
+                        item.userId ===
+                        user.id
+                );
+        }
+
+        success(
+            response,
+            200,
+            {
+                user: safeUser(user),
+                profile
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
+       PATIENT PROFILE
+    ================================================== */
+
+    if (
+        method === "GET" &&
+        pathname === "/api/patient/profile"
+    ) {
         if (
             !requireRole(
                 response,
@@ -1494,42 +1034,137 @@ async function router(
             return;
         }
 
-
-        const patient =
-            db.patients.find(
+        const profile =
+            db.patientProfiles.find(
                 item =>
                     item.userId ===
                     user.id
             );
 
+        success(
+            response,
+            200,
+            {
+                profile: profile || null
+            }
+        );
+
+        return;
+    }
+
+    if (
+        (
+            method === "POST" ||
+            method === "PUT" ||
+            method === "PATCH"
+        ) &&
+        pathname === "/api/patient/profile"
+    ) {
+        if (
+            !requireRole(
+                response,
+                user,
+                "patient"
+            )
+        ) {
+            return;
+        }
+
+        let body;
+
+        try {
+            body = await readBody(request);
+        } catch (error) {
+            failure(
+                response,
+                400,
+                error.message
+            );
+
+            return;
+        }
+
+        let profile =
+            db.patientProfiles.find(
+                item =>
+                    item.userId ===
+                    user.id
+            );
+
+        if (!profile) {
+            profile = {
+                id: user.id,
+                userId: user.id,
+                createdAt: now()
+            };
+
+            db.patientProfiles.push(
+                profile
+            );
+        }
+
+        const allowed = [
+            "name",
+            "phone",
+            "dateOfBirth",
+            "gender",
+            "bloodGroup",
+            "address",
+            "emergencyContact",
+            "nid"
+        ];
+
+        for (const key of allowed) {
+            if (
+                body[key] !== undefined
+            ) {
+                profile[key] =
+                    cleanString(
+                        body[key],
+                        500
+                    );
+            }
+        }
+
+        profile.updatedAt = now();
+
+        if (profile.name) {
+            user.name = profile.name;
+        }
+
+        if (profile.phone) {
+            user.phone = profile.phone;
+        }
+
+        user.updatedAt = now();
+
+        audit(
+            db,
+            user.id,
+            "UPDATE_PATIENT_PROFILE"
+        );
+
+        saveDatabase(db);
 
         success(
             response,
             200,
             {
-
-                patient:
-                    patient ||
-                    null
-
+                profile
             }
         );
 
         return;
-
     }
 
-
-    /* =====================================================
+    /* ==================================================
        DOCTOR PROFILE
-    ===================================================== */
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname ===
-            "/api/doctor/profile"
+        pathname === "/api/doctor/profile"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -1540,43 +1175,35 @@ async function router(
             return;
         }
 
-
-        const doctor =
-            db.doctors.find(
+        const profile =
+            db.doctorProfiles.find(
                 item =>
                     item.userId ===
                     user.id
             );
-
 
         success(
             response,
             200,
             {
-
-                doctor:
-                    doctor ||
-                    null
-
+                profile:
+                    profile || null,
+                verificationStatus:
+                    user.verificationStatus
             }
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       DOCTOR PATIENT LIST
-       VERIFIED DOCTOR ONLY
-    ===================================================== */
-
     if (
-        method === "GET" &&
-        pathname ===
-            "/api/doctor/patients"
+        (
+            method === "POST" ||
+            method === "PUT" ||
+            method === "PATCH"
+        ) &&
+        pathname === "/api/doctor/profile"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -1587,63 +1214,130 @@ async function router(
             return;
         }
 
+        let body;
 
-        const doctor =
-            db.doctors.find(
+        try {
+            body = await readBody(request);
+        } catch (error) {
+            failure(
+                response,
+                400,
+                error.message
+            );
+
+            return;
+        }
+
+        let profile =
+            db.doctorProfiles.find(
                 item =>
                     item.userId ===
                     user.id
             );
 
+        if (!profile) {
+            profile = {
+                id: user.id,
+                userId: user.id,
+                createdAt: now()
+            };
 
-        if (
-            !doctor ||
-            doctor.verificationStatus !==
-                "verified"
-        ) {
-
-            error(
-                response,
-                403,
-                "Verified doctor access required."
+            db.doctorProfiles.push(
+                profile
             );
-
-            return;
-
         }
 
+        const allowed = [
+            "name",
+            "phone",
+            "specialization",
+            "licenseNumber",
+            "chamber",
+            "qualification"
+        ];
+
+        for (const key of allowed) {
+            if (
+                body[key] !== undefined
+            ) {
+                profile[key] =
+                    cleanString(
+                        body[key],
+                        500
+                    );
+            }
+        }
+
+        profile.updatedAt = now();
+
+        if (profile.name) {
+            user.name = profile.name;
+        }
+
+        if (profile.phone) {
+            user.phone = profile.phone;
+        }
+
+        user.updatedAt = now();
+
+        audit(
+            db,
+            user.id,
+            "UPDATE_DOCTOR_PROFILE"
+        );
+
+        saveDatabase(db);
+
+        success(
+            response,
+            200,
+            {
+                profile,
+                verificationStatus:
+                    user.verificationStatus
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
+       DOCTOR -> PATIENT LIST
+    ================================================== */
+
+    if (
+        method === "GET" &&
+        pathname === "/api/doctor/patients"
+    ) {
+        if (
+            !requireVerifiedDoctor(
+                response,
+                user
+            )
+        ) {
+            return;
+        }
 
         const patients =
-            db.patients.map(
-                patient => ({
+            db.patientProfiles.map(
+                patient => {
+                    const patientUser =
+                        db.users.find(
+                            item =>
+                                item.id ===
+                                patient.userId
+                        );
 
-                    id:
-                        patient.id,
-
-                    name:
-                        patient.name,
-
-                    phone:
-                        patient.phone,
-
-                    photo:
-                        patient.photo,
-
-                    dateOfBirth:
-                        patient.dateOfBirth,
-
-                    gender:
-                        patient.gender,
-
-                    bloodGroup:
-                        patient.bloodGroup,
-
-                    createdAt:
-                        patient.createdAt
-
-                })
+                    return {
+                        ...patient,
+                        user: patientUser
+                            ? safeUser(
+                                  patientUser
+                              )
+                            : null
+                    };
+                }
             );
-
 
         success(
             response,
@@ -1654,315 +1348,192 @@ async function router(
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       DOCTOR CREATE PRESCRIPTION
-    ===================================================== */
+    /* ==================================================
+       DOCTOR -> CREATE PRESCRIPTION
+    ================================================== */
 
     if (
         method === "POST" &&
-        pathname ===
-            "/api/prescriptions"
+        (
+            pathname ===
+                "/api/doctor/prescriptions" ||
+            pathname ===
+                "/api/prescriptions"
+        )
     ) {
-
         if (
-            !requireRole(
+            !requireVerifiedDoctor(
                 response,
-                user,
-                "doctor"
+                user
             )
         ) {
             return;
         }
 
-
-        const doctor =
-            db.doctors.find(
-                item =>
-                    item.userId ===
-                    user.id
-            );
-
-
-        if (
-            !doctor ||
-            doctor.verificationStatus !==
-                "verified"
-        ) {
-
-            error(
-                response,
-                403,
-                "Doctor verification required before prescription."
-            );
-
-            return;
-
-        }
-
-
         let body;
 
         try {
-
-            body =
-                await readBody(
-                    request
-                );
-
-        }
-        catch (err) {
-
-            error(
+            body = await readBody(request);
+        } catch (error) {
+            failure(
                 response,
                 400,
-                err.message
+                error.message
             );
 
             return;
-
         }
 
-
         const patientId =
-            String(
-                body.patientId ||
-                ""
-            ).trim();
-
-
-        const patient =
-            db.patients.find(
-                item =>
-                    item.id ===
-                    patientId
+            cleanString(
+                body.patientId,
+                200
             );
 
+        if (!patientId) {
+            failure(
+                response,
+                400,
+                "patientId is required."
+            );
+
+            return;
+        }
+
+        const patient =
+            db.users.find(
+                item =>
+                    item.id ===
+                    patientId &&
+                    item.role ===
+                        "patient"
+            );
 
         if (!patient) {
-
-            error(
+            failure(
                 response,
                 404,
                 "Patient not found."
             );
 
             return;
-
         }
 
+        let medicines =
+            body.medicines;
+
+        if (
+            typeof medicines ===
+            "string"
+        ) {
+            try {
+                medicines =
+                    JSON.parse(
+                        medicines
+                    );
+            } catch {
+                medicines = [
+                    {
+                        name: medicines
+                    }
+                ];
+            }
+        }
 
         if (
             !Array.isArray(
-                body.medicines
+                medicines
             )
         ) {
-
-            error(
-                response,
-                400,
-                "Medicines array required."
-            );
-
-            return;
-
+            medicines = [];
         }
-
-
-        if (
-            body.medicines.length === 0
-        ) {
-
-            error(
-                response,
-                400,
-                "At least one medicine is required."
-            );
-
-            return;
-
-        }
-
-
-        const medicines =
-            body.medicines.map(
-                medicine => ({
-
-                    name:
-                        String(
-                            medicine.name ||
-                            ""
-                        ).trim(),
-
-                    dose:
-                        String(
-                            medicine.dose ||
-                            ""
-                        ).trim(),
-
-                    food:
-                        String(
-                            medicine.food ||
-                            ""
-                        ).trim(),
-
-                    time:
-                        String(
-                            medicine.time ||
-                            ""
-                        ).trim(),
-
-                    duration:
-                        String(
-                            medicine.duration ||
-                            ""
-                        ).trim()
-
-                })
-            );
-
 
         const prescription = {
-
-            id:
-                createId("RX"),
-
-            doctorId:
-                doctor.id,
-
-            patientId:
-                patient.id,
-
-            doctorName:
-                doctor.name,
-
-            specialty:
-                doctor.specialty,
-
-            bmdcNumber:
-                doctor.bmdcNumber,
-
-            patientName:
-                patient.name,
-
-            patientPhoto:
-                patient.photo,
-
-            symptoms:
-                String(
-                    body.symptoms ||
-                    ""
-                ),
-
+            id: makeId("rx"),
+            doctorId: user.id,
+            patientId,
             diagnosis:
-                String(
-                    body.diagnosis ||
-                    ""
+                cleanString(
+                    body.diagnosis,
+                    1000
                 ),
-
-            medicines,
-
-            advice:
-                String(
-                    body.advice ||
-                    ""
+            notes:
+                cleanString(
+                    body.notes,
+                    2000
                 ),
-
-            investigation:
-                String(
-                    body.investigation ||
-                    ""
+            medicines:
+                medicines.map(
+                    item => ({
+                        name:
+                            cleanString(
+                                item.name,
+                                200
+                            ),
+                        dosage:
+                            cleanString(
+                                item.dosage,
+                                200
+                            ),
+                        frequency:
+                            cleanString(
+                                item.frequency,
+                                200
+                            ),
+                        duration:
+                            cleanString(
+                                item.duration,
+                                200
+                            ),
+                        instructions:
+                            cleanString(
+                                item.instructions,
+                                500
+                            )
+                    })
                 ),
-
-            followUp:
-                String(
-                    body.followUp ||
-                    ""
-                ),
-
-            status:
-                "active",
-
-            createdAt:
-                now()
-
+            createdAt: now(),
+            updatedAt: now()
         };
-
 
         db.prescriptions.push(
             prescription
         );
 
-
-        medicines.forEach(
-            medicine => {
-
-                db.medicines.push({
-
-                    id:
-                        createId("MED"),
-
-                    patientId:
-                        patient.id,
-
-                    prescriptionId:
-                        prescription.id,
-
-                    doctorId:
-                        doctor.id,
-
-                    ...medicine,
-
-                    createdAt:
-                        now()
-
-                });
-
+        audit(
+            db,
+            user.id,
+            "CREATE_PRESCRIPTION",
+            {
+                prescriptionId:
+                    prescription.id,
+                patientId
             }
         );
 
-
-        writeDB(
-            db
-        );
-
-
-        audit(
-            "CREATE_PRESCRIPTION",
-            user,
-            prescription.id,
-            "Prescription created"
-        );
-
+        saveDatabase(db);
 
         success(
             response,
             201,
             {
-
                 prescription
-
             }
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       PATIENT PRESCRIPTIONS
-    ===================================================== */
+    /* ==================================================
+       PATIENT -> PRESCRIPTIONS
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname ===
-            "/api/patient/prescriptions"
+        pathname === "/api/patient/prescriptions"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -1973,35 +1544,31 @@ async function router(
             return;
         }
 
-
-        const patient =
-            db.patients.find(
-                item =>
-                    item.userId ===
-                    user.id
-            );
-
-
-        if (!patient) {
-
-            error(
-                response,
-                404,
-                "Patient profile not found."
-            );
-
-            return;
-
-        }
-
-
         const prescriptions =
-            db.prescriptions.filter(
-                item =>
-                    item.patientId ===
-                    patient.id
-            );
+            db.prescriptions
+                .filter(
+                    item =>
+                        item.patientId ===
+                        user.id
+                )
+                .map(item => {
+                    const doctor =
+                        db.users.find(
+                            doctorUser =>
+                                doctorUser.id ===
+                                item.doctorId
+                        );
 
+                    return {
+                        ...item,
+                        doctor:
+                            doctor
+                                ? safeUser(
+                                      doctor
+                                  )
+                                : null
+                    };
+                });
 
         success(
             response,
@@ -2012,20 +1579,16 @@ async function router(
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       DOCTOR PRESCRIPTIONS
-    ===================================================== */
+    /* ==================================================
+       DOCTOR -> OWN PRESCRIPTIONS
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname ===
-            "/api/doctor/prescriptions"
+        pathname === "/api/doctor/prescriptions"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -2035,32 +1598,6 @@ async function router(
         ) {
             return;
         }
-
-
-        const doctor =
-            db.doctors.find(
-                item =>
-                    item.userId ===
-                    user.id
-            );
-
-
-        if (
-            !doctor ||
-            doctor.verificationStatus !==
-                "verified"
-        ) {
-
-            error(
-                response,
-                403,
-                "Verified doctor access required."
-            );
-
-            return;
-
-        }
-
 
         const prescriptions =
             db.prescriptions.filter(
@@ -2069,7 +1606,6 @@ async function router(
                     user.id
             );
 
-
         success(
             response,
             200,
@@ -2079,20 +1615,16 @@ async function router(
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       PATIENT MEDICINES
-    ===================================================== */
+    /* ==================================================
+       PATIENT -> MEDICINES
+    ================================================== */
 
     if (
         method === "GET" &&
-        pathname ===
-            "/api/patient/medicines"
+        pathname === "/api/patient/medicines"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -2103,14 +1635,12 @@ async function router(
             return;
         }
 
-
         const medicines =
             db.medicines.filter(
                 item =>
                     item.patientId ===
                     user.id
             );
-
 
         success(
             response,
@@ -2121,19 +1651,12 @@ async function router(
         );
 
         return;
-
     }
-
-
-    /* =====================================================
-       ADD HEALTH RECORD
-    ===================================================== */
 
     if (
         method === "POST" &&
-        pathname === "/api/health"
+        pathname === "/api/patient/medicines"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -2144,125 +1667,109 @@ async function router(
             return;
         }
 
-
         let body;
 
         try {
-
-            body =
-                await readBody(
-                    request
-                );
-
-        }
-        catch (err) {
-
-            error(
+            body = await readBody(request);
+        } catch (error) {
+            failure(
                 response,
                 400,
-                err.message
+                error.message
             );
 
             return;
-
         }
 
-
-        const type =
-            String(
-                body.type ||
-                ""
-            ).trim();
-
-        const value =
-            String(
-                body.value ||
-                ""
-            ).trim();
-
-        const unit =
-            String(
-                body.unit ||
-                ""
-            ).trim();
-
-
-        if (
-            !type ||
-            !value
-        ) {
-
-            error(
-                response,
-                400,
-                "type and value required."
-            );
-
-            return;
-
-        }
-
-
-        const record = {
-
-            id:
-                createId("HLT"),
-
-            patientId:
-                user.id,
-
-            type,
-
-            value,
-
-            unit,
-
-            createdAt:
-                now()
-
+        const medicine = {
+            id: makeId("medicine"),
+            patientId: user.id,
+            name:
+                cleanString(
+                    body.name,
+                    200
+                ),
+            dosage:
+                cleanString(
+                    body.dosage,
+                    200
+                ),
+            frequency:
+                cleanString(
+                    body.frequency,
+                    200
+                ),
+            time:
+                cleanString(
+                    body.time,
+                    100
+                ),
+            startDate:
+                cleanString(
+                    body.startDate,
+                    50
+                ),
+            endDate:
+                cleanString(
+                    body.endDate,
+                    50
+                ),
+            notes:
+                cleanString(
+                    body.notes,
+                    1000
+                ),
+            active:
+                body.active !== false,
+            createdAt: now(),
+            updatedAt: now()
         };
 
+        if (!medicine.name) {
+            failure(
+                response,
+                400,
+                "Medicine name is required."
+            );
 
-        db.healthRecords.push(
-            record
+            return;
+        }
+
+        db.medicines.push(
+            medicine
         );
-
-
-        writeDB(
-            db
-        );
-
 
         audit(
-            "ADD_HEALTH_RECORD",
-            user,
-            record.id,
-            type
+            db,
+            user.id,
+            "ADD_MEDICINE",
+            {
+                medicineId:
+                    medicine.id
+            }
         );
 
+        saveDatabase(db);
 
         success(
             response,
             201,
             {
-                record
+                medicine
             }
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       GET HEALTH RECORDS
-    ===================================================== */
+    /* ==================================================
+       HEALTH RECORD - GET
+    ================================================== */
 
     if (
         method === "GET" &&
         pathname === "/api/health"
     ) {
-
         if (
             !requireRole(
                 response,
@@ -2273,24 +1780,12 @@ async function router(
             return;
         }
 
-
         const records =
-            db.healthRecords
-                .filter(
-                    record =>
-                        record.patientId ===
-                        user.id
-                )
-                .sort(
-                    (a, b) =>
-                        new Date(
-                            b.createdAt
-                        ) -
-                        new Date(
-                            a.createdAt
-                        )
-                );
-
+            db.healthRecords.filter(
+                item =>
+                    item.patientId ===
+                    user.id
+            );
 
         success(
             response,
@@ -2301,250 +1796,416 @@ async function router(
         );
 
         return;
-
     }
 
-
-    /* =====================================================
-       PATIENT BY ID
-    ===================================================== */
+    /* ==================================================
+       HEALTH RECORD - POST
+    ================================================== */
 
     if (
-        method === "GET" &&
-        pathname ===
-            "/api/patient/by-id"
+        method === "POST" &&
+        pathname === "/api/health"
     ) {
+        if (
+            !requireRole(
+                response,
+                user,
+                "patient"
+            )
+        ) {
+            return;
+        }
 
-        const patientId =
-            String(
-                parsed.query.id ||
-                ""
-            ).trim();
+        let body;
 
-
-        if (!patientId) {
-
-            error(
+        try {
+            body = await readBody(request);
+        } catch (error) {
+            failure(
                 response,
                 400,
-                "Patient ID required."
+                error.message
             );
 
             return;
-
         }
 
+        const record = {
+            id: makeId("health"),
+            patientId: user.id,
 
-        const patient =
-            db.patients.find(
-                item =>
-                    item.id ===
-                    patientId
+            bloodPressure:
+                cleanString(
+                    body.bloodPressure,
+                    100
+                ),
+
+            systolic:
+                body.systolic !==
+                undefined
+                    ? Number(
+                          body.systolic
+                      )
+                    : null,
+
+            diastolic:
+                body.diastolic !==
+                undefined
+                    ? Number(
+                          body.diastolic
+                      )
+                    : null,
+
+            spo2:
+                body.spo2 !==
+                undefined
+                    ? Number(
+                          body.spo2
+                      )
+                    : null,
+
+            pulse:
+                body.pulse !==
+                undefined
+                    ? Number(
+                          body.pulse
+                      )
+                    : null,
+
+            temperature:
+                body.temperature !==
+                undefined
+                    ? Number(
+                          body.temperature
+                      )
+                    : null,
+
+            weight:
+                body.weight !==
+                undefined
+                    ? Number(
+                          body.weight
+                      )
+                    : null,
+
+            notes:
+                cleanString(
+                    body.notes,
+                    2000
+                ),
+
+            recordedAt:
+                cleanString(
+                    body.recordedAt,
+                    100
+                ) || now(),
+
+            createdAt: now()
+        };
+
+        db.healthRecords.push(
+            record
+        );
+
+        audit(
+            db,
+            user.id,
+            "ADD_HEALTH_RECORD",
+            {
+                recordId:
+                    record.id
+            }
+        );
+
+        saveDatabase(db);
+
+        success(
+            response,
+            201,
+            {
+                record
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
+       PATIENT BY ID
+    ================================================== */
+
+    if (
+        method === "GET" &&
+        pathname === "/api/patient/by-id"
+    ) {
+        const requestedId =
+            cleanString(
+                query.get("id"),
+                200
             );
 
+        if (!requestedId) {
+            failure(
+                response,
+                400,
+                "Patient id is required."
+            );
 
-        if (!patient) {
+            return;
+        }
 
-            error(
+        if (
+            user.role === "patient"
+        ) {
+            if (
+                requestedId !==
+                user.id
+            ) {
+                failure(
+                    response,
+                    403,
+                    "You can only view your own patient profile."
+                );
+
+                return;
+            }
+        } else if (
+            user.role === "doctor"
+        ) {
+            if (
+                user.verificationStatus !==
+                "verified"
+            ) {
+                failure(
+                    response,
+                    403,
+                    "Doctor account is not verified."
+                );
+
+                return;
+            }
+        } else {
+            failure(
+                response,
+                403,
+                "Access denied."
+            );
+
+            return;
+        }
+
+        const patientUser =
+            db.users.find(
+                item =>
+                    item.id ===
+                    requestedId &&
+                    item.role ===
+                        "patient"
+            );
+
+        if (!patientUser) {
+            failure(
                 response,
                 404,
                 "Patient not found."
             );
 
             return;
-
         }
 
-
-        /* -----------------------------------------------
-           PATIENT CAN VIEW OWN PROFILE
-           VERIFIED DOCTOR CAN VIEW PATIENT
-        ------------------------------------------------ */
-
-        if (
-            user.role ===
-            "patient"
-        ) {
-
-            if (
-                user.id !==
-                patient.userId
-            ) {
-
-                error(
-                    response,
-                    403,
-                    "Permission denied."
-                );
-
-                return;
-
-            }
-
-        }
-        else if (
-            user.role ===
-            "doctor"
-        ) {
-
-            const doctor =
-                db.doctors.find(
-                    item =>
-                        item.userId ===
-                        user.id
-                );
-
-
-            if (
-                !doctor ||
-                doctor.verificationStatus !==
-                    "verified"
-            ) {
-
-                error(
-                    response,
-                    403,
-                    "Verified doctor access required."
-                );
-
-                return;
-
-            }
-
-        }
-        else {
-
-            error(
-                response,
-                403,
-                "Permission denied."
+        const profile =
+            db.patientProfiles.find(
+                item =>
+                    item.userId ===
+                    requestedId
             );
-
-            return;
-
-        }
-
 
         success(
             response,
             200,
             {
-
-                patient: {
-
-                    id:
-                        patient.id,
-
-                    name:
-                        patient.name,
-
-                    photo:
-                        patient.photo,
-
-                    dateOfBirth:
-                        patient.dateOfBirth,
-
-                    gender:
-                        patient.gender,
-
-                    bloodGroup:
-                        patient.bloodGroup
-
-                }
-
+                user:
+                    safeUser(
+                        patientUser
+                    ),
+                profile:
+                    profile || null
             }
         );
 
         return;
-
     }
 
+    /* ==================================================
+       DOCTOR -> PATIENT HEALTH RECORDS
+    ================================================== */
 
-    /* =====================================================
+    if (
+        method === "GET" &&
+        pathname === "/api/doctor/health"
+    ) {
+        if (
+            !requireVerifiedDoctor(
+                response,
+                user
+            )
+        ) {
+            return;
+        }
+
+        const patientId =
+            cleanString(
+                query.get("patientId"),
+                200
+            );
+
+        if (!patientId) {
+            failure(
+                response,
+                400,
+                "patientId is required."
+            );
+
+            return;
+        }
+
+        const patient =
+            db.users.find(
+                item =>
+                    item.id ===
+                    patientId &&
+                    item.role ===
+                        "patient"
+            );
+
+        if (!patient) {
+            failure(
+                response,
+                404,
+                "Patient not found."
+            );
+
+            return;
+        }
+
+        const records =
+            db.healthRecords.filter(
+                item =>
+                    item.patientId ===
+                    patientId
+            );
+
+        success(
+            response,
+            200,
+            {
+                patient:
+                    safeUser(
+                        patient
+                    ),
+                records
+            }
+        );
+
+        return;
+    }
+
+    /* ==================================================
        404
-    ===================================================== */
+    ================================================== */
 
-    error(
+    failure(
         response,
         404,
         "API endpoint not found."
     );
-
 }
 
+/* ======================================================
+   SERVER
+====================================================== */
 
-/* =========================================================
-SERVER
-========================================================= */
+const server = http.createServer(
+    async (request, response) => {
+        try {
+            await router(
+                request,
+                response
+            );
+        } catch (error) {
+            console.error(
+                "Unhandled server error:",
+                error
+            );
 
-const server =
-    http.createServer(
-        async (
-            request,
-            response
-        ) => {
-
-            try {
-
-                await router(
-                    request,
-                    response
-                );
-
-            }
-            catch (err) {
-
-                console.error(
-                    "SERVER ERROR:",
-                    err
-                );
-
-                if (
-                    response.headersSent
-                ) {
-
-                    response.end();
-
-                    return;
-
-                }
-
-                error(
+            if (!response.headersSent) {
+                failure(
                     response,
                     500,
                     "Internal server error."
                 );
-
+            } else {
+                response.end();
             }
-
         }
-    );
+    }
+);
 
+server.on(
+    "clientError",
+    (error, socket) => {
+        console.error(
+            "Client error:",
+            error
+        );
+
+        try {
+            socket.end(
+                "HTTP/1.1 400 Bad Request\r\n\r\n"
+            );
+        } catch {}
+    }
+);
 
 server.listen(
     PORT,
     HOST,
     () => {
-
         console.log(
-            "===================================="
+            "================================================"
         );
 
         console.log(
-            " Medivoice Backend V3"
+            " MEDIVOICE BACKEND"
         );
 
         console.log(
-            ` Server: http://localhost:${PORT}`
+            " Version:",
+            APP_VERSION
         );
 
         console.log(
-            ` API:    http://localhost:${PORT}/api/health`
+            " Host:",
+            HOST
         );
 
         console.log(
-            "===================================="
+            " Port:",
+            PORT
         );
 
+        console.log(
+            " API prefix:",
+            "/medivoice"
+        );
+
+        console.log(
+            " Health:",
+            "/api/health"
+        );
+
+        console.log(
+            "================================================"
+        );
     }
 );
