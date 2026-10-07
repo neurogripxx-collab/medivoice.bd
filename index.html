@@ -1,30 +1,41 @@
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta name="theme-color" content="#07111f">
 
-<title>Medivoice | Smart Patient Care</title>
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
 
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<meta
+    name="theme-color"
+    content="#07111f"
+>
+
+<title>AZAD Health | Smart Patient Care</title>
+
+<script
+    src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"
+></script>
 
 <style>
 
 *{
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
+    box-sizing:border-box
 }
 
 body{
     margin:0;
     background:#07111f;
     color:#fff;
-    font-family:system-ui,"Noto Sans Bengali","Noto Sans",sans-serif;
-    padding-bottom:85px;
+    font-family:
+        system-ui,
+        "Noto Sans Bengali",
+        sans-serif;
+    padding-bottom:80px
 }
 
 header{
@@ -33,13 +44,13 @@ header{
     z-index:20;
     background:#0e1b32;
     padding:14px 18px;
-    border-bottom:1px solid #f5d58f33;
+    border-bottom:1px solid #f5d58f33
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:12px
 }
 
 .logo{
@@ -51,38 +62,38 @@ header{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:24px;
-    font-weight:900;
+    font-size:22px;
+    font-weight:900
 }
 
 .brand h2{
     margin:0;
-    color:#f5d58f;
+    color:#f5d58f
 }
 
 .brand small{
-    color:#9caac0;
+    color:#9caac0
 }
 
 .container{
     max-width:920px;
     margin:auto;
-    padding:18px;
+    padding:18px
 }
 
 .hero{
-    padding:22px 0;
+    padding:22px 0
 }
 
 .hero h1{
     margin:0 0 8px;
-    font-size:29px;
+    font-size:29px
 }
 
 .hero p{
     margin:0;
     color:#aab7ca;
-    line-height:1.6;
+    line-height:1.6
 }
 
 .card{
@@ -91,19 +102,20 @@ header{
     border-radius:18px;
     padding:18px;
     margin-bottom:15px;
-    box-shadow:0 8px 30px #0003;
+    box-shadow:0 8px 30px #0003
 }
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
+    grid-template-columns:
+        repeat(2,1fr);
+    gap:14px
 }
 
 .value{
     font-size:27px;
     color:#f5d58f;
-    font-weight:800;
+    font-weight:800
 }
 
 input,
@@ -117,7 +129,12 @@ textarea{
     background:#07111f;
     color:#fff;
     outline:none;
-    font-family:inherit;
+    font-family:inherit
+}
+
+textarea{
+    min-height:150px;
+    resize:vertical
 }
 
 button{
@@ -127,32 +144,37 @@ button{
     margin-top:8px;
     cursor:pointer;
     font-weight:700;
-    font-family:inherit;
+    font-family:inherit
 }
 
 button:disabled{
     opacity:.5;
-    cursor:not-allowed;
+    cursor:not-allowed
 }
 
 .primary{
     background:#f5d58f;
-    color:#07111f;
+    color:#07111f
 }
 
 .green{
     background:#2ee6a6;
-    color:#07111f;
+    color:#07111f
 }
 
 .dark{
     background:#172641;
-    color:#fff;
+    color:#fff
 }
 
 .red{
     background:#ff6464;
-    color:#fff;
+    color:#fff
+}
+
+.blue{
+    background:#5ea7ff;
+    color:#07111f
 }
 
 .record{
@@ -160,11 +182,11 @@ button:disabled{
     border-radius:13px;
     padding:14px;
     margin-top:10px;
-    line-height:1.7;
+    line-height:1.7
 }
 
 .reminder{
-    border-left:4px solid #2ee6a6;
+    border-left:4px solid #2ee6a6
 }
 
 .status{
@@ -173,26 +195,30 @@ button:disabled{
     padding:13px;
     margin-top:10px;
     color:#b9c5d6;
-    line-height:1.7;
+    line-height:1.7
 }
 
 .empty{
     text-align:center;
     color:#8290a5;
-    padding:12px;
+    padding:18px
 }
 
 .small{
     font-size:13px;
-    color:#8e9db2;
+    color:#8e9db2
+}
+
+.muted{
+    color:#9caac0
 }
 
 section{
-    display:none;
+    display:none
 }
 
 section.active{
-    display:block;
+    display:block
 }
 
 nav{
@@ -201,35 +227,76 @@ nav{
     left:0;
     right:0;
     z-index:30;
-    background:#0e1b32;
-    border-top:1px solid #ffffff15;
     display:flex;
-    justify-content:space-around;
-    padding:8px;
+    justify-content:center;
+    gap:4px;
+    padding:10px;
+    background:#0e1b32;
+    border-top:1px solid #ffffff12
 }
 
 nav button{
     background:none;
     color:#aab7ca;
     margin:0;
-    padding:5px 8px;
+    padding:7px 9px;
+    font-size:12px
 }
 
 nav button.active{
-    color:#f5d58f;
+    color:#f5d58f
 }
 
-hr{
-    border:0;
-    border-top:1px solid #ffffff12;
-    margin:20px 0;
+.auth{
+    max-width:520px;
+    margin:50px auto
+}
+
+.auth h1{
+    margin-top:0
+}
+
+.hidden{
+    display:none !important
+}
+
+.feature{
+    display:flex;
+    gap:12px;
+    align-items:flex-start
+}
+
+.feature-icon{
+    font-size:25px
+}
+
+.medicine-item{
+    border:1px solid #ffffff12;
+    border-radius:14px;
+    padding:14px;
+    margin-top:10px;
+    background:#10233d
+}
+
+.medicine-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap
+}
+
+.taken{
+    opacity:.7;
+    border-left:4px solid #2ee6a6
+}
+
+.missed{
+    border-left:4px solid #ff6464
 }
 
 .camera-box{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
-    margin-bottom:15px;
+    gap:10px
 }
 
 .camera-btn,
@@ -239,26 +306,17 @@ hr{
     padding:15px 10px;
     border-radius:14px;
     cursor:pointer;
-    font-weight:700;
+    font-weight:700
 }
 
 .camera-btn{
     background:#f5d58f;
-    color:#07111f;
+    color:#07111f
 }
 
 .gallery-btn{
     background:#172641;
-    color:#fff;
-}
-
-#reportPreview img{
-    width:100%;
-    max-height:450px;
-    object-fit:contain;
-    border-radius:15px;
-    margin-top:10px;
-    background:#000;
+    color:#fff
 }
 
 .progress{
@@ -267,14 +325,14 @@ hr{
     background:#07111f;
     border-radius:10px;
     overflow:hidden;
-    margin-top:12px;
+    margin-top:12px
 }
 
 .progress-bar{
     width:0%;
     height:100%;
     background:#2ee6a6;
-    transition:width .3s;
+    transition:width .3s
 }
 
 .ocr-text{
@@ -284,2150 +342,2755 @@ hr{
     border-radius:13px;
     line-height:1.7;
     font-size:15px;
-    min-height:120px;
+    min-height:120px
 }
 
-.feature{
-    display:flex;
-    gap:12px;
-    align-items:flex-start;
-}
-
-.feature-icon{
-    font-size:25px;
-}
-
-.medicine-item{
-    border:1px solid #ffffff12;
-    border-radius:14px;
-    padding:14px;
-    margin-top:10px;
-    background:#10233d;
-}
-
-.medicine-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.taken{
-    opacity:.7;
-    border-left:4px solid #2ee6a6;
-}
-
-.missed{
-    border-left:4px solid #ff6464;
-}
-
-.bmi-good{
-    border-left:4px solid #2ee6a6;
-}
-
-.bmi-warn{
-    border-left:4px solid #f5d58f;
-}
-
-.report-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
+hr{
+    border:0;
+    border-top:1px solid #ffffff12;
+    margin:20px 0
 }
 
 @media(max-width:650px){
 
     .grid{
-        grid-template-columns:1fr;
+        grid-template-columns:1fr
     }
 
     .hero h1{
-        font-size:25px;
+        font-size:25px
     }
-
 }
 
 @media(max-width:500px){
 
-    .camera-box,
-    .report-actions{
-        grid-template-columns:1fr;
+    .camera-box{
+        grid-template-columns:1fr
     }
 
     nav button{
-        font-size:12px;
+        font-size:11px
     }
-
 }
 
 </style>
-</head>
 
+</head>
 
 <body>
 
+<!-- =====================================================
+     AUTH
+===================================================== -->
+
+<section
+    id="auth"
+    class="active"
+>
+
+<div class="container">
+
+<div class="card auth">
+
+<h1>🩺 AZAD Health</h1>
+
+<p class="muted">
+Smart Patient Care Platform
+</p>
+
+<div
+    id="authStatus"
+    class="status"
+>
+Login বা Register করুন।
+</div>
+
+<hr>
+
+<div id="loginBox">
+
+<h3>🔐 Login</h3>
+
+<input
+    id="loginPhone"
+    type="tel"
+    placeholder="মোবাইল নম্বর"
+/>
+
+<input
+    id="loginPassword"
+    type="password"
+    placeholder="Password"
+/>
+
+<button
+    class="primary"
+    onclick="login()"
+>
+Login
+</button>
+
+<button
+    class="dark"
+    onclick="showRegister()"
+>
+নতুন Account তৈরি
+</button>
+
+</div>
+
+
+<div
+    id="registerBox"
+    class="hidden"
+>
+
+<h3>📝 Register</h3>
+
+<input
+    id="registerName"
+    placeholder="আপনার নাম"
+/>
+
+<input
+    id="registerPhone"
+    type="tel"
+    placeholder="মোবাইল নম্বর"
+/>
+
+<input
+    id="registerPassword"
+    type="password"
+    placeholder="কমপক্ষে ৮ অক্ষরের Password"
+/>
+
+<select id="registerRole">
+
+<option value="patient">
+Patient
+</option>
+
+<option value="doctor">
+Doctor
+</option>
+
+</select>
+
+<button
+    class="green"
+    onclick="registerUser()"
+>
+Register
+</button>
+
+<button
+    class="dark"
+    onclick="showLogin()"
+>
+আগের Account-এ Login
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<div
+    id="app"
+    class="hidden"
+>
 
 <header>
 
-    <div class="brand">
+<div class="brand">
 
-        <div class="logo">M</div>
+<div class="logo">
+A
+</div>
 
-        <div>
-            <h2>Medivoice</h2>
-            <small>Smart Patient Care</small>
-        </div>
+<div>
 
-    </div>
+<h2>
+AZAD Health
+</h2>
+
+<small>
+Smart Patient Care
+</small>
+
+</div>
+
+</div>
 
 </header>
 
 
 <main class="container">
 
-
 <!-- =====================================================
      HOME
 ===================================================== -->
 
-<section id="home" class="active">
+<section
+    id="home"
+>
 
-    <div class="hero">
+<div class="hero">
 
-        <h1>আপনার স্বাস্থ্য, আপনার হাতেই।</h1>
+<h1>
+আপনার স্বাস্থ্য, আপনার হাতেই।
+</h1>
 
-        <p>
-            ওষুধ, স্বাস্থ্য রেকর্ড ও রিপোর্ট—এক জায়গায়।
-        </p>
+<p>
+ওষুধ, স্বাস্থ্য রেকর্ড ও রিপোর্ট—এক জায়গায়।
+</p>
 
-    </div>
-
-
-    <div class="card reminder">
-
-        <h3>🔔 পরবর্তী Medicine Reminder</h3>
-
-        <div id="nextReminder">
-            কোনো Reminder নেই
-        </div>
-
-    </div>
+</div>
 
 
-    <div class="grid">
+<div class="card">
 
-        <div class="card">
-            <h3>🩺 Blood Pressure</h3>
-            <div class="value" id="homeBP">-- / --</div>
-        </div>
+<h3>
+👤 Account
+</h3>
 
+<div
+    id="userInfo"
+    class="status"
+>
+Loading...
+</div>
 
-        <div class="card">
-            <h3>🫁 SpO₂</h3>
-            <div class="value" id="homeSPO">--%</div>
-        </div>
+<button
+    class="red"
+    onclick="logout()"
+>
+Logout
+</button>
 
-
-        <div class="card">
-            <h3>🩸 Blood Sugar</h3>
-            <div class="value" id="homeSugar">--</div>
-        </div>
-
-
-        <div class="card">
-            <h3>❤️ Pulse</h3>
-            <div class="value" id="homePulse">-- BPM</div>
-        </div>
+</div>
 
 
-        <div class="card">
-            <h3>⚖️ ওজন</h3>
-            <div class="value" id="homeWeight">-- kg</div>
-        </div>
+<div class="card reminder">
+
+<h3>
+🔔 পরবর্তী Medicine Reminder
+</h3>
+
+<div id="nextReminder">
+কোনো Reminder নেই
+</div>
+
+</div>
 
 
-        <div class="card">
-            <h3>📏 উচ্চতা</h3>
-            <div class="value" id="homeHeight">-- cm</div>
-        </div>
+<div class="grid">
+
+<div class="card">
+
+<h3>
+🩺 Blood Pressure
+</h3>
+
+<div
+    class="value"
+    id="homeBP"
+>
+-- / --
+</div>
+
+</div>
 
 
-        <div class="card">
-            <h3>🧮 BMI</h3>
-            <div class="value" id="homeBMI">--</div>
-        </div>
+<div class="card">
 
-    </div>
+<h3>
+🫁 SpO₂
+</h3>
 
+<div
+    class="value"
+    id="homeSPO"
+>
+--%
+</div>
 
-    <div class="card">
-
-        <h3>🔔 ফোন Notification</h3>
-
-        <div
-            id="notificationStatus"
-            class="status"
-        >
-            Notification permission এখনো নেওয়া হয়নি।
-        </div>
-
-        <button
-            class="primary"
-            onclick="requestNotificationPermission()"
-        >
-            🔔 Notification চালু করুন
-        </button>
-
-    </div>
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-        <div class="feature">
+<h3>
+🩸 Blood Sugar
+</h3>
 
-            <div class="feature-icon">📷</div>
+<div
+    class="value"
+    id="homeSugar"
+>
+--
+</div>
 
-            <div>
-
-                <strong>Smart Report Scanner</strong>
-
-                <p class="small">
-                    রিপোর্টের ছবি তুলে OCR-এর মাধ্যমে লেখা শনাক্ত করার সুবিধা।
-                </p>
-
-            </div>
-
-        </div>
+</div>
 
 
-        <button
-            class="green"
-            onclick="showPage('report')"
-        >
-            📷 Report Scanner খুলুন
-        </button>
+<div class="card">
 
-    </div>
+<h3>
+❤️ Pulse
+</h3>
+
+<div
+    class="value"
+    id="homePulse"
+>
+-- BPM
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+⚖️ ওজন
+</h3>
+
+<div
+    class="value"
+    id="homeWeight"
+>
+-- kg
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+📏 উচ্চতা
+</h3>
+
+<div
+    class="value"
+    id="homeHeight"
+>
+-- cm
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🧮 BMI
+</h3>
+
+<div
+    class="value"
+    id="homeBMI"
+>
+--
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🔔 ফোন Notification
+</h3>
+
+<div
+    id="notificationStatus"
+    class="status"
+>
+Notification permission এখনো নেওয়া হয়নি।
+</div>
+
+<button
+    class="primary"
+    onclick="requestNotificationPermission()"
+>
+🔔 Notification চালু করুন
+</button>
+
+</div>
+
+
+<div class="card">
+
+<div class="feature">
+
+<div class="feature-icon">
+📷
+</div>
+
+<div>
+
+<strong>
+Smart Report Scanner
+</strong>
+
+<p class="small">
+রিপোর্টের ছবি থেকে OCR-এর মাধ্যমে লেখা শনাক্ত করা যাবে।
+</p>
+
+</div>
+
+</div>
+
+<button
+    class="green"
+    onclick="showPage('report')"
+>
+📷 Report Scanner খুলুন
+</button>
+
+</div>
 
 </section>
-
 
 
 <!-- =====================================================
      MEDICINE
 ===================================================== -->
 
-<section id="medicine">
+<section
+    id="medicine"
+>
 
-    <div class="hero">
+<div class="hero">
 
-        <h1>💊 Medicine Reminder</h1>
+<h1>
+💊 Medicine Reminder
+</h1>
 
-        <p>
-            ডাক্তারের দেওয়া সময়সূচি অনুযায়ী Reminder তৈরি করুন।
-        </p>
+<p>
+ওষুধের সময়সূচি backend-এ সংরক্ষিত হবে।
+</p>
 
-    </div>
-
-
-    <div class="card">
-
-        <h3>নতুন ওষুধ যোগ করুন</h3>
-
-
-        <input
-            id="medicineName"
-            placeholder="ওষুধের নাম"
-        >
+</div>
 
 
-        <input
-            id="medicineDose"
-            placeholder="ডোজ যেমন: ১ ট্যাবলেট"
-        >
+<div class="card">
+
+<h3>
+নতুন ওষুধ যোগ করুন
+</h3>
+
+<input
+    id="medicineName"
+    placeholder="ওষুধের নাম"
+/>
+
+<input
+    id="medicineDose"
+    placeholder="ডোজ যেমন: ১ ট্যাবলেট"
+/>
+
+<input
+    id="medicineTime"
+    type="time"
+/>
+
+<select id="foodRule">
+
+<option>
+খালি পেটে
+</option>
+
+<option>
+খাওয়ার আগে
+</option>
+
+<option>
+খাওয়ার পরে
+</option>
+
+<option>
+যেকোনো সময়
+</option>
+
+</select>
+
+<label class="small">
+শুরুর তারিখ
+</label>
+
+<input
+    id="medicineStart"
+    type="date"
+/>
+
+<label class="small">
+শেষ তারিখ
+</label>
+
+<input
+    id="medicineEnd"
+    type="date"
+/>
+
+<button
+    class="primary"
+    onclick="addMedicine()"
+>
+＋ Reminder যোগ করুন
+</button>
+
+</div>
 
 
-        <input
-            id="medicineTime"
-            type="time"
-        >
+<div class="card">
 
+<h3>
+আমার ওষুধ
+</h3>
 
-        <select id="foodRule">
+<div id="medicineList">
+<div class="empty">
+Loading...
+</div>
+</div>
 
-            <option value="খালি পেটে">
-                খালি পেটে
-            </option>
-
-            <option value="খাওয়ার আগে">
-                খাওয়ার আগে
-            </option>
-
-            <option value="খাওয়ার পরে">
-                খাওয়ার পরে
-            </option>
-
-            <option value="যেকোনো সময়">
-                যেকোনো সময়
-            </option>
-
-        </select>
-
-
-        <label class="small">
-            শুরুর তারিখ
-        </label>
-
-        <input
-            id="medicineStart"
-            type="date"
-        >
-
-
-        <label class="small">
-            শেষ তারিখ
-        </label>
-
-        <input
-            id="medicineEnd"
-            type="date"
-        >
-
-
-        <button
-            class="primary"
-            onclick="addMedicine()"
-        >
-            ＋ Reminder যোগ করুন
-        </button>
-
-    </div>
-
-
-    <div class="card">
-
-        <h3>আমার ওষুধ</h3>
-
-        <div id="medicineList"></div>
-
-    </div>
+</div>
 
 </section>
-
 
 
 <!-- =====================================================
      HEALTH
 ===================================================== -->
 
-<section id="health">
+<section
+    id="health"
+>
 
-    <div class="hero">
+<div class="hero">
 
-        <h1>📊 Health Record</h1>
+<h1>
+📊 Health Record
+</h1>
 
-        <p>
-            স্বাস্থ্য পরিমাপগুলো লিখে রাখুন।
-        </p>
+<p>
+স্বাস্থ্য পরিমাপগুলো backend-এ সংরক্ষণ করুন।
+</p>
 
-    </div>
-
-
-    <div class="card">
-
-
-        <h3>🩺 Blood Pressure</h3>
-
-        <input
-            id="sys"
-            type="number"
-            placeholder="Systolic যেমন 120"
-        >
-
-        <input
-            id="dia"
-            type="number"
-            placeholder="Diastolic যেমন 80"
-        >
-
-        <button
-            class="primary"
-            onclick="saveBP()"
-        >
-            Save BP
-        </button>
+</div>
 
 
-        <hr>
+<div class="card">
+
+<h3>
+🩺 Blood Pressure
+</h3>
+
+<input
+    id="sys"
+    type="number"
+    placeholder="Systolic যেমন 120"
+/>
+
+<input
+    id="dia"
+    type="number"
+    placeholder="Diastolic যেমন 80"
+/>
+
+<button
+    class="primary"
+    onclick="saveBP()"
+>
+Save BP
+</button>
 
 
-        <h3>🫁 SpO₂</h3>
-
-        <input
-            id="spo"
-            type="number"
-            placeholder="যেমন 98"
-        >
-
-        <button
-            class="green"
-            onclick="saveSPO()"
-        >
-            Save SpO₂
-        </button>
+<hr>
 
 
-        <hr>
+<h3>
+🫁 SpO₂
+</h3>
+
+<input
+    id="spo"
+    type="number"
+    placeholder="যেমন 98"
+/>
+
+<button
+    class="green"
+    onclick="saveSPO()"
+>
+Save SpO₂
+</button>
 
 
-        <h3>🩸 Blood Sugar</h3>
-
-        <input
-            id="sugar"
-            type="number"
-            step="0.1"
-            placeholder="যেমন 6.2"
-        >
-
-        <button
-            class="primary"
-            onclick="saveSugar()"
-        >
-            Save Sugar
-        </button>
+<hr>
 
 
-        <hr>
+<h3>
+🩸 Blood Sugar
+</h3>
+
+<input
+    id="sugar"
+    type="number"
+    step="0.1"
+    placeholder="যেমন 6.2"
+/>
+
+<button
+    class="primary"
+    onclick="saveSugar()"
+>
+Save Sugar
+</button>
 
 
-        <h3>❤️ Pulse</h3>
-
-        <input
-            id="pulse"
-            type="number"
-            placeholder="যেমন 78"
-        >
-
-        <button
-            class="green"
-            onclick="savePulse()"
-        >
-            Save Pulse
-        </button>
+<hr>
 
 
-        <hr>
+<h3>
+❤️ Pulse
+</h3>
+
+<input
+    id="pulse"
+    type="number"
+    placeholder="যেমন 78"
+/>
+
+<button
+    class="green"
+    onclick="savePulse()"
+>
+Save Pulse
+</button>
 
 
-        <h3>⚖️ ওজন</h3>
-
-        <input
-            id="weight"
-            type="number"
-            step="0.1"
-            min="0"
-            placeholder="ওজন যেমন 65.5 kg"
-        >
-
-        <button
-            class="primary"
-            onclick="saveWeight()"
-        >
-            Save Weight
-        </button>
+<hr>
 
 
-        <hr>
+<h3>
+⚖️ ওজন
+</h3>
+
+<input
+    id="weight"
+    type="number"
+    step="0.1"
+    min="0"
+    placeholder="ওজন যেমন 65.5 kg"
+/>
+
+<button
+    class="primary"
+    onclick="saveWeight()"
+>
+Save Weight
+</button>
 
 
-        <h3>📏 উচ্চতা</h3>
-
-        <input
-            id="height"
-            type="number"
-            step="0.1"
-            min="0"
-            placeholder="উচ্চতা যেমন 165 cm"
-        >
-
-        <button
-            class="green"
-            onclick="saveHeight()"
-        >
-            Save Height
-        </button>
+<hr>
 
 
-        <hr>
+<h3>
+📏 উচ্চতা
+</h3>
+
+<input
+    id="height"
+    type="number"
+    step="0.1"
+    min="0"
+    placeholder="উচ্চতা যেমন 165 cm"
+/>
+
+<button
+    class="green"
+    onclick="saveHeight()"
+>
+Save Height
+</button>
 
 
-        <h3>🧮 BMI</h3>
-
-        <div
-            id="bmiBox"
-            class="status"
-        >
-            ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।
-        </div>
+<hr>
 
 
-    </div>
+<h3>
+🧮 BMI
+</h3>
+
+<div
+    id="bmiBox"
+    class="status"
+>
+ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।
+</div>
+
+</div>
 
 
-    <div class="card">
+<div class="card">
 
-        <h3>📜 Health History</h3>
+<h3>
+📜 Health History
+</h3>
 
-        <div id="history"></div>
+<div id="history">
+<div class="empty">
+Loading...
+</div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
 
 
 <!-- =====================================================
      REPORT
 ===================================================== -->
 
-<section id="report">
+<section
+    id="report"
+>
 
-    <div class="hero">
+<div class="hero">
 
-        <h1>📷 Smart Report Scanner</h1>
+<h1>
+📷 Smart Report Scanner
+</h1>
 
-        <p>
-            ক্যামেরায় রিপোর্টের ছবি তুলুন অথবা Gallery থেকে নির্বাচন করুন।
-        </p>
+<p>
+ক্যামেরা বা Gallery থেকে রিপোর্টের ছবি নির্বাচন করুন।
+</p>
 
-    </div>
-
-
-    <div class="card">
-
-
-        <div class="report-actions">
+</div>
 
 
-            <label
-                for="reportCamera"
-                class="camera-btn"
-            >
-                📷 Camera
-            </label>
+<div class="card">
+
+<div class="camera-box">
+
+<label
+    for="reportCamera"
+    class="camera-btn"
+>
+📷 Camera
+</label>
+
+<input
+    type="file"
+    id="reportCamera"
+    accept="image/*"
+    capture="environment"
+    style="display:none"
+>
 
 
-            <input
-                type="file"
-                id="reportCamera"
-                accept="image/*"
-                capture="environment"
-                style="display:none;"
-            >
+<label
+    for="reportGallery"
+    class="gallery-btn"
+>
+🖼️ Gallery
+</label>
+
+<input
+    type="file"
+    id="reportGallery"
+    accept="image/*"
+    style="display:none"
+>
+
+</div>
 
 
-            <label
-                for="reportGallery"
-                class="gallery-btn"
-            >
-                🖼️ Gallery
-            </label>
+<div
+    id="reportPreviewBox"
+    class="hidden"
+>
+
+<h3>
+📄 Selected Report
+</h3>
+
+<img
+    id="reportPreview"
+    alt="Report Preview"
+    style="
+        width:100%;
+        max-height:450px;
+        object-fit:contain;
+        border-radius:14px;
+        background:#08111f;
+        padding:8px;
+    "
+>
+
+</div>
 
 
-            <input
-                type="file"
-                id="reportGallery"
-                accept="image/*"
-                style="display:none;"
-            >
-
-        </div>
-
-
-        <div
-            id="reportPreview"
-            style="display:none;"
-        >
-
-            <h3>📄 Selected Report</h3>
-
-            <img
-                id="reportImage"
-                alt="Report Preview"
-            >
-
-        </div>
+<button
+    id="scanReportBtn"
+    class="primary"
+    style="width:100%"
+    disabled
+>
+🔍 Scan Report
+</button>
 
 
-        <button
-            id="scanReportBtn"
-            class="green"
-            style="width:100%;"
-            disabled
-        >
-            🔍 Scan Report
-        </button>
+<div
+    id="ocrProgressBox"
+    class="hidden"
+>
+
+<div class="progress">
+
+<div
+    id="ocrProgress"
+    class="progress-bar"
+></div>
+
+</div>
+
+<div
+    id="ocrPercent"
+    class="small"
+>
+0%
+</div>
+
+<div
+    id="ocrStatus"
+    class="status"
+>
+প্রস্তুত।
+</div>
+
+</div>
 
 
-        <div
-            id="ocrProgressBox"
-            style="display:none;"
-        >
+<div
+    id="reportResultBox"
+    class="hidden"
+>
 
-            <div class="status">
+<h3>
+📄 Extracted Text
+</h3>
 
-                <div
-                    style="
-                    display:flex;
-                    justify-content:space-between;
-                    "
-                >
-
-                    <span>
-                        রিপোর্ট পড়া হচ্ছে...
-                    </span>
-
-                    <span id="ocrPercent">
-                        0%
-                    </span>
-
-                </div>
+<textarea
+    id="reportText"
+    placeholder="OCR result..."
+></textarea>
 
 
-                <div class="progress">
+<div>
 
-                    <div
-                        id="ocrProgress"
-                        class="progress-bar"
-                    ></div>
+<button
+    id="copyReportBtn"
+    class="dark"
+>
+📋 Copy
+</button>
 
-                </div>
+<button
+    id="saveReportBtn"
+    class="green"
+>
+💾 Save Report
+</button>
 
+<button
+    id="clearReportBtn"
+    class="red"
+>
+🗑️ Clear
+</button>
 
-                <div id="ocrStatus">
-                    OCR প্রস্তুত হচ্ছে...
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
-
-
-        <div
-            id="reportResultBox"
-            style="display:none;"
-        >
-
-            <h3>📝 Extracted Report Text</h3>
-
-
-            <textarea
-                id="reportText"
-                rows="12"
-                placeholder="রিপোর্টের লেখা এখানে দেখা যাবে..."
-            ></textarea>
+</div>
 
 
-            <button
-                id="copyReportBtn"
-                class="dark"
-            >
-                📋 Copy
-            </button>
+<div class="card">
+
+<h3>
+🤖 AZAD AI Report Assistant
+</h3>
+
+<p style="line-height:1.7">
+
+OCR-এর পর রিপোর্টের লেখা AZAD AI-এর
+অনুমোদিত medical AI service-এর মাধ্যমে
+সহজ ভাষায় বোঝানোর capability ভবিষ্যতে
+এখানে যুক্ত করা যাবে।
+
+</p>
+
+<p class="small">
+
+⚠️ AI চিকিৎসকের বিকল্প নয়।
+চিকিৎসার চূড়ান্ত সিদ্ধান্ত যোগ্য চিকিৎসক নেবেন।
+
+</p>
+
+</div>
 
 
-            <button
-                id="saveReportBtn"
-                class="primary"
-            >
-                💾 Save Report
-            </button>
+<div class="card">
 
+<h3>
+📚 Saved Reports
+</h3>
 
-            <button
-                id="clearReportBtn"
-                class="red"
-            >
-                🗑️ Clear
-            </button>
+<div id="savedReports">
+<div class="empty">
+Loading...
+</div>
+</div>
 
-
-            <div
-                class="status"
-                style="margin-top:20px;"
-            >
-
-                <h3>
-                    🤖 AZAD AI Report Assistant
-                </h3>
-
-                <p>
-                    ভবিষ্যতে অনুমোদিত medical AI service-এর
-                    মাধ্যমে রিপোর্টের বিষয়গুলো সহজ ভাষায়
-                    বুঝতে সাহায্য করা যাবে।
-                </p>
-
-                <p class="small">
-                    ⚠️ এটি চিকিৎসকের বিকল্প নয়।
-                    রিপোর্টের চূড়ান্ত ব্যাখ্যা ও চিকিৎসার
-                    সিদ্ধান্ত যোগ্য চিকিৎসক নেবেন।
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
 
 
-</main>
+<!-- =====================================================
+     PROFILE
+===================================================== -->
 
+<section
+    id="profile"
+>
+
+<div class="hero">
+
+<h1>
+👤 My Profile
+</h1>
+
+<p>
+আপনার basic health profile।
+</p>
+
+</div>
+
+
+<div class="card">
+
+<input
+    id="profileName"
+    placeholder="নাম"
+/>
+
+<input
+    id="profileDOB"
+    type="date"
+/>
+
+<select id="profileGender">
+
+<option value="">
+Gender
+</option>
+
+<option>
+পুরুষ
+</option>
+
+<option>
+মহিলা
+</option>
+
+<option>
+অন্যান্য
+</option>
+
+</select>
+
+<input
+    id="profileBlood"
+    placeholder="Blood Group যেমন B+"
+/>
+
+<textarea
+    id="profileAddress"
+    placeholder="ঠিকানা"
+></textarea>
+
+<button
+    class="primary"
+    onclick="saveProfile()"
+>
+💾 Profile Save
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🔐 Security
+</h3>
+
+<div class="status">
+
+Session backend authentication ব্যবহার করছে।
+Production deployment-এ পরে HttpOnly secure cookie,
+MFA এবং আরও শক্তিশালী session protection যোগ করা হবে।
+
+</div>
+
+</div>
+
+</section>
 
 
 <!-- =====================================================
-     BOTTOM NAVIGATION
+     PRESCRIPTIONS
+===================================================== -->
+
+<section
+    id="prescription"
+>
+
+<div class="hero">
+
+<h1>
+📋 Prescriptions
+</h1>
+
+<p>
+ডাক্তারের দেওয়া prescription history।
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div id="prescriptionList">
+<div class="empty">
+Loading...
+</div>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- =====================================================
+     NAVIGATION
 ===================================================== -->
 
 <nav>
 
-    <button
-        id="navHome"
-        class="active"
-        onclick="showPage('home')"
-    >
-        🏠<br>
-        Home
-    </button>
+<button
+    data-page="home"
+    onclick="showPage('home')"
+>
+🏠 Home
+</button>
 
+<button
+    data-page="medicine"
+    onclick="showPage('medicine')"
+>
+💊 Medicine
+</button>
 
-    <button
-        id="navMedicine"
-        onclick="showPage('medicine')"
-    >
-        💊<br>
-        Medicine
-    </button>
+<button
+    data-page="health"
+    onclick="showPage('health')"
+>
+📊 Health
+</button>
 
+<button
+    data-page="report"
+    onclick="showPage('report')"
+>
+📷 Report
+</button>
 
-    <button
-        id="navHealth"
-        onclick="showPage('health')"
-    >
-        ❤️<br>
-        Health
-    </button>
+<button
+    data-page="prescription"
+    onclick="showPage('prescription')"
+>
+📋 Rx
+</button>
 
-
-    <button
-        id="navReport"
-        onclick="showPage('report')"
-    >
-        📷<br>
-        Report
-    </button>
+<button
+    data-page="profile"
+    onclick="showPage('profile')"
+>
+👤 Profile
+</button>
 
 </nav>
 
+</div>
 
 
 <script>
 
-/* =====================================================
-   MEDIVOICE DATA
-===================================================== */
+/* =========================================================
+   AZAD HEALTH FRONTEND
+========================================================= */
 
-const MEDICINE_KEY = "medivoice_medicines";
-const HEALTH_KEY = "medivoice_health";
-const REPORT_KEY = "medivoice_reports";
+const APP_CONFIG = {
 
+    name:
+        "AZAD Health",
 
+    shortName:
+        "AZAD Health",
 
-/* =====================================================
-   BASIC HELPERS
-===================================================== */
+    apiBase:
+        "/api"
 
-function getJSON(key, fallback){
-
-    try{
-
-        const value =
-            localStorage.getItem(key);
-
-        if(!value){
-            return fallback;
-        }
-
-        return JSON.parse(value);
-
-    }catch(error){
-
-        console.error(error);
-
-        return fallback;
-
-    }
-
-}
+};
 
 
-function setJSON(key, value){
+/* =========================================================
+   SESSION
+   Prototype:
+   token kept in sessionStorage.
+   Production should move to secure HttpOnly cookie.
+========================================================= */
 
-    localStorage.setItem(
-        key,
-        JSON.stringify(value)
+let authToken =
+    sessionStorage.getItem(
+        "azad_health_token"
     );
 
-}
+let currentUser =
+    null;
+
+let healthRecords =
+    [];
+
+let medicines =
+    [];
 
 
+/* =========================================================
+   API
+========================================================= */
 
-/* =====================================================
-   PAGE NAVIGATION
-===================================================== */
+async function apiFetch(
+    endpoint,
+    options = {}
+) {
 
-function showPage(page){
+    const headers = {
+        ...(options.headers || {})
+    };
 
-    const sections =
-        document.querySelectorAll("main section");
-
-    sections.forEach(section => {
-
-        section.classList.remove("active");
-
-    });
-
-
-    const target =
-        document.getElementById(page);
-
-    if(target){
-
-        target.classList.add("active");
-
+    if (
+        options.body &&
+        !headers["Content-Type"]
+    ) {
+        headers["Content-Type"] =
+            "application/json";
     }
 
+    if (authToken) {
+        headers["Authorization"] =
+            "Bearer " + authToken;
+    }
 
-    const navButtons =
-        document.querySelectorAll("nav button");
-
-    navButtons.forEach(button => {
-
-        button.classList.remove("active");
-
-    });
-
-
-    const navTarget =
-        document.getElementById(
-            "nav" +
-            page.charAt(0).toUpperCase() +
-            page.slice(1)
+    const response =
+        await fetch(
+            APP_CONFIG.apiBase +
+            endpoint,
+            {
+                ...options,
+                headers
+            }
         );
 
+    let data = {};
 
-    if(navTarget){
-
-        navTarget.classList.add("active");
-
+    try {
+        data =
+            await response.json();
+    } catch (error) {
+        data = {};
     }
 
+    if (
+        response.status === 401 &&
+        endpoint !== "/auth/login"
+    ) {
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+        clearSession();
 
+        showAuth();
 
-    if(page === "medicine"){
-
-        renderMedicines();
-
+        throw new Error(
+            "Session expired. আবার Login করুন।"
+        );
     }
 
+    if (!response.ok) {
 
-    if(page === "health"){
-
-        renderHealth();
-
+        throw new Error(
+            data.error ||
+            "Server request failed."
+        );
     }
+
+    return data;
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+function setSession(
+    token,
+    user
+) {
+
+    authToken = token;
+    currentUser = user;
+
+    sessionStorage.setItem(
+        "azad_health_token",
+        token
+    );
+
+    sessionStorage.setItem(
+        "azad_health_user",
+        JSON.stringify(user)
+    );
+}
+
+
+function clearSession() {
+
+    authToken = null;
+    currentUser = null;
+
+    sessionStorage.removeItem(
+        "azad_health_token"
+    );
+
+    sessionStorage.removeItem(
+        "azad_health_user"
+    );
+}
+
+
+function showAuth() {
+
+    document
+        .getElementById("auth")
+        .classList
+        .add("active");
+
+    document
+        .getElementById("app")
+        .classList
+        .add("hidden");
+}
+
+
+function showApp() {
+
+    document
+        .getElementById("auth")
+        .classList
+        .remove("active");
+
+    document
+        .getElementById("app")
+        .classList
+        .remove("hidden");
+}
+
+
+/* =========================================================
+   AUTH UI
+========================================================= */
+
+function showRegister() {
+
+    document
+        .getElementById("loginBox")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("registerBox")
+        .classList
+        .remove("hidden");
 
 }
 
 
+function showLogin() {
 
-/* =====================================================
-   NOTIFICATION
-===================================================== */
+    document
+        .getElementById("registerBox")
+        .classList
+        .add("hidden");
 
-async function requestNotificationPermission(){
+    document
+        .getElementById("loginBox")
+        .classList
+        .remove("hidden");
 
-    if(!("Notification" in window)){
+}
 
-        updateNotificationStatus(
-            "এই browser Notification support করে না।"
+
+function authMessage(
+    message
+) {
+
+    document
+        .getElementById("authStatus")
+        .textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   REGISTER
+========================================================= */
+
+async function registerUser() {
+
+    const name =
+        document
+            .getElementById("registerName")
+            .value
+            .trim();
+
+    const phone =
+        document
+            .getElementById("registerPhone")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("registerPassword")
+            .value;
+
+    const role =
+        document
+            .getElementById("registerRole")
+            .value;
+
+    if (!name || !phone || !password) {
+
+        authMessage(
+            "সব তথ্য পূরণ করুন।"
         );
 
         return;
-
     }
 
+    try {
 
-    try{
+        authMessage(
+            "Account তৈরি হচ্ছে..."
+        );
 
-        const permission =
-            await Notification.requestPermission();
-
-
-        if(permission === "granted"){
-
-            updateNotificationStatus(
-                "✅ Notification চালু হয়েছে।"
-            );
-
-
-            new Notification(
-                "MediVoice",
+        const data =
+            await apiFetch(
+                "/auth/register",
                 {
-                    body:
-                    "Medicine Reminder Notification চালু হয়েছে।"
+                    method:"POST",
+                    body:JSON.stringify({
+                        name,
+                        phone,
+                        password,
+                        role
+                    })
                 }
             );
 
-        }else{
+        setSession(
+            data.token,
+            data.user
+        );
 
-            updateNotificationStatus(
-                "❌ Notification permission দেওয়া হয়নি।"
+        authMessage(
+            "Registration সফল হয়েছে।"
+        );
+
+        await startApplication();
+
+    } catch (error) {
+
+        authMessage(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function login() {
+
+    const phone =
+        document
+            .getElementById("loginPhone")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+    if (!phone || !password) {
+
+        authMessage(
+            "Phone এবং Password দিন।"
+        );
+
+        return;
+    }
+
+    try {
+
+        authMessage(
+            "Login হচ্ছে..."
+        );
+
+        const data =
+            await apiFetch(
+                "/auth/login",
+                {
+                    method:"POST",
+                    body:JSON.stringify({
+                        phone,
+                        password
+                    })
+                }
             );
 
+        setSession(
+            data.token,
+            data.user
+        );
+
+        await startApplication();
+
+    } catch (error) {
+
+        authMessage(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout() {
+
+    try {
+
+        if (authToken) {
+
+            await apiFetch(
+                "/auth/logout",
+                {
+                    method:"POST"
+                }
+            );
         }
 
-    }catch(error){
+    } catch (error) {
 
-        console.error(error);
-
-        updateNotificationStatus(
-            "Notification চালু করা যায়নি।"
+        console.warn(
+            error.message
         );
 
+    } finally {
+
+        clearSession();
+
+        showAuth();
+
+        showLogin();
     }
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(
+    page
+) {
+
+    document
+        .querySelectorAll(
+            "main section"
+        )
+        .forEach(
+            section =>
+                section.classList
+                    .remove("active")
+        );
+
+    const target =
+        document.getElementById(
+            page
+        );
+
+    if (target) {
+
+        target.classList
+            .add("active");
+    }
+
+    document
+        .querySelectorAll(
+            "nav button"
+        )
+        .forEach(
+            button => {
+
+                button.classList
+                    .toggle(
+                        "active",
+                        button.dataset.page ===
+                        page
+                    );
+
+            }
+        );
 
 }
 
 
-function updateNotificationStatus(message){
+/* =========================================================
+   START APP
+========================================================= */
 
-    const box =
-        document.getElementById(
-            "notificationStatus"
+async function startApplication() {
+
+    try {
+
+        const me =
+            await apiFetch(
+                "/me"
+            );
+
+        currentUser =
+            me.user;
+
+        showApp();
+
+        updateUserInfo();
+
+        showPage("home");
+
+        await loadProfile();
+        await loadMedicines();
+        await loadHealth();
+        await loadPrescriptions();
+        await loadReports();
+
+        updateHome();
+
+        if (
+            currentUser.role ===
+            "doctor"
+        ) {
+
+            alert(
+                currentUser.status ===
+                "pending_verification"
+                    ? "Doctor account verification pending."
+                    : "Doctor account active."
+            );
+        }
+
+    } catch (error) {
+
+        clearSession();
+
+        showAuth();
+
+        authMessage(
+            error.message
         );
-
-    if(box){
-
-        box.textContent = message;
-
     }
-
 }
 
 
-function updateNotificationUI(){
+/* =========================================================
+   USER INFO
+========================================================= */
 
-    const box =
-        document.getElementById(
-            "notificationStatus"
-        );
+function updateUserInfo() {
 
-    if(!box) return;
-
-
-    if(!("Notification" in window)){
-
-        box.textContent =
-            "এই browser Notification support করে না।";
-
+    if (!currentUser) {
         return;
-
     }
 
+    const box =
+        document.getElementById(
+            "userInfo"
+        );
 
-    if(Notification.permission === "granted"){
+    box.innerHTML =
+        "<strong>" +
+        escapeHTML(
+            currentUser.name
+        ) +
+        "</strong><br>" +
 
-        box.textContent =
-            "✅ Notification permission দেওয়া আছে।";
+        "Role: " +
+        escapeHTML(
+            currentUser.role
+        ) +
+        "<br>" +
 
-    }
+        "Phone: " +
+        escapeHTML(
+            currentUser.phone
+        ) +
+        "<br>" +
 
-    else if(Notification.permission === "denied"){
-
-        box.textContent =
-            "❌ Notification blocked। Browser settings থেকে allow করতে হবে।";
-
-    }
-
-    else{
-
-        box.textContent =
-            "Notification permission এখনো নেওয়া হয়নি।";
-
-    }
-
+        "Status: " +
+        escapeHTML(
+            currentUser.status
+        );
 }
 
 
+/* =========================================================
+   PROFILE
+========================================================= */
 
-/* =====================================================
-   MEDICINE REMINDER
-===================================================== */
+async function loadProfile() {
 
-function addMedicine(){
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
+        return;
+    }
+
+    try {
+
+        const data =
+            await apiFetch(
+                "/patient/profile"
+            );
+
+        const p =
+            data.profile;
+
+        document
+            .getElementById(
+                "profileName"
+            )
+            .value =
+            p.name || "";
+
+        document
+            .getElementById(
+                "profileDOB"
+            )
+            .value =
+            p.dateOfBirth || "";
+
+        document
+            .getElementById(
+                "profileGender"
+            )
+            .value =
+            p.gender || "";
+
+        document
+            .getElementById(
+                "profileBlood"
+            )
+            .value =
+            p.bloodGroup || "";
+
+        document
+            .getElementById(
+                "profileAddress"
+            )
+            .value =
+            p.address || "";
+
+    } catch (error) {
+
+        console.warn(
+            error.message
+        );
+    }
+}
+
+
+async function saveProfile() {
+
+    try {
+
+        const data =
+            await apiFetch(
+                "/patient/profile",
+                {
+                    method:"PUT",
+                    body:JSON.stringify({
+
+                        name:
+                            document
+                                .getElementById(
+                                    "profileName"
+                                )
+                                .value
+                                .trim(),
+
+                        dateOfBirth:
+                            document
+                                .getElementById(
+                                    "profileDOB"
+                                )
+                                .value,
+
+                        gender:
+                            document
+                                .getElementById(
+                                    "profileGender"
+                                )
+                                .value,
+
+                        bloodGroup:
+                            document
+                                .getElementById(
+                                    "profileBlood"
+                                )
+                                .value
+                                .trim(),
+
+                        address:
+                            document
+                                .getElementById(
+                                    "profileAddress"
+                                )
+                                .value
+                                .trim()
+
+                    })
+                }
+            );
+
+        alert(
+            "Profile saved successfully."
+        );
+
+        currentUser.name =
+            data.profile.name;
+
+        updateUserInfo();
+
+    } catch (error) {
+
+        alert(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   MEDICINES
+========================================================= */
+
+async function loadMedicines() {
+
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
+        return;
+    }
+
+    try {
+
+        const data =
+            await apiFetch(
+                "/patient/medicines"
+            );
+
+        medicines =
+            data.medicines || [];
+
+        renderMedicines();
+
+    } catch (error) {
+
+        document
+            .getElementById(
+                "medicineList"
+            )
+            .innerHTML =
+            '<div class="empty">' +
+            escapeHTML(
+                error.message
+            ) +
+            '</div>';
+    }
+}
+
+
+async function addMedicine() {
 
     const name =
-        document.getElementById(
-            "medicineName"
-        ).value.trim();
+        document
+            .getElementById(
+                "medicineName"
+            )
+            .value
+            .trim();
 
     const dose =
-        document.getElementById(
-            "medicineDose"
-        ).value.trim();
+        document
+            .getElementById(
+                "medicineDose"
+            )
+            .value
+            .trim();
 
     const time =
-        document.getElementById(
-            "medicineTime"
-        ).value;
+        document
+            .getElementById(
+                "medicineTime"
+            )
+            .value;
 
     const foodRule =
-        document.getElementById(
-            "foodRule"
-        ).value;
+        document
+            .getElementById(
+                "foodRule"
+            )
+            .value;
 
-    const start =
-        document.getElementById(
-            "medicineStart"
-        ).value;
+    const startDate =
+        document
+            .getElementById(
+                "medicineStart"
+            )
+            .value;
 
-    const end =
-        document.getElementById(
-            "medicineEnd"
-        ).value;
+    const endDate =
+        document
+            .getElementById(
+                "medicineEnd"
+            )
+            .value;
 
+    if (!name || !time) {
 
-    if(!name){
-
-        alert("ওষুধের নাম লিখুন।");
+        alert(
+            "ওষুধের নাম ও সময় দিন।"
+        );
 
         return;
-
     }
 
+    try {
 
-    if(!time){
+        await apiFetch(
+            "/patient/medicines",
+            {
+                method:"POST",
+                body:JSON.stringify({
 
-        alert("ওষুধ খাওয়ার সময় দিন।");
+                    name,
+                    dose,
+                    time,
+                    foodRule,
+                    startDate,
+                    endDate
 
-        return;
+                })
+            }
+        );
 
+        document
+            .getElementById(
+                "medicineName"
+            )
+            .value = "";
+
+        document
+            .getElementById(
+                "medicineDose"
+            )
+            .value = "";
+
+        document
+            .getElementById(
+                "medicineTime"
+            )
+            .value = "";
+
+        await loadMedicines();
+
+        alert(
+            "Medicine reminder saved."
+        );
+
+    } catch (error) {
+
+        alert(
+            error.message
+        );
     }
-
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    medicines.push({
-
-        id:
-            Date.now(),
-
-        name:
-            name,
-
-        dose:
-            dose || "ডোজ দেওয়া হয়নি",
-
-        time:
-            time,
-
-        foodRule:
-            foodRule,
-
-        start:
-            start,
-
-        end:
-            end,
-
-        createdAt:
-            new Date().toISOString()
-
-    });
-
-
-    setJSON(
-        MEDICINE_KEY,
-        medicines
-    );
-
-
-    document.getElementById(
-        "medicineName"
-    ).value = "";
-
-    document.getElementById(
-        "medicineDose"
-    ).value = "";
-
-    document.getElementById(
-        "medicineTime"
-    ).value = "";
-
-    document.getElementById(
-        "medicineStart"
-    ).value = "";
-
-    document.getElementById(
-        "medicineEnd"
-    ).value = "";
-
-
-    renderMedicines();
-
-    updateNextReminder();
-
-
-    alert(
-        "✅ Medicine Reminder যোগ হয়েছে।"
-    );
-
 }
 
 
+function renderMedicines() {
 
-function deleteMedicine(id){
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    const updated =
-        medicines.filter(
-            medicine =>
-                medicine.id !== id
-        );
-
-
-    setJSON(
-        MEDICINE_KEY,
-        updated
-    );
-
-
-    renderMedicines();
-
-    updateNextReminder();
-
-}
-
-
-
-function markMedicineTaken(id){
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    const today =
-        new Date()
-        .toISOString()
-        .slice(0,10);
-
-
-    const medicine =
-        medicines.find(
-            item =>
-                item.id === id
-        );
-
-
-    if(!medicine) return;
-
-
-    medicine.takenDate =
-        today;
-
-
-    medicine.takenAt =
-        new Date().toISOString();
-
-
-    setJSON(
-        MEDICINE_KEY,
-        medicines
-    );
-
-
-    renderMedicines();
-
-}
-
-
-
-function renderMedicines(){
-
-    const container =
+    const box =
         document.getElementById(
             "medicineList"
         );
 
-    if(!container) return;
+    if (!medicines.length) {
 
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    if(!medicines.length){
-
-        container.innerHTML =
-            '<div class="empty">কোনো Medicine Reminder নেই।</div>';
+        box.innerHTML =
+            '<div class="empty">' +
+            'কোনো Medicine নেই।' +
+            '</div>';
 
         return;
-
     }
 
-
-    const today =
-        new Date()
-        .toISOString()
-        .slice(0,10);
-
-
-    container.innerHTML =
+    box.innerHTML =
         medicines
-        .map(medicine => {
+            .map(
+                medicine => {
 
-            const taken =
-                medicine.takenDate === today;
+                    return `
+                    <div class="medicine-item">
 
+                        <strong>
+                            💊 ${escapeHTML(medicine.name)}
+                        </strong>
 
-            return `
+                        <div class="small">
+                            Dose:
+                            ${escapeHTML(medicine.dose || "--")}
+                        </div>
 
-            <div class="medicine-item ${taken ? "taken" : ""}">
+                        <div class="small">
+                            Time:
+                            ${escapeHTML(medicine.time || "--")}
+                        </div>
 
-                <strong>
-                    💊 ${escapeHTML(medicine.name)}
-                </strong>
+                        <div class="small">
+                            ${escapeHTML(medicine.foodRule || "")}
+                        </div>
 
-                <div class="small">
+                        <div class="medicine-actions">
 
-                    ডোজ:
-                    ${escapeHTML(medicine.dose)}
+                            <button
+                                class="green"
+                                onclick="medicineAction('${medicine.id}','taken')"
+                            >
+                                ✓ Taken
+                            </button>
 
-                    <br>
+                            <button
+                                class="red"
+                                onclick="medicineAction('${medicine.id}','missed')"
+                            >
+                                ✕ Missed
+                            </button>
 
-                    সময়:
-                    ${escapeHTML(medicine.time)}
+                            <button
+                                class="dark"
+                                onclick="deleteMedicine('${medicine.id}')"
+                            >
+                                Delete
+                            </button>
 
-                    <br>
+                        </div>
 
-                    নিয়ম:
-                    ${escapeHTML(medicine.foodRule)}
+                    </div>
+                    `;
+                }
+            )
+            .join("");
 
-                    ${
-                        medicine.start
-                        ?
-                        `<br>শুরু: ${escapeHTML(medicine.start)}`
-                        :
-                        ""
-                    }
-
-                    ${
-                        medicine.end
-                        ?
-                        `<br>শেষ: ${escapeHTML(medicine.end)}`
-                        :
-                        ""
-                    }
-
-                </div>
-
-
-                <div class="medicine-actions">
-
-                    <button
-                        class="green"
-                        onclick="markMedicineTaken(${medicine.id})"
-                        ${taken ? "disabled" : ""}
-                    >
-                        ${taken ? "✅ আজ নেওয়া হয়েছে" : "✅ Taken"}
-                    </button>
-
-
-                    <button
-                        class="red"
-                        onclick="deleteMedicine(${medicine.id})"
-                    >
-                        🗑️ Delete
-                    </button>
-
-                </div>
-
-            </div>
-
-            `;
-
-        })
-        .join("");
-
+    updateNextReminder();
 }
 
 
+async function medicineAction(
+    id,
+    action
+) {
 
-function updateNextReminder(){
+    try {
+
+        await apiFetch(
+            `/patient/medicines/${encodeURIComponent(id)}/${action}`,
+            {
+                method:"POST"
+            }
+        );
+
+        alert(
+            action === "taken"
+                ? "Medicine marked as taken."
+                : "Medicine marked as missed."
+        );
+
+    } catch (error) {
+
+        alert(
+            error.message
+        );
+    }
+}
+
+
+async function deleteMedicine(
+    id
+) {
+
+    if (
+        !confirm(
+            "এই medicine reminder delete করবেন?"
+        )
+    ) {
+        return;
+    }
+
+    try {
+
+        await apiFetch(
+            `/patient/medicines/${encodeURIComponent(id)}`,
+            {
+                method:"DELETE"
+            }
+        );
+
+        await loadMedicines();
+
+    } catch (error) {
+
+        alert(
+            error.message
+        );
+    }
+}
+
+
+function updateNextReminder() {
 
     const box =
         document.getElementById(
             "nextReminder"
         );
 
-    if(!box) return;
-
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    if(!medicines.length){
+    if (!medicines.length) {
 
         box.textContent =
             "কোনো Reminder নেই";
 
         return;
-
     }
 
+    const sorted =
+        [...medicines]
+            .sort(
+                (a,b) =>
+                    String(a.time)
+                        .localeCompare(
+                            String(b.time)
+                        )
+            );
 
-    const now =
-        new Date();
+    const next =
+        sorted[0];
 
+    box.innerHTML =
+        "💊 <strong>" +
+        escapeHTML(
+            next.name
+        ) +
+        "</strong><br>" +
 
-    const currentMinutes =
-        now.getHours() * 60 +
-        now.getMinutes();
+        "সময়: " +
+        escapeHTML(
+            next.time || "--"
+        ) +
 
+        "<br>" +
 
-    let upcoming = null;
-
-
-    medicines.forEach(medicine => {
-
-        if(!medicine.time) return;
-
-
-        const parts =
-            medicine.time.split(":");
-
-
-        const minutes =
-            Number(parts[0]) * 60 +
-            Number(parts[1]);
-
-
-        if(
-            minutes >= currentMinutes
-        ){
-
-            if(
-                !upcoming ||
-                minutes <
-                upcoming.minutes
-            ){
-
-                upcoming = {
-                    medicine,
-                    minutes
-                };
-
-            }
-
-        }
-
-    });
-
-
-    if(!upcoming){
-
-        box.innerHTML =
-            "আজকের Reminder শেষ।";
-
-        return;
-
-    }
-
-
-    box.innerHTML = `
-
-        💊 <strong>
-            ${escapeHTML(upcoming.medicine.name)}
-        </strong>
-
-        <br>
-
-        ⏰ ${escapeHTML(upcoming.medicine.time)}
-
-        <br>
-
-        <span class="small">
-            ${escapeHTML(upcoming.medicine.dose)}
-        </span>
-
-    `;
-
+        escapeHTML(
+            next.dose || ""
+        );
 }
 
 
+/* =========================================================
+   HEALTH
+========================================================= */
 
-/* =====================================================
-   HEALTH RECORD
-===================================================== */
+async function loadHealth() {
 
-function saveHealthRecord(type,value){
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
+        return;
+    }
 
-    const history =
-        getJSON(
-            HEALTH_KEY,
-            []
+    try {
+
+        const data =
+            await apiFetch(
+                "/patient/health"
+            );
+
+        healthRecords =
+            data.records || [];
+
+        renderHealth();
+
+    } catch (error) {
+
+        document
+            .getElementById(
+                "history"
+            )
+            .innerHTML =
+            '<div class="empty">' +
+            escapeHTML(
+                error.message
+            ) +
+            '</div>';
+    }
+}
+
+
+async function saveHealthRecord(
+    type,
+    value,
+    unit
+) {
+
+    if (!value) {
+
+        alert(
+            "Value দিন।"
         );
 
+        return;
+    }
 
-    history.push({
+    try {
 
-        id:
-            Date.now(),
+        await apiFetch(
+            "/patient/health",
+            {
+                method:"POST",
+                body:JSON.stringify({
 
-        type:
-            type,
+                    type,
+                    value:String(value),
+                    unit
 
-        value:
-            value,
+                })
+            }
+        );
 
-        createdAt:
-            new Date().toISOString()
+        await loadHealth();
 
-    });
+        updateHome();
 
+    } catch (error) {
 
-    setJSON(
-        HEALTH_KEY,
-        history
-    );
-
-
-    renderHealth();
-
-    updateHome();
-
-
-    alert(
-        "✅ Health record সংরক্ষণ হয়েছে।"
-    );
-
+        alert(
+            error.message
+        );
+    }
 }
 
 
-
-function saveBP(){
+function saveBP() {
 
     const sys =
-        Number(
-            document.getElementById(
+        document
+            .getElementById(
                 "sys"
-            ).value
-        );
+            )
+            .value;
 
     const dia =
-        Number(
-            document.getElementById(
+        document
+            .getElementById(
                 "dia"
-            ).value
-        );
+            )
+            .value;
 
-
-    if(
-        !sys ||
-        !dia ||
-        sys <= 0 ||
-        dia <= 0
-    ){
+    if (!sys || !dia) {
 
         alert(
-            "Systolic এবং Diastolic সঠিকভাবে দিন।"
+            "Systolic এবং Diastolic দিন।"
         );
 
         return;
-
     }
 
-
     saveHealthRecord(
-        "BP",
-        `${sys} / ${dia}`
+        "blood_pressure",
+        `${sys}/${dia}`,
+        "mmHg"
     );
-
-
-    document.getElementById(
-        "sys"
-    ).value = "";
-
-    document.getElementById(
-        "dia"
-    ).value = "";
-
 }
 
 
+function saveSPO() {
 
-function saveSPO(){
-
-    const value =
-        Number(
-            document.getElementById(
+    saveHealthRecord(
+        "spo2",
+        document
+            .getElementById(
                 "spo"
-            ).value
-        );
-
-
-    if(
-        !value ||
-        value <= 0 ||
-        value > 100
-    ){
-
-        alert(
-            "SpO₂ 1 থেকে 100-এর মধ্যে দিন।"
-        );
-
-        return;
-
-    }
-
-
-    saveHealthRecord(
-        "SpO₂",
-        `${value}%`
+            )
+            .value,
+        "%"
     );
-
-
-    document.getElementById(
-        "spo"
-    ).value = "";
-
 }
 
 
+function saveSugar() {
 
-function saveSugar(){
-
-    const value =
-        Number(
-            document.getElementById(
+    saveHealthRecord(
+        "blood_sugar",
+        document
+            .getElementById(
                 "sugar"
-            ).value
-        );
-
-
-    if(
-        !value ||
-        value <= 0
-    ){
-
-        alert(
-            "Blood Sugar-এর সঠিক মান দিন।"
-        );
-
-        return;
-
-    }
-
-
-    saveHealthRecord(
-        "Blood Sugar",
-        value
+            )
+            .value,
+        "mmol/L"
     );
-
-
-    document.getElementById(
-        "sugar"
-    ).value = "";
-
 }
 
 
+function savePulse() {
 
-function savePulse(){
-
-    const value =
-        Number(
-            document.getElementById(
+    saveHealthRecord(
+        "pulse",
+        document
+            .getElementById(
                 "pulse"
-            ).value
-        );
-
-
-    if(
-        !value ||
-        value <= 0
-    ){
-
-        alert(
-            "Pulse-এর সঠিক মান দিন।"
-        );
-
-        return;
-
-    }
-
-
-    saveHealthRecord(
-        "Pulse",
-        `${value} BPM`
+            )
+            .value,
+        "BPM"
     );
-
-
-    document.getElementById(
-        "pulse"
-    ).value = "";
-
 }
 
 
+function saveWeight() {
 
-function saveWeight(){
-
-    const value =
-        Number(
-            document.getElementById(
+    saveHealthRecord(
+        "weight",
+        document
+            .getElementById(
                 "weight"
-            ).value
-        );
-
-
-    if(
-        !value ||
-        value <= 0
-    ){
-
-        alert(
-            "Weight-এর সঠিক মান দিন।"
-        );
-
-        return;
-
-    }
-
-
-    saveHealthRecord(
-        "Weight",
-        `${value} kg`
+            )
+            .value,
+        "kg"
     );
-
-
-    document.getElementById(
-        "weight"
-    ).value = "";
-
 }
 
 
+function saveHeight() {
 
-function saveHeight(){
-
-    const value =
-        Number(
-            document.getElementById(
+    saveHealthRecord(
+        "height",
+        document
+            .getElementById(
                 "height"
-            ).value
-        );
-
-
-    if(
-        !value ||
-        value <= 0
-    ){
-
-        alert(
-            "Height-এর সঠিক মান দিন।"
-        );
-
-        return;
-
-    }
-
-
-    saveHealthRecord(
-        "Height",
-        `${value} cm`
+            )
+            .value,
+        "cm"
     );
-
-
-    document.getElementById(
-        "height"
-    ).value = "";
-
 }
 
 
+function renderHealth() {
 
-function renderHealth(){
-
-    const historyBox =
+    const box =
         document.getElementById(
             "history"
         );
 
+    if (!healthRecords.length) {
 
-    if(!historyBox) return;
+        box.innerHTML =
+            '<div class="empty">' +
+            'এখনো কোনো Health Record নেই।' +
+            '</div>';
 
+        updateBMI();
 
-    const history =
-        getJSON(
-            HEALTH_KEY,
-            []
-        );
+        return;
+    }
 
+    box.innerHTML =
+        healthRecords
+            .map(
+                record => {
 
-    if(!history.length){
+                    return `
+                    <div class="record">
 
-        historyBox.innerHTML =
-            '<div class="empty">এখনো কোনো Health Record নেই।</div>';
+                        <strong>
+                            ${escapeHTML(record.type)}
+                        </strong>
 
-    }else{
+                        <br>
 
-        const latest =
-            [...history]
-            .reverse()
-            .slice(0,20);
+                        Value:
+                        ${escapeHTML(record.value)}
 
+                        ${record.unit
+                            ? " " +
+                              escapeHTML(record.unit)
+                            : ""}
 
-        historyBox.innerHTML =
-            latest
-            .map(item => {
+                        <div class="small">
+                            ${formatDate(record.createdAt)}
+                        </div>
 
-                const date =
-                    new Date(
-                        item.createdAt
-                    );
-
-
-                return `
-
-                <div class="record">
-
-                    <strong>
-                        ${escapeHTML(item.type)}
-                    </strong>
-
-                    :
-                    ${escapeHTML(String(item.value))}
-
-                    <br>
-
-                    <span class="small">
-                        ${date.toLocaleString("bn-BD")}
-                    </span>
-
-                </div>
-
-                `;
-
-            })
+                    </div>
+                    `;
+                }
+            )
             .join("");
 
-    }
-
-
-    calculateBMI();
-
+    updateBMI();
 }
 
 
+function latestHealth(
+    type
+) {
 
-function getLatestHealth(type){
-
-    const history =
-        getJSON(
-            HEALTH_KEY,
-            []
-        );
-
-
-    for(
-        let i =
-        history.length - 1;
-        i >= 0;
-        i--
-    ){
-
-        if(
-            history[i].type === type
-        ){
-
-            return history[i].value;
-
-        }
-
-    }
-
-
-    return null;
-
+    return healthRecords.find(
+        r =>
+            r.type === type
+    );
 }
 
 
+function updateBMI() {
 
-function calculateBMI(){
-
-    const weightRaw =
-        getLatestHealth(
-            "Weight"
+    const weight =
+        latestHealth(
+            "weight"
         );
 
-    const heightRaw =
-        getLatestHealth(
-            "Height"
+    const height =
+        latestHealth(
+            "height"
         );
 
-
-    const bmiBox =
+    const box =
         document.getElementById(
             "bmiBox"
         );
 
+    if (
+        !weight ||
+        !height
+    ) {
 
-    if(!bmiBox) return;
-
-
-    if(
-        !weightRaw ||
-        !heightRaw
-    ){
-
-        bmiBox.className =
-            "status";
-
-        bmiBox.textContent =
+        box.textContent =
             "ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।";
 
         return;
-
     }
 
-
-    const weight =
-        parseFloat(
-            String(weightRaw)
-            .replace(/[^\d.]/g,"")
+    const w =
+        Number(
+            weight.value
         );
 
-
-    const heightCm =
-        parseFloat(
-            String(heightRaw)
-            .replace(/[^\d.]/g,"")
+    const hcm =
+        Number(
+            height.value
         );
 
+    if (
+        !Number.isFinite(w) ||
+        !Number.isFinite(hcm) ||
+        hcm <= 0
+    ) {
 
-    if(
-        !weight ||
-        !heightCm
-    ){
+        box.textContent =
+            "BMI হিসাব করা যায়নি।";
 
         return;
-
     }
 
-
-    const heightM =
-        heightCm / 100;
-
+    const hm =
+        hcm / 100;
 
     const bmi =
-        weight /
-        (heightM * heightM);
+        w /
+        (hm * hm);
 
-
-    let label =
-        "BMI";
-
-
-    if(bmi < 18.5){
-
-        label =
-            "কম ওজন";
-
-    }
-    else if(bmi < 25){
-
-        label =
-            "স্বাভাবিক";
-
-    }
-    else if(bmi < 30){
-
-        label =
-            "অতিরিক্ত ওজন";
-
-    }
-    else{
-
-        label =
-            "স্থূলতার সীমা";
-
-    }
-
-
-    bmiBox.className =
-        bmi >= 18.5 && bmi < 25
-        ? "status bmi-good"
-        : "status bmi-warn";
-
-
-    bmiBox.innerHTML = `
-
-        <strong>
-            BMI: ${bmi.toFixed(1)}
-        </strong>
-
-        <br>
-
-        ${label}
-
-    `;
-
+    box.textContent =
+        "BMI: " +
+        bmi.toFixed(1);
 }
 
 
+/* =========================================================
+   HOME
+========================================================= */
 
-/* =====================================================
-   HOME UPDATE
-===================================================== */
-
-function updateHome(){
+function updateHome() {
 
     const bp =
-        getLatestHealth("BP");
+        latestHealth(
+            "blood_pressure"
+        );
 
     const spo =
-        getLatestHealth("SpO₂");
+        latestHealth(
+            "spo2"
+        );
 
     const sugar =
-        getLatestHealth("Blood Sugar");
+        latestHealth(
+            "blood_sugar"
+        );
 
     const pulse =
-        getLatestHealth("Pulse");
+        latestHealth(
+            "pulse"
+        );
 
     const weight =
-        getLatestHealth("Weight");
+        latestHealth(
+            "weight"
+        );
 
     const height =
-        getLatestHealth("Height");
+        latestHealth(
+            "height"
+        );
 
+    document
+        .getElementById(
+            "homeBP"
+        )
+        .textContent =
+        bp
+            ? bp.value
+            : "-- / --";
 
-    document.getElementById(
-        "homeBP"
-    ).textContent =
-        bp || "-- / --";
+    document
+        .getElementById(
+            "homeSPO"
+        )
+        .textContent =
+        spo
+            ? spo.value + "%"
+            : "--%";
 
+    document
+        .getElementById(
+            "homeSugar"
+        )
+        .textContent =
+        sugar
+            ? sugar.value
+            : "--";
 
-    document.getElementById(
-        "homeSPO"
-    ).textContent =
-        spo || "--%";
+    document
+        .getElementById(
+            "homePulse"
+        )
+        .textContent =
+        pulse
+            ? pulse.value +
+              " BPM"
+            : "-- BPM";
 
+    document
+        .getElementById(
+            "homeWeight"
+        )
+        .textContent =
+        weight
+            ? weight.value +
+              " kg"
+            : "-- kg";
 
-    document.getElementById(
-        "homeSugar"
-    ).textContent =
-        sugar || "--";
+    document
+        .getElementById(
+            "homeHeight"
+        )
+        .textContent =
+        height
+            ? height.value +
+              " cm"
+            : "-- cm";
 
+    if (
+        weight &&
+        height
+    ) {
 
-    document.getElementById(
-        "homePulse"
-    ).textContent =
-        pulse || "-- BPM";
+        const w =
+            Number(
+                weight.value
+            );
 
+        const h =
+            Number(
+                height.value
+            ) / 100;
 
-    document.getElementById(
-        "homeWeight"
-    ).textContent =
-        weight || "-- kg";
+        if (
+            w > 0 &&
+            h > 0
+        ) {
 
+            document
+                .getElementById(
+                    "homeBMI"
+                )
+                .textContent =
+                (
+                    w /
+                    (h * h)
+                ).toFixed(1);
 
-    document.getElementById(
-        "homeHeight"
-    ).textContent =
-        height || "-- cm";
+        }
+    }
 
-
-    updateBMIHome();
-
+    updateNextReminder();
 }
 
 
+/* =========================================================
+   PRESCRIPTIONS
+========================================================= */
 
-function updateBMIHome(){
+async function loadPrescriptions() {
 
-    const weightRaw =
-        getLatestHealth("Weight");
-
-    const heightRaw =
-        getLatestHealth("Height");
-
-
-    const homeBMI =
-        document.getElementById(
-            "homeBMI"
-        );
-
-
-    if(
-        !weightRaw ||
-        !heightRaw
-    ){
-
-        homeBMI.textContent =
-            "--";
-
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
         return;
-
     }
 
+    try {
 
-    const weight =
-        parseFloat(
-            String(weightRaw)
-            .replace(/[^\d.]/g,"")
-        );
+        const data =
+            await apiFetch(
+                "/patient/prescriptions"
+            );
 
+        const list =
+            document.getElementById(
+                "prescriptionList"
+            );
 
-    const height =
-        parseFloat(
-            String(heightRaw)
-            .replace(/[^\d.]/g,"")
-        );
+        const prescriptions =
+            data.prescriptions || [];
 
+        if (!prescriptions.length) {
 
-    if(
-        !weight ||
-        !height
-    ){
+            list.innerHTML =
+                '<div class="empty">' +
+                'কোনো prescription নেই।' +
+                '</div>';
 
-        homeBMI.textContent =
-            "--";
+            return;
+        }
 
-        return;
+        list.innerHTML =
+            prescriptions
+                .map(
+                    p => `
 
+                    <div class="record">
+
+                        <strong>
+                            📋 Prescription
+                        </strong>
+
+                        <br>
+
+                        Diagnosis:
+                        ${escapeHTML(
+                            p.diagnosis ||
+                            "--"
+                        )}
+
+                        <br>
+
+                        Notes:
+                        ${escapeHTML(
+                            p.notes ||
+                            "--"
+                        )}
+
+                        <br>
+
+                        <div class="small">
+                            ${formatDate(
+                                p.createdAt
+                            )}
+                        </div>
+
+                        ${
+                            Array.isArray(
+                                p.medicines
+                            )
+                            ? p.medicines
+                                .map(
+                                    m =>
+                                        `<div class="status">
+                                            💊 ${escapeHTML(m.name)}
+                                            — ${escapeHTML(m.dose || "")}
+                                            — ${escapeHTML(m.time || "")}
+                                        </div>`
+                                )
+                                .join("")
+                            : ""
+                        }
+
+                    </div>
+
+                    `
+                )
+                .join("");
+
+    } catch (error) {
+
+        document
+            .getElementById(
+                "prescriptionList"
+            )
+            .innerHTML =
+            '<div class="empty">' +
+            escapeHTML(
+                error.message
+            ) +
+            '</div>';
     }
-
-
-    const heightM =
-        height / 100;
-
-
-    const bmi =
-        weight /
-        (heightM * heightM);
-
-
-    homeBMI.textContent =
-        bmi.toFixed(1);
-
 }
 
 
+/* =========================================================
+   REPORT OCR
+========================================================= */
 
-/* =====================================================
-   REPORT SCANNER
-===================================================== */
-
-let selectedReportFile = null;
-
+let selectedReportFile =
+    null;
 
 const cameraInput =
     document.getElementById(
         "reportCamera"
     );
 
-
 const galleryInput =
     document.getElementById(
         "reportGallery"
     );
 
+const previewBox =
+    document.getElementById(
+        "reportPreviewBox"
+    );
 
-const reportPreview =
+const preview =
     document.getElementById(
         "reportPreview"
     );
 
-
-const reportImage =
-    document.getElementById(
-        "reportImage"
-    );
-
-
-const scanReportBtn =
+const scanBtn =
     document.getElementById(
         "scanReportBtn"
     );
 
-
-const ocrProgressBox =
+const progressBox =
     document.getElementById(
         "ocrProgressBox"
     );
 
-
-const ocrProgress =
+const progress =
     document.getElementById(
         "ocrProgress"
     );
 
-
-const ocrPercent =
+const percent =
     document.getElementById(
         "ocrPercent"
     );
-
 
 const ocrStatus =
     document.getElementById(
         "ocrStatus"
     );
 
-
-const reportResultBox =
+const resultBox =
     document.getElementById(
         "reportResultBox"
     );
-
 
 const reportText =
     document.getElementById(
@@ -2435,559 +3098,63 @@ const reportText =
     );
 
 
+function handleReportFile(
+    file
+) {
 
-function handleReportFile(file){
+    if (!file) {
+        return;
+    }
 
-    if(!file) return;
-
-
-    if(
-        !file.type ||
-        !file.type.startsWith("image/")
-    ){
+    if (
+        !file.type.startsWith(
+            "image/"
+        )
+    ) {
 
         alert(
             "শুধু রিপোর্টের ছবি নির্বাচন করুন।"
         );
 
         return;
-
     }
-
 
     selectedReportFile =
         file;
 
+    preview.src =
+        URL.createObjectURL(
+            file
+        );
 
-    const url =
-        URL.createObjectURL(file);
+    previewBox.classList
+        .remove("hidden");
 
-
-    reportImage.src =
-        url;
-
-
-    reportPreview.style.display =
-        "block";
-
-
-    scanReportBtn.disabled =
+    scanBtn.disabled =
         false;
 
+    resultBox.classList
+        .add("hidden");
 
-    reportResultBox.style.display =
-        "none";
-
+    progressBox.classList
+        .add("hidden");
 
     reportText.value =
         "";
 
-
-    ocrProgressBox.style.display =
-        "none";
-
-
-    ocrProgress.style.width =
-        "0%";
-
-
-    ocrPercent.textContent =
-        "0%";
-
-
-    ocrStatus.textContent =
-        "রিপোর্ট স্ক্যান করার জন্য প্রস্তুত।";
-
 }
 
 
+if (cameraInput) {
 
-cameraInput.addEventListener(
-    "change",
-    function(){
-
-        if(
-            this.files &&
-            this.files[0]
-        ){
+    cameraInput.addEventListener(
+        "change",
+        function() {
 
             handleReportFile(
+                this.files &&
                 this.files[0]
             );
-
-        }
-
-    }
-);
-
-
-
-galleryInput.addEventListener(
-    "change",
-    function(){
-
-        if(
-            this.files &&
-            this.files[0]
-        ){
-
-            handleReportFile(
-                this.files[0]
-            );
-
-        }
-
-    }
-);
-
-
-
-scanReportBtn.addEventListener(
-    "click",
-    async function(){
-
-        if(!selectedReportFile){
-
-            alert(
-                "আগে রিপোর্টের ছবি নির্বাচন করুন।"
-            );
-
-            return;
-
-        }
-
-
-        if(
-            typeof Tesseract ===
-            "undefined"
-        ){
-
-            alert(
-                "OCR engine পাওয়া যাচ্ছে না। Internet connection check করুন।"
-            );
-
-            return;
-
-        }
-
-
-        scanReportBtn.disabled =
-            true;
-
-
-        ocrProgressBox.style.display =
-            "block";
-
-
-        reportResultBox.style.display =
-            "none";
-
-
-        ocrProgress.style.width =
-            "0%";
-
-
-        ocrPercent.textContent =
-            "0%";
-
-
-        ocrStatus.textContent =
-            "OCR engine চালু হচ্ছে...";
-
-
-        try{
-
-            const result =
-                await Tesseract.recognize(
-                    selectedReportFile,
-                    "eng",
-                    {
-
-                        logger:function(info){
-
-                            if(
-                                info.status ===
-                                "recognizing text"
-                            ){
-
-                                const value =
-                                    Math.round(
-                                        (
-                                            info.progress ||
-                                            0
-                                        ) * 100
-                                    );
-
-
-                                ocrProgress.style.width =
-                                    value + "%";
-
-
-                                ocrPercent.textContent =
-                                    value + "%";
-
-
-                                ocrStatus.textContent =
-                                    "রিপোর্টের লেখা পড়া হচ্ছে...";
-
-                            }
-
-                        }
-
-                    }
-                );
-
-
-            const text =
-                (
-                    result.data.text ||
-                    ""
-                ).trim();
-
-
-            ocrProgress.style.width =
-                "100%";
-
-
-            ocrPercent.textContent =
-                "100%";
-
-
-            ocrStatus.textContent =
-                "রিপোর্ট পড়া সম্পন্ন হয়েছে।";
-
-
-            if(text){
-
-                reportText.value =
-                    text;
-
-            }else{
-
-                reportText.value =
-                    "রিপোর্ট থেকে কোনো লেখা শনাক্ত করা যায়নি। আরও পরিষ্কার ছবি দিয়ে চেষ্টা করুন।";
-
-            }
-
-
-            reportResultBox.style.display =
-                "block";
-
-
-        }catch(error){
-
-            console.error(
-                "OCR Error:",
-                error
-            );
-
-
-            ocrStatus.textContent =
-                "OCR সম্পন্ন করা যায়নি।";
-
-
-            reportText.value =
-                "রিপোর্ট স্ক্যান করতে সমস্যা হয়েছে। Internet connection এবং ছবির quality পরীক্ষা করুন।";
-
-
-            reportResultBox.style.display =
-                "block";
-
-        }
-
-
-        scanReportBtn.disabled =
-            false;
-
-    }
-);
-
-
-
-/* =====================================================
-   COPY REPORT
-===================================================== */
-
-document.getElementById(
-    "copyReportBtn"
-).addEventListener(
-    "click",
-    async function(){
-
-        const text =
-            reportText.value.trim();
-
-
-        if(!text){
-
-            alert(
-                "কপি করার মতো কোনো রিপোর্ট নেই।"
-            );
-
-            return;
-
-        }
-
-
-        try{
-
-            await navigator.clipboard.writeText(
-                text
-            );
-
-
-            alert(
-                "✅ রিপোর্টের লেখা কপি হয়েছে।"
-            );
-
-        }catch(error){
-
-            reportText.select();
-
-            document.execCommand(
-                "copy"
-            );
-
-
-            alert(
-                "✅ রিপোর্টের লেখা কপি হয়েছে।"
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =====================================================
-   SAVE REPORT
-===================================================== */
-
-document.getElementById(
-    "saveReportBtn"
-).addEventListener(
-    "click",
-    function(){
-
-        const text =
-            reportText.value.trim();
-
-
-        if(!text){
-
-            alert(
-                "Save করার মতো কোনো রিপোর্ট নেই।"
-            );
-
-            return;
-
-        }
-
-
-        const reports =
-            getJSON(
-                REPORT_KEY,
-                []
-            );
-
-
-        reports.push({
-
-            id:
-                Date.now(),
-
-            text:
-                text,
-
-            createdAt:
-                new Date().toISOString()
-
-        });
-
-
-        setJSON(
-            REPORT_KEY,
-            reports
-        );
-
-
-        alert(
-            "✅ রিপোর্ট MediVoice-এ সংরক্ষণ হয়েছে।"
-        );
-
-    }
-);
-
-
-
-/* =====================================================
-   CLEAR REPORT
-===================================================== */
-
-document.getElementById(
-    "clearReportBtn"
-).addEventListener(
-    "click",
-    function(){
-
-        selectedReportFile =
-            null;
-
-
-        reportImage.src =
-            "";
-
-
-        reportPreview.style.display =
-            "none";
-
-
-        reportText.value =
-            "";
-
-
-        reportResultBox.style.display =
-            "none";
-
-
-        ocrProgressBox.style.display =
-            "none";
-
-
-        ocrProgress.style.width =
-            "0%";
-
-
-        ocrPercent.textContent =
-            "0%";
-
-
-        scanReportBtn.disabled =
-            true;
-
-
-        cameraInput.value =
-            "";
-
-
-        galleryInput.value =
-            "";
-
-    }
-);
-
-
-
-/* =====================================================
-   DAILY MEDICINE NOTIFICATION
-===================================================== */
-
-function checkMedicineReminders(){
-
-    const medicines =
-        getJSON(
-            MEDICINE_KEY,
-            []
-        );
-
-
-    if(!medicines.length){
-
-        return;
-
-    }
-
-
-    const now =
-        new Date();
-
-
-    const today =
-        now.toISOString()
-        .slice(0,10);
-
-
-    const currentTime =
-        now.toTimeString()
-        .slice(0,5);
-
-
-    medicines.forEach(
-        medicine => {
-
-
-            if(
-                medicine.start &&
-                today <
-                medicine.start
-            ){
-
-                return;
-
-            }
-
-
-            if(
-                medicine.end &&
-                today >
-                medicine.end
-            ){
-
-                return;
-
-            }
-
-
-            if(
-                medicine.time !==
-                currentTime
-            ){
-
-                return;
-
-            }
-
-
-            const key =
-                "medivoice_notified_" +
-                today +
-                "_" +
-                medicine.id;
-
-
-            if(
-                localStorage.getItem(key)
-            ){
-
-                return;
-
-            }
-
-
-            localStorage.setItem(
-                key,
-                "1"
-            );
-
-
-            if(
-                "Notification" in window &&
-                Notification.permission ===
-                "granted"
-            ){
-
-                new Notification(
-                    "💊 MediVoice Medicine Reminder",
-                    {
-                        body:
-                        medicine.name +
-                        " — " +
-                        medicine.dose
-                    }
-                );
-
-            }
 
         }
     );
@@ -2995,61 +3162,579 @@ function checkMedicineReminders(){
 }
 
 
+if (galleryInput) {
 
-/* =====================================================
-   HTML SECURITY HELPER
-===================================================== */
+    galleryInput.addEventListener(
+        "change",
+        function() {
 
-function escapeHTML(value){
+            handleReportFile(
+                this.files &&
+                this.files[0]
+            );
 
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-function initializeMediVoice(){
-
-    updateNotificationUI();
-
-    renderMedicines();
-
-    renderHealth();
-
-    updateHome();
-
-    updateNextReminder();
-
-    checkMedicineReminders();
+        }
+    );
 
 }
 
 
-initializeMediVoice();
+scanBtn.addEventListener(
+    "click",
+    async function() {
 
+        if (!selectedReportFile) {
+
+            alert(
+                "আগে রিপোর্টের ছবি নির্বাচন করুন।"
+            );
+
+            return;
+        }
+
+        if (
+            typeof Tesseract ===
+            "undefined"
+        ) {
+
+            alert(
+                "OCR engine পাওয়া যায়নি। Internet connection check করুন।"
+            );
+
+            return;
+        }
+
+        scanBtn.disabled =
+            true;
+
+        progressBox.classList
+            .remove("hidden");
+
+        progress.style.width =
+            "0%";
+
+        percent.textContent =
+            "0%";
+
+        ocrStatus.textContent =
+            "OCR engine চালু হচ্ছে...";
+
+        try {
+
+            const result =
+                await Tesseract.recognize(
+                    selectedReportFile,
+                    "eng",
+                    {
+                        logger:
+                            info => {
+
+                                if (
+                                    info.status ===
+                                    "recognizing text"
+                                ) {
+
+                                    const p =
+                                        Math.round(
+                                            (
+                                                info.progress ||
+                                                0
+                                            ) * 100
+                                        );
+
+                                    progress.style.width =
+                                        p + "%";
+
+                                    percent.textContent =
+                                        p + "%";
+
+                                    ocrStatus.textContent =
+                                        "রিপোর্টের লেখা পড়া হচ্ছে...";
+
+                                }
+                            }
+                    }
+                );
+
+            const text =
+                (
+                    result.data.text ||
+                    ""
+                ).trim();
+
+            progress.style.width =
+                "100%";
+
+            percent.textContent =
+                "100%";
+
+            ocrStatus.textContent =
+                "রিপোর্ট পড়া সম্পন্ন হয়েছে।";
+
+            reportText.value =
+                text ||
+                "রিপোর্ট থেকে কোনো লেখা শনাক্ত করা যায়নি।";
+
+            resultBox.classList
+                .remove("hidden");
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            ocrStatus.textContent =
+                "OCR সম্পন্ন করা যায়নি।";
+
+            reportText.value =
+                "রিপোর্ট স্ক্যান করতে সমস্যা হয়েছে।";
+
+            resultBox.classList
+                .remove("hidden");
+
+        }
+
+        scanBtn.disabled =
+            false;
+    }
+);
+
+
+/* =========================================================
+   COPY REPORT
+========================================================= */
+
+document
+    .getElementById(
+        "copyReportBtn"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            const text =
+                reportText.value.trim();
+
+            if (!text) {
+
+                alert(
+                    "কপি করার মতো রিপোর্ট নেই।"
+                );
+
+                return;
+            }
+
+            try {
+
+                await navigator
+                    .clipboard
+                    .writeText(
+                        text
+                    );
+
+                alert(
+                    "Report copied."
+                );
+
+            } catch (error) {
+
+                reportText.select();
+
+                document.execCommand(
+                    "copy"
+                );
+
+                alert(
+                    "Report copied."
+                );
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   SAVE REPORT TO BACKEND
+========================================================= */
+
+document
+    .getElementById(
+        "saveReportBtn"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            const text =
+                reportText.value.trim();
+
+            if (!text) {
+
+                alert(
+                    "Save করার মতো কোনো report নেই।"
+                );
+
+                return;
+            }
+
+            try {
+
+                await apiFetch(
+                    "/patient/reports",
+                    {
+                        method:"POST",
+                        body:JSON.stringify({
+
+                            type:
+                                "medical_report",
+
+                            text
+
+                        })
+                    }
+                );
+
+                alert(
+                    "Report AZAD Health backend-এ save হয়েছে।"
+                );
+
+                await loadReports();
+
+            } catch (error) {
+
+                alert(
+                    error.message
+                );
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   CLEAR REPORT
+========================================================= */
+
+document
+    .getElementById(
+        "clearReportBtn"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            selectedReportFile =
+                null;
+
+            preview.src =
+                "";
+
+            previewBox.classList
+                .add("hidden");
+
+            progressBox.classList
+                .add("hidden");
+
+            resultBox.classList
+                .add("hidden");
+
+            scanBtn.disabled =
+                true;
+
+            reportText.value =
+                "";
+
+            cameraInput.value =
+                "";
+
+            galleryInput.value =
+                "";
+
+        }
+    );
+
+
+/* =========================================================
+   LOAD SAVED REPORTS
+========================================================= */
+
+async function loadReports() {
+
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
+        return;
+    }
+
+    try {
+
+        const data =
+            await apiFetch(
+                "/patient/reports"
+            );
+
+        const reports =
+            data.reports || [];
+
+        const box =
+            document.getElementById(
+                "savedReports"
+            );
+
+        if (!reports.length) {
+
+            box.innerHTML =
+                '<div class="empty">' +
+                'কোনো saved report নেই।' +
+                '</div>';
+
+            return;
+        }
+
+        box.innerHTML =
+            reports
+                .map(
+                    report => `
+
+                    <div class="record">
+
+                        <strong>
+                            📄 Medical Report
+                        </strong>
+
+                        <div class="small">
+                            ${formatDate(
+                                report.createdAt
+                            )}
+                        </div>
+
+                        <div class="ocr-text">
+                            ${escapeHTML(
+                                report.text
+                            )}
+                        </div>
+
+                    </div>
+
+                    `
+                )
+                .join("");
+
+    } catch (error) {
+
+        console.warn(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   NOTIFICATION
+========================================================= */
+
+async function requestNotificationPermission() {
+
+    if (
+        !("Notification" in window)
+    ) {
+
+        document
+            .getElementById(
+                "notificationStatus"
+            )
+            .textContent =
+            "এই browser Notification support করে না।";
+
+        return;
+    }
+
+    const permission =
+        await Notification.requestPermission();
+
+    document
+        .getElementById(
+            "notificationStatus"
+        )
+        .textContent =
+        "Notification permission: " +
+        permission;
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHTML(
+    value
+) {
+
+    return String(
+        value ?? ""
+    )
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+function formatDate(
+    value
+) {
+
+    if (!value) {
+        return "--";
+    }
+
+    try {
+
+        return new Date(
+            value
+        ).toLocaleString(
+            "bn-BD"
+        );
+
+    } catch (error) {
+
+        return value;
+    }
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+async function init() {
+
+    const savedToken =
+        sessionStorage.getItem(
+            "azad_health_token"
+        );
+
+    if (!savedToken) {
+
+        showAuth();
+
+        return;
+    }
+
+    authToken =
+        savedToken;
+
+    try {
+
+        const me =
+            await apiFetch(
+                "/me"
+            );
+
+        currentUser =
+            me.user;
+
+        await startApplication();
+
+    } catch (error) {
+
+        clearSession();
+
+        showAuth();
+    }
+}
+
+
+/* =========================================================
+   DAILY REMINDER CHECK
+========================================================= */
+
+function checkMedicineReminder() {
+
+    if (
+        !currentUser ||
+        currentUser.role !==
+        "patient"
+    ) {
+        return;
+    }
+
+    if (
+        !("Notification" in window) ||
+        Notification.permission !==
+        "granted"
+    ) {
+        return;
+    }
+
+    const nowDate =
+        new Date();
+
+    const currentTime =
+        nowDate
+            .toTimeString()
+            .slice(0,5);
+
+    medicines.forEach(
+        medicine => {
+
+            if (
+                medicine.time ===
+                currentTime
+            ) {
+
+                new Notification(
+                    "AZAD Health Medicine Reminder",
+                    {
+                        body:
+                            medicine.name +
+                            " — " +
+                            (
+                                medicine.dose ||
+                                ""
+                            )
+                    }
+                );
+
+            }
+
+        }
+    );
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+init();
 
 setInterval(
-    function(){
-
-        updateNextReminder();
-
-        checkMedicineReminders();
-
-    },
-    30000
+    checkMedicineReminder,
+    60000
 );
 
 </script>
 
-
 </body>
+
 </html>
