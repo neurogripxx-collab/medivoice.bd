@@ -702,3 +702,688 @@ class="status"
 
 
 <div class="card">
+<div class="card">
+
+    <!-- REPORT INPUT -->
+    <div class="report-actions">
+
+        <label for="reportCamera" class="btn">
+            📷 Camera
+        </label>
+
+        <input
+            type="file"
+            id="reportCamera"
+            accept="image/*"
+            capture="environment"
+            style="display:none;"
+        >
+
+        <label for="reportGallery" class="btn">
+            🖼️ Gallery
+        </label>
+
+        <input
+            type="file"
+            id="reportGallery"
+            accept="image/*"
+            style="display:none;"
+        >
+
+    </div>
+
+
+    <!-- IMAGE PREVIEW -->
+    <div id="reportPreviewBox" style="display:none; margin-top:20px;">
+
+        <h3>📄 Selected Report</h3>
+
+        <img
+            id="reportPreview"
+            alt="Report Preview"
+            style="
+                width:100%;
+                max-height:450px;
+                object-fit:contain;
+                border-radius:14px;
+                background:#08111f;
+                padding:8px;
+            "
+        >
+
+    </div>
+
+
+    <!-- OCR BUTTON -->
+    <button
+        id="scanReportBtn"
+        class="btn"
+        style="margin-top:20px; width:100%;"
+        disabled
+    >
+        🔍 Scan Report
+    </button>
+
+
+    <!-- PROGRESS -->
+    <div
+        id="ocrProgressBox"
+        style="display:none; margin-top:20px;"
+    >
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+                margin-bottom:8px;
+            "
+        >
+            <span>Reading report...</span>
+
+            <span id="ocrPercent">
+                0%
+            </span>
+        </div>
+
+        <div
+            style="
+                width:100%;
+                height:10px;
+                background:#172235;
+                border-radius:20px;
+                overflow:hidden;
+            "
+        >
+
+            <div
+                id="ocrProgress"
+                style="
+                    width:0%;
+                    height:100%;
+                    border-radius:20px;
+                    background:#d4af37;
+                    transition:width .2s;
+                "
+            ></div>
+
+        </div>
+
+        <p
+            id="ocrStatus"
+            style="margin-top:10px;"
+        >
+            প্রস্তুত হচ্ছে...
+        </p>
+
+    </div>
+
+
+    <!-- OCR RESULT -->
+    <div
+        id="reportResultBox"
+        style="display:none; margin-top:25px;"
+    >
+
+        <h3>📝 Extracted Report Text</h3>
+
+        <textarea
+            id="reportText"
+            rows="12"
+            placeholder="রিপোর্টের লেখা এখানে দেখা যাবে..."
+            style="
+                width:100%;
+                box-sizing:border-box;
+                resize:vertical;
+                padding:15px;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,.12);
+                background:#08111f;
+                color:white;
+                font-size:15px;
+                line-height:1.7;
+            "
+        ></textarea>
+
+
+        <!-- ACTION BUTTONS -->
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                flex-wrap:wrap;
+                margin-top:15px;
+            "
+        >
+
+            <button
+                id="copyReportBtn"
+                class="btn"
+            >
+                📋 Copy
+            </button>
+
+            <button
+                id="saveReportBtn"
+                class="btn"
+            >
+                💾 Save Report
+            </button>
+
+            <button
+                id="clearReportBtn"
+                class="btn"
+            >
+                🗑️ Clear
+            </button>
+
+        </div>
+
+
+        <!-- AI INFORMATION -->
+        <div
+            style="
+                margin-top:20px;
+                padding:15px;
+                border-radius:12px;
+                background:rgba(212,175,55,.08);
+                border:1px solid rgba(212,175,55,.25);
+            "
+        >
+
+            <h3>🤖 AZAD AI Report Assistant</h3>
+
+            <p style="line-height:1.7;">
+                রিপোর্টের লেখা শনাক্ত করার পর AZAD AI ভবিষ্যতে
+                অনুমোদিত medical AI service-এর মাধ্যমে
+                রিপোর্টের বিষয়গুলো সহজ ভাষায় বুঝতে সাহায্য করতে পারবে।
+            </p>
+
+            <p
+                style="
+                    font-size:13px;
+                    opacity:.75;
+                    line-height:1.6;
+                "
+            >
+                ⚠️ এটি চিকিৎসকের বিকল্প নয়। রিপোর্টের চূড়ান্ত
+                ব্যাখ্যা ও চিকিৎসার সিদ্ধান্ত যোগ্য চিকিৎসক নেবেন।
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     REPORT SCANNER SCRIPT
+========================= -->
+
+<script>
+
+(function () {
+
+    let selectedReportFile = null;
+
+    const cameraInput =
+        document.getElementById("reportCamera");
+
+    const galleryInput =
+        document.getElementById("reportGallery");
+
+    const previewBox =
+        document.getElementById("reportPreviewBox");
+
+    const preview =
+        document.getElementById("reportPreview");
+
+    const scanBtn =
+        document.getElementById("scanReportBtn");
+
+    const progressBox =
+        document.getElementById("ocrProgressBox");
+
+    const progress =
+        document.getElementById("ocrProgress");
+
+    const percent =
+        document.getElementById("ocrPercent");
+
+    const status =
+        document.getElementById("ocrStatus");
+
+    const resultBox =
+        document.getElementById("reportResultBox");
+
+    const reportText =
+        document.getElementById("reportText");
+
+    const copyBtn =
+        document.getElementById("copyReportBtn");
+
+    const saveBtn =
+        document.getElementById("saveReportBtn");
+
+    const clearBtn =
+        document.getElementById("clearReportBtn");
+
+
+    /* =========================
+       FILE SELECT
+    ========================= */
+
+    function handleReportFile(file) {
+
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+
+            alert("দুস্ত, শুধু রিপোর্টের ছবি নির্বাচন করো।");
+
+            return;
+        }
+
+        selectedReportFile = file;
+
+        const imageURL =
+            URL.createObjectURL(file);
+
+        preview.src = imageURL;
+
+        previewBox.style.display = "block";
+
+        scanBtn.disabled = false;
+
+        resultBox.style.display = "none";
+
+        reportText.value = "";
+
+        progressBox.style.display = "none";
+
+        progress.style.width = "0%";
+
+        percent.textContent = "0%";
+
+        status.textContent =
+            "রিপোর্ট স্ক্যান করার জন্য প্রস্তুত।";
+    }
+
+
+    if (cameraInput) {
+
+        cameraInput.addEventListener(
+            "change",
+            function () {
+
+                if (this.files && this.files[0]) {
+
+                    handleReportFile(this.files[0]);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (galleryInput) {
+
+        galleryInput.addEventListener(
+            "change",
+            function () {
+
+                if (this.files && this.files[0]) {
+
+                    handleReportFile(this.files[0]);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       OCR SCAN
+    ========================= */
+
+    if (scanBtn) {
+
+        scanBtn.addEventListener(
+            "click",
+            async function () {
+
+                if (!selectedReportFile) {
+
+                    alert(
+                        "আগে রিপোর্টের ছবি নির্বাচন করো।"
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    typeof Tesseract ===
+                    "undefined"
+                ) {
+
+                    alert(
+                        "OCR engine পাওয়া যাচ্ছে না। Internet connection check করো।"
+                    );
+
+                    return;
+                }
+
+
+                scanBtn.disabled = true;
+
+                progressBox.style.display =
+                    "block";
+
+                resultBox.style.display =
+                    "none";
+
+                progress.style.width = "0%";
+
+                percent.textContent = "0%";
+
+                status.textContent =
+                    "OCR engine চালু হচ্ছে...";
+
+
+                try {
+
+                    const result =
+                        await Tesseract.recognize(
+                            selectedReportFile,
+                            "eng",
+                            {
+
+                                logger:
+                                    function (info) {
+
+                                        if (
+                                            info.status ===
+                                            "recognizing text"
+                                        ) {
+
+                                            const p =
+                                                Math.round(
+                                                    (
+                                                        info.progress ||
+                                                        0
+                                                    ) * 100
+                                                );
+
+                                            progress.style.width =
+                                                p + "%";
+
+                                            percent.textContent =
+                                                p + "%";
+
+                                            status.textContent =
+                                                "রিপোর্টের লেখা পড়া হচ্ছে...";
+
+                                        }
+
+                                    }
+
+                            }
+                        );
+
+
+                    const text =
+                        (
+                            result.data.text ||
+                            ""
+                        ).trim();
+
+
+                    progress.style.width =
+                        "100%";
+
+                    percent.textContent =
+                        "100%";
+
+                    status.textContent =
+                        "রিপোর্ট পড়া সম্পন্ন হয়েছে।";
+
+
+                    if (!text) {
+
+                        reportText.value =
+                            "রিপোর্ট থেকে কোনো লেখা শনাক্ত করা যায়নি। পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।";
+
+                    } else {
+
+                        reportText.value =
+                            text;
+
+                    }
+
+
+                    resultBox.style.display =
+                        "block";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "OCR Error:",
+                        error
+                    );
+
+                    status.textContent =
+                        "OCR সম্পন্ন করা যায়নি।";
+
+                    reportText.value =
+                        "রিপোর্ট স্ক্যান করতে সমস্যা হয়েছে। পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।";
+
+                    resultBox.style.display =
+                        "block";
+
+                }
+
+
+                scanBtn.disabled = false;
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       COPY REPORT
+    ========================= */
+
+    if (copyBtn) {
+
+        copyBtn.addEventListener(
+            "click",
+            async function () {
+
+                const text =
+                    reportText.value.trim();
+
+                if (!text) {
+
+                    alert(
+                        "কপি করার মতো কোনো রিপোর্ট নেই।"
+                    );
+
+                    return;
+                }
+
+
+                try {
+
+                    await navigator.clipboard.writeText(
+                        text
+                    );
+
+                    alert(
+                        "রিপোর্টের লেখা কপি হয়েছে।"
+                    );
+
+                } catch (error) {
+
+                    reportText.select();
+
+                    document.execCommand(
+                        "copy"
+                    );
+
+                    alert(
+                        "রিপোর্টের লেখা কপি হয়েছে।"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       SAVE REPORT
+    ========================= */
+
+    if (saveBtn) {
+
+        saveBtn.addEventListener(
+            "click",
+            function () {
+
+                const text =
+                    reportText.value.trim();
+
+                if (!text) {
+
+                    alert(
+                        "Save করার মতো কোনো রিপোর্ট নেই।"
+                    );
+
+                    return;
+                }
+
+
+                const reportData = {
+
+                    type:
+                        "medical_report",
+
+                    createdAt:
+                        new Date().toISOString(),
+
+                    text:
+                        text
+
+                };
+
+
+                let reports = [];
+
+                try {
+
+                    reports =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "medivoice_reports"
+                            )
+                        ) || [];
+
+                } catch (e) {
+
+                    reports = [];
+
+                }
+
+
+                reports.push(
+                    reportData
+                );
+
+
+                localStorage.setItem(
+                    "medivoice_reports",
+                    JSON.stringify(
+                        reports
+                    )
+                );
+
+
+                alert(
+                    "রিপোর্ট MediVoice-এ সংরক্ষণ হয়েছে।"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       CLEAR REPORT
+    ========================= */
+
+    if (clearBtn) {
+
+        clearBtn.addEventListener(
+            "click",
+            function () {
+
+                selectedReportFile =
+                    null;
+
+                preview.src = "";
+
+                reportText.value =
+                    "";
+
+                previewBox.style.display =
+                    "none";
+
+                progressBox.style.display =
+                    "none";
+
+                resultBox.style.display =
+                    "none";
+
+                scanBtn.disabled =
+                    true;
+
+                if (cameraInput) {
+
+                    cameraInput.value =
+                        "";
+
+                }
+
+                if (galleryInput) {
+
+                    galleryInput.value =
+                        "";
+
+                }
+
+            }
+        );
+
+    }
+
+
+})();
+
+</script>
+
+
+</body>
+</html>
