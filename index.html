@@ -4,1383 +4,3049 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <meta name="theme-color" content="#07111f">
+
 <title>Medivoice | Smart Patient Care</title>
 
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-margin:0;
-background:#07111f;
-color:#fff;
-font-family:system-ui,"Noto Sans Bengali",sans-serif;
-padding-bottom:82px
+    margin:0;
+    background:#07111f;
+    color:#fff;
+    font-family:system-ui,"Noto Sans Bengali","Noto Sans",sans-serif;
+    padding-bottom:85px;
 }
 
 header{
-position:sticky;
-top:0;
-z-index:20;
-background:#0e1b32;
-padding:14px 18px;
-border-bottom:1px solid #f5d58f33
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:#0e1b32;
+    padding:14px 18px;
+    border-bottom:1px solid #f5d58f33;
 }
 
 .brand{
-display:flex;
-align-items:center;
-gap:12px
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
 .logo{
-width:46px;
-height:46px;
-border-radius:14px;
-background:#f5d58f;
-color:#07111f;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:24px;
-font-weight:900
+    width:46px;
+    height:46px;
+    border-radius:14px;
+    background:#f5d58f;
+    color:#07111f;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    font-weight:900;
 }
 
 .brand h2{
-margin:0;
-color:#f5d58f
+    margin:0;
+    color:#f5d58f;
 }
 
 .brand small{
-color:#9caac0
+    color:#9caac0;
 }
 
 .container{
-max-width:920px;
-margin:auto;
-padding:18px
+    max-width:920px;
+    margin:auto;
+    padding:18px;
 }
 
 .hero{
-padding:22px 0
+    padding:22px 0;
 }
 
 .hero h1{
-margin:0 0 8px;
-font-size:29px
+    margin:0 0 8px;
+    font-size:29px;
 }
 
 .hero p{
-margin:0;
-color:#aab7ca;
-line-height:1.6
+    margin:0;
+    color:#aab7ca;
+    line-height:1.6;
 }
 
 .card{
-background:#0e1b32;
-border:1px solid #ffffff12;
-border-radius:18px;
-padding:18px;
-margin-bottom:15px;
-box-shadow:0 8px 30px #0003
+    background:#0e1b32;
+    border:1px solid #ffffff12;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 8px 30px #0003;
 }
 
 .grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:14px
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
 }
 
 .value{
-font-size:27px;
-color:#f5d58f;
-font-weight:800
+    font-size:27px;
+    color:#f5d58f;
+    font-weight:800;
 }
 
-input,select,textarea{
-width:100%;
-padding:13px;
-margin:7px 0;
-border-radius:12px;
-border:1px solid #ffffff18;
-background:#07111f;
-color:#fff;
-outline:none;
-font-family:inherit
+input,
+select,
+textarea{
+    width:100%;
+    padding:13px;
+    margin:7px 0;
+    border-radius:12px;
+    border:1px solid #ffffff18;
+    background:#07111f;
+    color:#fff;
+    outline:none;
+    font-family:inherit;
 }
 
 button{
-border:0;
-border-radius:12px;
-padding:12px 16px;
-margin-top:8px;
-cursor:pointer;
-font-weight:700;
-font-family:inherit
+    border:0;
+    border-radius:12px;
+    padding:12px 16px;
+    margin-top:8px;
+    cursor:pointer;
+    font-weight:700;
+    font-family:inherit;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
 .primary{
-background:#f5d58f;
-color:#07111f
+    background:#f5d58f;
+    color:#07111f;
 }
 
 .green{
-background:#2ee6a6;
-color:#07111f
+    background:#2ee6a6;
+    color:#07111f;
 }
 
 .dark{
-background:#172641;
-color:#fff
+    background:#172641;
+    color:#fff;
 }
 
 .red{
-background:#ff6464;
-color:#fff
+    background:#ff6464;
+    color:#fff;
 }
 
 .record{
-background:#07111f;
-border-radius:13px;
-padding:14px;
-margin-top:10px;
-line-height:1.7
+    background:#07111f;
+    border-radius:13px;
+    padding:14px;
+    margin-top:10px;
+    line-height:1.7;
 }
 
 .reminder{
-border-left:4px solid #2ee6a6
+    border-left:4px solid #2ee6a6;
 }
 
 .status{
-background:#10233d;
-border-radius:12px;
-padding:13px;
-margin-top:10px;
-color:#b9c5d6;
-line-height:1.7
+    background:#10233d;
+    border-radius:12px;
+    padding:13px;
+    margin-top:10px;
+    color:#b9c5d6;
+    line-height:1.7;
 }
 
 .empty{
-text-align:center;
-color:#8290a5;
-padding:12px
+    text-align:center;
+    color:#8290a5;
+    padding:12px;
 }
 
 .small{
-font-size:13px;
-color:#8e9db2
+    font-size:13px;
+    color:#8e9db2;
 }
 
 section{
-display:none
+    display:none;
 }
 
 section.active{
-display:block
+    display:block;
 }
 
 nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-z-index:30;
-background:#0e1b32;
-border-top:1px solid #ffffff15;
-display:flex;
-justify-content:space-around;
-padding:8px
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:30;
+    background:#0e1b32;
+    border-top:1px solid #ffffff15;
+    display:flex;
+    justify-content:space-around;
+    padding:8px;
 }
 
 nav button{
-background:none;
-color:#aab7ca;
-margin:0;
-padding:5px 8px
+    background:none;
+    color:#aab7ca;
+    margin:0;
+    padding:5px 8px;
+}
+
+nav button.active{
+    color:#f5d58f;
 }
 
 hr{
-border:0;
-border-top:1px solid #ffffff12;
-margin:20px 0
+    border:0;
+    border-top:1px solid #ffffff12;
+    margin:20px 0;
 }
 
 .camera-box{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:15px
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-bottom:15px;
 }
 
 .camera-btn,
 .gallery-btn{
-display:block;
-text-align:center;
-padding:15px 10px;
-border-radius:14px;
-cursor:pointer;
-font-weight:700
+    display:block;
+    text-align:center;
+    padding:15px 10px;
+    border-radius:14px;
+    cursor:pointer;
+    font-weight:700;
 }
 
 .camera-btn{
-background:#f5d58f;
-color:#07111f
+    background:#f5d58f;
+    color:#07111f;
 }
 
 .gallery-btn{
-background:#172641;
-color:#fff
+    background:#172641;
+    color:#fff;
 }
 
 #reportPreview img{
-width:100%;
-max-height:450px;
-object-fit:contain;
-border-radius:15px;
-margin-top:10px;
-background:#000
+    width:100%;
+    max-height:450px;
+    object-fit:contain;
+    border-radius:15px;
+    margin-top:10px;
+    background:#000;
 }
 
 .progress{
-width:100%;
-height:10px;
-background:#07111f;
-border-radius:10px;
-overflow:hidden;
-margin-top:12px
+    width:100%;
+    height:10px;
+    background:#07111f;
+    border-radius:10px;
+    overflow:hidden;
+    margin-top:12px;
 }
 
 .progress-bar{
-width:0%;
-height:100%;
-background:#2ee6a6;
-transition:width .3s
+    width:0%;
+    height:100%;
+    background:#2ee6a6;
+    transition:width .3s;
 }
 
 .ocr-text{
-white-space:pre-wrap;
-background:#07111f;
-padding:14px;
-border-radius:13px;
-line-height:1.7;
-font-size:15px;
-min-height:120px
+    white-space:pre-wrap;
+    background:#07111f;
+    padding:14px;
+    border-radius:13px;
+    line-height:1.7;
+    font-size:15px;
+    min-height:120px;
 }
 
 .feature{
-display:flex;
-gap:12px;
-align-items:flex-start
+    display:flex;
+    gap:12px;
+    align-items:flex-start;
 }
 
 .feature-icon{
-font-size:25px
-}
-
-.bmi-good{
-border-left:4px solid #2ee6a6
-}
-
-.bmi-warn{
-border-left:4px solid #f5d58f
+    font-size:25px;
 }
 
 .medicine-item{
-border:1px solid #ffffff12;
-border-radius:14px;
-padding:14px;
-margin-top:10px;
-background:#10233d
+    border:1px solid #ffffff12;
+    border-radius:14px;
+    padding:14px;
+    margin-top:10px;
+    background:#10233d;
 }
 
 .medicine-actions{
-display:flex;
-gap:8px;
-flex-wrap:wrap
-}
-
-.medicine-actions button{
-margin-top:8px
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
 .taken{
-opacity:.7;
-border-left:4px solid #2ee6a6
+    opacity:.7;
+    border-left:4px solid #2ee6a6;
 }
 
 .missed{
-border-left:4px solid #ff6464
+    border-left:4px solid #ff6464;
+}
+
+.bmi-good{
+    border-left:4px solid #2ee6a6;
+}
+
+.bmi-warn{
+    border-left:4px solid #f5d58f;
+}
+
+.report-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 @media(max-width:650px){
-.grid{
-grid-template-columns:1fr
-}
 
-.hero h1{
-font-size:25px
-}
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:25px;
+    }
+
 }
 
 @media(max-width:500px){
-.camera-box{
-grid-template-columns:1fr
+
+    .camera-box,
+    .report-actions{
+        grid-template-columns:1fr;
+    }
+
+    nav button{
+        font-size:12px;
+    }
+
 }
-}
+
 </style>
 </head>
 
+
 <body>
 
+
 <header>
-<div class="brand">
-<div class="logo">M</div>
-<div>
-<h2>Medivoice</h2>
-<small>Smart Patient Care</small>
-</div>
-</div>
+
+    <div class="brand">
+
+        <div class="logo">M</div>
+
+        <div>
+            <h2>Medivoice</h2>
+            <small>Smart Patient Care</small>
+        </div>
+
+    </div>
+
 </header>
+
 
 <main class="container">
 
-<!-- HOME -->
+
+<!-- =====================================================
+     HOME
+===================================================== -->
 
 <section id="home" class="active">
 
-<div class="hero">
-<h1>আপনার স্বাস্থ্য, আপনার হাতেই।</h1>
-<p>ওষুধ, স্বাস্থ্য রেকর্ড ও রিপোর্ট—এক জায়গায়।</p>
-</div>
+    <div class="hero">
 
-<div class="card reminder">
-<h3>🔔 পরবর্তী Medicine Reminder</h3>
-<div id="nextReminder">কোনো Reminder নেই</div>
-</div>
+        <h1>আপনার স্বাস্থ্য, আপনার হাতেই।</h1>
 
-<div class="grid">
-
-<div class="card">
-<h3>🩺 Blood Pressure</h3>
-<div class="value" id="homeBP">-- / --</div>
-</div>
-
-<div class="card">
-<h3>🫁 SpO₂</h3>
-<div class="value" id="homeSPO">--%</div>
-</div>
-
-<div class="card">
-<h3>🩸 Blood Sugar</h3>
-<div class="value" id="homeSugar">--</div>
-</div>
-
-<div class="card">
-<h3>❤️ Pulse</h3>
-<div class="value" id="homePulse">-- BPM</div>
-</div>
-
-<div class="card">
-<h3>⚖️ ওজন</h3>
-<div class="value" id="homeWeight">-- kg</div>
-</div>
-
-<div class="card">
-<h3>📏 উচ্চতা</h3>
-<div class="value" id="homeHeight">-- cm</div>
-</div>
-
-<div class="card">
-<h3>🧮 BMI</h3>
-<div class="value" id="homeBMI">--</div>
-</div>
-
-</div>
-
-<div class="card">
-
-<h3>🔔 ফোন Notification</h3>
-
-<div id="notificationStatus" class="status">
-Notification permission এখনো নেওয়া হয়নি।
-</div>
-
-<button class="primary" onclick="requestNotificationPermission()">
-🔔 Notification চালু করুন
-</button>
-
-</div>
-
-<div class="card">
-
-<div class="feature">
-
-<div class="feature-icon">📷</div>
-
-<div>
-
-<strong>Smart Report Scanner</strong>
-
-<p class="small">
-রিপোর্টের ছবি তুলে OCR-এর মাধ্যমে লেখা শনাক্ত করার সুবিধা।
-</p>
-
-</div>
-
-</div>
-
-<button class="green" onclick="showPage('report')">
-📷 Report Scanner খুলুন
-</button>
-
-</div>
-
-</section>
-
-
-<!-- MEDICINE -->
-
-<section id="medicine">
-
-<div class="hero">
-
-<h1>💊 Medicine Reminder</h1>
-
-<p>
-ডাক্তারের দেওয়া সময়সূচি অনুযায়ী Reminder তৈরি করুন।
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>নতুন ওষুধ যোগ করুন</h3>
-
-<input
-id="medicineName"
-placeholder="ওষুধের নাম"
->
-
-<input
-id="medicineDose"
-placeholder="ডোজ যেমন: ১ ট্যাবলেট"
->
-
-<input
-id="medicineTime"
-type="time"
->
-
-<select id="foodRule">
-
-<option>খালি পেটে</option>
-
-<option>খাওয়ার আগে</option>
-
-<option>খাওয়ার পরে</option>
-
-<option>যেকোনো সময়</option>
-
-</select>
-
-<label class="small">
-শুরুর তারিখ
-</label>
-
-<input
-id="medicineStart"
-type="date"
->
-
-<label class="small">
-শেষ তারিখ
-</label>
-
-<input
-id="medicineEnd"
-type="date"
->
-
-<button
-class="primary"
-onclick="addMedicine()"
->
-＋ Reminder যোগ করুন
-</button>
-
-</div>
-
-<div class="card">
-
-<h3>আমার ওষুধ</h3>
-
-<div id="medicineList"></div>
-
-</div>
-
-</section>
-
-
-<!-- HEALTH -->
-
-<section id="health">
-
-<div class="hero">
-
-<h1>📊 Health Record</h1>
-
-<p>
-স্বাস্থ্য পরিমাপগুলো লিখে রাখুন।
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>🩺 Blood Pressure</h3>
-
-<input
-id="sys"
-type="number"
-placeholder="Systolic যেমন 120"
->
-
-<input
-id="dia"
-type="number"
-placeholder="Diastolic যেমন 80"
->
-
-<button
-class="primary"
-onclick="saveBP()"
->
-Save BP
-</button>
-
-
-<hr>
-
-
-<h3>🫁 SpO₂</h3>
-
-<input
-id="spo"
-type="number"
-placeholder="যেমন 98"
->
-
-<button
-class="green"
-onclick="saveSPO()"
->
-Save SpO₂
-</button>
-
-
-<hr>
-
-
-<h3>🩸 Blood Sugar</h3>
-
-<input
-id="sugar"
-type="number"
-step="0.1"
-placeholder="যেমন 6.2"
->
-
-<button
-class="primary"
-onclick="saveSugar()"
->
-Save Sugar
-</button>
-
-
-<hr>
-
-
-<h3>❤️ Pulse</h3>
-
-<input
-id="pulse"
-type="number"
-placeholder="যেমন 78"
->
-
-<button
-class="green"
-onclick="savePulse()"
->
-Save Pulse
-</button>
-
-
-<hr>
-
-
-<h3>⚖️ ওজন</h3>
-
-<input
-id="weight"
-type="number"
-step="0.1"
-min="0"
-placeholder="ওজন যেমন 65.5 kg"
->
-
-<button
-class="primary"
-onclick="saveWeight()"
->
-Save Weight
-</button>
-
-
-<hr>
-
-
-<h3>📏 উচ্চতা</h3>
-
-<input
-id="height"
-type="number"
-step="0.1"
-min="0"
-placeholder="উচ্চতা যেমন 165 cm"
->
-
-<button
-class="green"
-onclick="saveHeight()"
->
-Save Height
-</button>
-
-
-<hr>
-
-
-<h3>🧮 BMI</h3>
-
-<div
-id="bmiBox"
-class="status"
->
-ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।
-</div>
-
-</div>
-
-
-<div class="card">
-
-<h3>📜 Health History</h3>
-
-<div id="history"></div>
-
-</div>
-
-</section>
-
-
-<!-- REPORT -->
-
-<section id="report">
-
-<div class="hero">
-
-<h1>📷 Smart Report Scanner</h1>
-
-<p>
-ক্যামেরায় রিপোর্টের ছবি তুলুন অথবা Gallery থেকে নির্বাচন করুন।
-</p>
-
-</div>
-
-
-<div class="card">
-<div class="card">
-
-    <!-- REPORT INPUT -->
-    <div class="report-actions">
-
-        <label for="reportCamera" class="btn">
-            📷 Camera
-        </label>
-
-        <input
-            type="file"
-            id="reportCamera"
-            accept="image/*"
-            capture="environment"
-            style="display:none;"
-        >
-
-        <label for="reportGallery" class="btn">
-            🖼️ Gallery
-        </label>
-
-        <input
-            type="file"
-            id="reportGallery"
-            accept="image/*"
-            style="display:none;"
-        >
-
-    </div>
-
-
-    <!-- IMAGE PREVIEW -->
-    <div id="reportPreviewBox" style="display:none; margin-top:20px;">
-
-        <h3>📄 Selected Report</h3>
-
-        <img
-            id="reportPreview"
-            alt="Report Preview"
-            style="
-                width:100%;
-                max-height:450px;
-                object-fit:contain;
-                border-radius:14px;
-                background:#08111f;
-                padding:8px;
-            "
-        >
-
-    </div>
-
-
-    <!-- OCR BUTTON -->
-    <button
-        id="scanReportBtn"
-        class="btn"
-        style="margin-top:20px; width:100%;"
-        disabled
-    >
-        🔍 Scan Report
-    </button>
-
-
-    <!-- PROGRESS -->
-    <div
-        id="ocrProgressBox"
-        style="display:none; margin-top:20px;"
-    >
-
-        <div
-            style="
-                display:flex;
-                justify-content:space-between;
-                margin-bottom:8px;
-            "
-        >
-            <span>Reading report...</span>
-
-            <span id="ocrPercent">
-                0%
-            </span>
-        </div>
-
-        <div
-            style="
-                width:100%;
-                height:10px;
-                background:#172235;
-                border-radius:20px;
-                overflow:hidden;
-            "
-        >
-
-            <div
-                id="ocrProgress"
-                style="
-                    width:0%;
-                    height:100%;
-                    border-radius:20px;
-                    background:#d4af37;
-                    transition:width .2s;
-                "
-            ></div>
-
-        </div>
-
-        <p
-            id="ocrStatus"
-            style="margin-top:10px;"
-        >
-            প্রস্তুত হচ্ছে...
+        <p>
+            ওষুধ, স্বাস্থ্য রেকর্ড ও রিপোর্ট—এক জায়গায়।
         </p>
 
     </div>
 
 
-    <!-- OCR RESULT -->
-    <div
-        id="reportResultBox"
-        style="display:none; margin-top:25px;"
-    >
+    <div class="card reminder">
 
-        <h3>📝 Extracted Report Text</h3>
+        <h3>🔔 পরবর্তী Medicine Reminder</h3>
 
-        <textarea
-            id="reportText"
-            rows="12"
-            placeholder="রিপোর্টের লেখা এখানে দেখা যাবে..."
-            style="
-                width:100%;
-                box-sizing:border-box;
-                resize:vertical;
-                padding:15px;
-                border-radius:12px;
-                border:1px solid rgba(255,255,255,.12);
-                background:#08111f;
-                color:white;
-                font-size:15px;
-                line-height:1.7;
-            "
-        ></textarea>
+        <div id="nextReminder">
+            কোনো Reminder নেই
+        </div>
+
+    </div>
 
 
-        <!-- ACTION BUTTONS -->
+    <div class="grid">
+
+        <div class="card">
+            <h3>🩺 Blood Pressure</h3>
+            <div class="value" id="homeBP">-- / --</div>
+        </div>
+
+
+        <div class="card">
+            <h3>🫁 SpO₂</h3>
+            <div class="value" id="homeSPO">--%</div>
+        </div>
+
+
+        <div class="card">
+            <h3>🩸 Blood Sugar</h3>
+            <div class="value" id="homeSugar">--</div>
+        </div>
+
+
+        <div class="card">
+            <h3>❤️ Pulse</h3>
+            <div class="value" id="homePulse">-- BPM</div>
+        </div>
+
+
+        <div class="card">
+            <h3>⚖️ ওজন</h3>
+            <div class="value" id="homeWeight">-- kg</div>
+        </div>
+
+
+        <div class="card">
+            <h3>📏 উচ্চতা</h3>
+            <div class="value" id="homeHeight">-- cm</div>
+        </div>
+
+
+        <div class="card">
+            <h3>🧮 BMI</h3>
+            <div class="value" id="homeBMI">--</div>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>🔔 ফোন Notification</h3>
+
         <div
-            style="
-                display:flex;
-                gap:10px;
-                flex-wrap:wrap;
-                margin-top:15px;
-            "
+            id="notificationStatus"
+            class="status"
         >
+            Notification permission এখনো নেওয়া হয়নি।
+        </div>
 
-            <button
-                id="copyReportBtn"
-                class="btn"
-            >
-                📋 Copy
-            </button>
+        <button
+            class="primary"
+            onclick="requestNotificationPermission()"
+        >
+            🔔 Notification চালু করুন
+        </button>
 
-            <button
-                id="saveReportBtn"
-                class="btn"
-            >
-                💾 Save Report
-            </button>
+    </div>
 
-            <button
-                id="clearReportBtn"
-                class="btn"
-            >
-                🗑️ Clear
-            </button>
+
+    <div class="card">
+
+        <div class="feature">
+
+            <div class="feature-icon">📷</div>
+
+            <div>
+
+                <strong>Smart Report Scanner</strong>
+
+                <p class="small">
+                    রিপোর্টের ছবি তুলে OCR-এর মাধ্যমে লেখা শনাক্ত করার সুবিধা।
+                </p>
+
+            </div>
 
         </div>
 
 
-        <!-- AI INFORMATION -->
-        <div
-            style="
-                margin-top:20px;
-                padding:15px;
-                border-radius:12px;
-                background:rgba(212,175,55,.08);
-                border:1px solid rgba(212,175,55,.25);
-            "
+        <button
+            class="green"
+            onclick="showPage('report')"
+        >
+            📷 Report Scanner খুলুন
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MEDICINE
+===================================================== -->
+
+<section id="medicine">
+
+    <div class="hero">
+
+        <h1>💊 Medicine Reminder</h1>
+
+        <p>
+            ডাক্তারের দেওয়া সময়সূচি অনুযায়ী Reminder তৈরি করুন।
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>নতুন ওষুধ যোগ করুন</h3>
+
+
+        <input
+            id="medicineName"
+            placeholder="ওষুধের নাম"
         >
 
-            <h3>🤖 AZAD AI Report Assistant</h3>
 
-            <p style="line-height:1.7;">
-                রিপোর্টের লেখা শনাক্ত করার পর AZAD AI ভবিষ্যতে
-                অনুমোদিত medical AI service-এর মাধ্যমে
-                রিপোর্টের বিষয়গুলো সহজ ভাষায় বুঝতে সাহায্য করতে পারবে।
-            </p>
+        <input
+            id="medicineDose"
+            placeholder="ডোজ যেমন: ১ ট্যাবলেট"
+        >
 
-            <p
-                style="
-                    font-size:13px;
-                    opacity:.75;
-                    line-height:1.6;
-                "
+
+        <input
+            id="medicineTime"
+            type="time"
+        >
+
+
+        <select id="foodRule">
+
+            <option value="খালি পেটে">
+                খালি পেটে
+            </option>
+
+            <option value="খাওয়ার আগে">
+                খাওয়ার আগে
+            </option>
+
+            <option value="খাওয়ার পরে">
+                খাওয়ার পরে
+            </option>
+
+            <option value="যেকোনো সময়">
+                যেকোনো সময়
+            </option>
+
+        </select>
+
+
+        <label class="small">
+            শুরুর তারিখ
+        </label>
+
+        <input
+            id="medicineStart"
+            type="date"
+        >
+
+
+        <label class="small">
+            শেষ তারিখ
+        </label>
+
+        <input
+            id="medicineEnd"
+            type="date"
+        >
+
+
+        <button
+            class="primary"
+            onclick="addMedicine()"
+        >
+            ＋ Reminder যোগ করুন
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>আমার ওষুধ</h3>
+
+        <div id="medicineList"></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     HEALTH
+===================================================== -->
+
+<section id="health">
+
+    <div class="hero">
+
+        <h1>📊 Health Record</h1>
+
+        <p>
+            স্বাস্থ্য পরিমাপগুলো লিখে রাখুন।
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <h3>🩺 Blood Pressure</h3>
+
+        <input
+            id="sys"
+            type="number"
+            placeholder="Systolic যেমন 120"
+        >
+
+        <input
+            id="dia"
+            type="number"
+            placeholder="Diastolic যেমন 80"
+        >
+
+        <button
+            class="primary"
+            onclick="saveBP()"
+        >
+            Save BP
+        </button>
+
+
+        <hr>
+
+
+        <h3>🫁 SpO₂</h3>
+
+        <input
+            id="spo"
+            type="number"
+            placeholder="যেমন 98"
+        >
+
+        <button
+            class="green"
+            onclick="saveSPO()"
+        >
+            Save SpO₂
+        </button>
+
+
+        <hr>
+
+
+        <h3>🩸 Blood Sugar</h3>
+
+        <input
+            id="sugar"
+            type="number"
+            step="0.1"
+            placeholder="যেমন 6.2"
+        >
+
+        <button
+            class="primary"
+            onclick="saveSugar()"
+        >
+            Save Sugar
+        </button>
+
+
+        <hr>
+
+
+        <h3>❤️ Pulse</h3>
+
+        <input
+            id="pulse"
+            type="number"
+            placeholder="যেমন 78"
+        >
+
+        <button
+            class="green"
+            onclick="savePulse()"
+        >
+            Save Pulse
+        </button>
+
+
+        <hr>
+
+
+        <h3>⚖️ ওজন</h3>
+
+        <input
+            id="weight"
+            type="number"
+            step="0.1"
+            min="0"
+            placeholder="ওজন যেমন 65.5 kg"
+        >
+
+        <button
+            class="primary"
+            onclick="saveWeight()"
+        >
+            Save Weight
+        </button>
+
+
+        <hr>
+
+
+        <h3>📏 উচ্চতা</h3>
+
+        <input
+            id="height"
+            type="number"
+            step="0.1"
+            min="0"
+            placeholder="উচ্চতা যেমন 165 cm"
+        >
+
+        <button
+            class="green"
+            onclick="saveHeight()"
+        >
+            Save Height
+        </button>
+
+
+        <hr>
+
+
+        <h3>🧮 BMI</h3>
+
+        <div
+            id="bmiBox"
+            class="status"
+        >
+            ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।
+        </div>
+
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>📜 Health History</h3>
+
+        <div id="history"></div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     REPORT
+===================================================== -->
+
+<section id="report">
+
+    <div class="hero">
+
+        <h1>📷 Smart Report Scanner</h1>
+
+        <p>
+            ক্যামেরায় রিপোর্টের ছবি তুলুন অথবা Gallery থেকে নির্বাচন করুন।
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="report-actions">
+
+
+            <label
+                for="reportCamera"
+                class="camera-btn"
             >
-                ⚠️ এটি চিকিৎসকের বিকল্প নয়। রিপোর্টের চূড়ান্ত
-                ব্যাখ্যা ও চিকিৎসার সিদ্ধান্ত যোগ্য চিকিৎসক নেবেন।
-            </p>
+                📷 Camera
+            </label>
+
+
+            <input
+                type="file"
+                id="reportCamera"
+                accept="image/*"
+                capture="environment"
+                style="display:none;"
+            >
+
+
+            <label
+                for="reportGallery"
+                class="gallery-btn"
+            >
+                🖼️ Gallery
+            </label>
+
+
+            <input
+                type="file"
+                id="reportGallery"
+                accept="image/*"
+                style="display:none;"
+            >
+
+        </div>
+
+
+        <div
+            id="reportPreview"
+            style="display:none;"
+        >
+
+            <h3>📄 Selected Report</h3>
+
+            <img
+                id="reportImage"
+                alt="Report Preview"
+            >
+
+        </div>
+
+
+        <button
+            id="scanReportBtn"
+            class="green"
+            style="width:100%;"
+            disabled
+        >
+            🔍 Scan Report
+        </button>
+
+
+        <div
+            id="ocrProgressBox"
+            style="display:none;"
+        >
+
+            <div class="status">
+
+                <div
+                    style="
+                    display:flex;
+                    justify-content:space-between;
+                    "
+                >
+
+                    <span>
+                        রিপোর্ট পড়া হচ্ছে...
+                    </span>
+
+                    <span id="ocrPercent">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="progress">
+
+                    <div
+                        id="ocrProgress"
+                        class="progress-bar"
+                    ></div>
+
+                </div>
+
+
+                <div id="ocrStatus">
+                    OCR প্রস্তুত হচ্ছে...
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="reportResultBox"
+            style="display:none;"
+        >
+
+            <h3>📝 Extracted Report Text</h3>
+
+
+            <textarea
+                id="reportText"
+                rows="12"
+                placeholder="রিপোর্টের লেখা এখানে দেখা যাবে..."
+            ></textarea>
+
+
+            <button
+                id="copyReportBtn"
+                class="dark"
+            >
+                📋 Copy
+            </button>
+
+
+            <button
+                id="saveReportBtn"
+                class="primary"
+            >
+                💾 Save Report
+            </button>
+
+
+            <button
+                id="clearReportBtn"
+                class="red"
+            >
+                🗑️ Clear
+            </button>
+
+
+            <div
+                class="status"
+                style="margin-top:20px;"
+            >
+
+                <h3>
+                    🤖 AZAD AI Report Assistant
+                </h3>
+
+                <p>
+                    ভবিষ্যতে অনুমোদিত medical AI service-এর
+                    মাধ্যমে রিপোর্টের বিষয়গুলো সহজ ভাষায়
+                    বুঝতে সাহায্য করা যাবে।
+                </p>
+
+                <p class="small">
+                    ⚠️ এটি চিকিৎসকের বিকল্প নয়।
+                    রিপোর্টের চূড়ান্ত ব্যাখ্যা ও চিকিৎসার
+                    সিদ্ধান্ত যোগ্য চিকিৎসক নেবেন।
+                </p>
+
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
 </section>
 
 
-<!-- =========================
-     REPORT SCANNER SCRIPT
-========================= -->
+</main>
+
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+===================================================== -->
+
+<nav>
+
+    <button
+        id="navHome"
+        class="active"
+        onclick="showPage('home')"
+    >
+        🏠<br>
+        Home
+    </button>
+
+
+    <button
+        id="navMedicine"
+        onclick="showPage('medicine')"
+    >
+        💊<br>
+        Medicine
+    </button>
+
+
+    <button
+        id="navHealth"
+        onclick="showPage('health')"
+    >
+        ❤️<br>
+        Health
+    </button>
+
+
+    <button
+        id="navReport"
+        onclick="showPage('report')"
+    >
+        📷<br>
+        Report
+    </button>
+
+</nav>
+
+
 
 <script>
 
-(function () {
+/* =====================================================
+   MEDIVOICE DATA
+===================================================== */
 
-    let selectedReportFile = null;
-
-    const cameraInput =
-        document.getElementById("reportCamera");
-
-    const galleryInput =
-        document.getElementById("reportGallery");
-
-    const previewBox =
-        document.getElementById("reportPreviewBox");
-
-    const preview =
-        document.getElementById("reportPreview");
-
-    const scanBtn =
-        document.getElementById("scanReportBtn");
-
-    const progressBox =
-        document.getElementById("ocrProgressBox");
-
-    const progress =
-        document.getElementById("ocrProgress");
-
-    const percent =
-        document.getElementById("ocrPercent");
-
-    const status =
-        document.getElementById("ocrStatus");
-
-    const resultBox =
-        document.getElementById("reportResultBox");
-
-    const reportText =
-        document.getElementById("reportText");
-
-    const copyBtn =
-        document.getElementById("copyReportBtn");
-
-    const saveBtn =
-        document.getElementById("saveReportBtn");
-
-    const clearBtn =
-        document.getElementById("clearReportBtn");
+const MEDICINE_KEY = "medivoice_medicines";
+const HEALTH_KEY = "medivoice_health";
+const REPORT_KEY = "medivoice_reports";
 
 
-    /* =========================
-       FILE SELECT
-    ========================= */
 
-    function handleReportFile(file) {
+/* =====================================================
+   BASIC HELPERS
+===================================================== */
 
-        if (!file) return;
+function getJSON(key, fallback){
 
-        if (!file.type.startsWith("image/")) {
+    try{
 
-            alert("দুস্ত, শুধু রিপোর্টের ছবি নির্বাচন করো।");
+        const value =
+            localStorage.getItem(key);
 
-            return;
+        if(!value){
+            return fallback;
         }
 
-        selectedReportFile = file;
+        return JSON.parse(value);
 
-        const imageURL =
-            URL.createObjectURL(file);
+    }catch(error){
 
-        preview.src = imageURL;
+        console.error(error);
 
-        previewBox.style.display = "block";
+        return fallback;
 
-        scanBtn.disabled = false;
+    }
 
-        resultBox.style.display = "none";
+}
 
-        reportText.value = "";
 
-        progressBox.style.display = "none";
+function setJSON(key, value){
 
-        progress.style.width = "0%";
+    localStorage.setItem(
+        key,
+        JSON.stringify(value)
+    );
 
-        percent.textContent = "0%";
+}
 
-        status.textContent =
-            "রিপোর্ট স্ক্যান করার জন্য প্রস্তুত।";
+
+
+/* =====================================================
+   PAGE NAVIGATION
+===================================================== */
+
+function showPage(page){
+
+    const sections =
+        document.querySelectorAll("main section");
+
+    sections.forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+
+    const target =
+        document.getElementById(page);
+
+    if(target){
+
+        target.classList.add("active");
+
     }
 
 
-    if (cameraInput) {
+    const navButtons =
+        document.querySelectorAll("nav button");
 
-        cameraInput.addEventListener(
-            "change",
-            function () {
+    navButtons.forEach(button => {
 
-                if (this.files && this.files[0]) {
+        button.classList.remove("active");
 
-                    handleReportFile(this.files[0]);
+    });
 
+
+    const navTarget =
+        document.getElementById(
+            "nav" +
+            page.charAt(0).toUpperCase() +
+            page.slice(1)
+        );
+
+
+    if(navTarget){
+
+        navTarget.classList.add("active");
+
+    }
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+
+    if(page === "medicine"){
+
+        renderMedicines();
+
+    }
+
+
+    if(page === "health"){
+
+        renderHealth();
+
+    }
+
+}
+
+
+
+/* =====================================================
+   NOTIFICATION
+===================================================== */
+
+async function requestNotificationPermission(){
+
+    if(!("Notification" in window)){
+
+        updateNotificationStatus(
+            "এই browser Notification support করে না।"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const permission =
+            await Notification.requestPermission();
+
+
+        if(permission === "granted"){
+
+            updateNotificationStatus(
+                "✅ Notification চালু হয়েছে।"
+            );
+
+
+            new Notification(
+                "MediVoice",
+                {
+                    body:
+                    "Medicine Reminder Notification চালু হয়েছে।"
                 }
+            );
 
-            }
+        }else{
+
+            updateNotificationStatus(
+                "❌ Notification permission দেওয়া হয়নি।"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        updateNotificationStatus(
+            "Notification চালু করা যায়নি।"
         );
 
     }
 
+}
 
-    if (galleryInput) {
 
-        galleryInput.addEventListener(
-            "change",
-            function () {
+function updateNotificationStatus(message){
 
-                if (this.files && this.files[0]) {
-
-                    handleReportFile(this.files[0]);
-
-                }
-
-            }
+    const box =
+        document.getElementById(
+            "notificationStatus"
         );
+
+    if(box){
+
+        box.textContent = message;
+
+    }
+
+}
+
+
+function updateNotificationUI(){
+
+    const box =
+        document.getElementById(
+            "notificationStatus"
+        );
+
+    if(!box) return;
+
+
+    if(!("Notification" in window)){
+
+        box.textContent =
+            "এই browser Notification support করে না।";
+
+        return;
 
     }
 
 
-    /* =========================
-       OCR SCAN
-    ========================= */
+    if(Notification.permission === "granted"){
 
-    if (scanBtn) {
+        box.textContent =
+            "✅ Notification permission দেওয়া আছে।";
 
-        scanBtn.addEventListener(
-            "click",
-            async function () {
+    }
 
-                if (!selectedReportFile) {
+    else if(Notification.permission === "denied"){
 
-                    alert(
-                        "আগে রিপোর্টের ছবি নির্বাচন করো।"
-                    );
+        box.textContent =
+            "❌ Notification blocked। Browser settings থেকে allow করতে হবে।";
 
-                    return;
-                }
+    }
 
+    else{
 
-                if (
-                    typeof Tesseract ===
-                    "undefined"
-                ) {
+        box.textContent =
+            "Notification permission এখনো নেওয়া হয়নি।";
 
-                    alert(
-                        "OCR engine পাওয়া যাচ্ছে না। Internet connection check করো।"
-                    );
+    }
 
-                    return;
-                }
+}
 
 
-                scanBtn.disabled = true;
 
-                progressBox.style.display =
-                    "block";
+/* =====================================================
+   MEDICINE REMINDER
+===================================================== */
 
-                resultBox.style.display =
-                    "none";
+function addMedicine(){
 
-                progress.style.width = "0%";
+    const name =
+        document.getElementById(
+            "medicineName"
+        ).value.trim();
 
-                percent.textContent = "0%";
+    const dose =
+        document.getElementById(
+            "medicineDose"
+        ).value.trim();
 
-                status.textContent =
-                    "OCR engine চালু হচ্ছে...";
+    const time =
+        document.getElementById(
+            "medicineTime"
+        ).value;
 
+    const foodRule =
+        document.getElementById(
+            "foodRule"
+        ).value;
 
-                try {
+    const start =
+        document.getElementById(
+            "medicineStart"
+        ).value;
 
-                    const result =
-                        await Tesseract.recognize(
-                            selectedReportFile,
-                            "eng",
-                            {
-
-                                logger:
-                                    function (info) {
-
-                                        if (
-                                            info.status ===
-                                            "recognizing text"
-                                        ) {
-
-                                            const p =
-                                                Math.round(
-                                                    (
-                                                        info.progress ||
-                                                        0
-                                                    ) * 100
-                                                );
-
-                                            progress.style.width =
-                                                p + "%";
-
-                                            percent.textContent =
-                                                p + "%";
-
-                                            status.textContent =
-                                                "রিপোর্টের লেখা পড়া হচ্ছে...";
-
-                                        }
-
-                                    }
-
-                            }
-                        );
+    const end =
+        document.getElementById(
+            "medicineEnd"
+        ).value;
 
 
-                    const text =
-                        (
-                            result.data.text ||
-                            ""
-                        ).trim();
+    if(!name){
+
+        alert("ওষুধের নাম লিখুন।");
+
+        return;
+
+    }
 
 
-                    progress.style.width =
-                        "100%";
+    if(!time){
 
-                    percent.textContent =
-                        "100%";
+        alert("ওষুধ খাওয়ার সময় দিন।");
 
-                    status.textContent =
-                        "রিপোর্ট পড়া সম্পন্ন হয়েছে।";
+        return;
+
+    }
 
 
-                    if (!text) {
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
 
-                        reportText.value =
-                            "রিপোর্ট থেকে কোনো লেখা শনাক্ত করা যায়নি। পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।";
 
-                    } else {
+    medicines.push({
 
-                        reportText.value =
-                            text;
+        id:
+            Date.now(),
 
+        name:
+            name,
+
+        dose:
+            dose || "ডোজ দেওয়া হয়নি",
+
+        time:
+            time,
+
+        foodRule:
+            foodRule,
+
+        start:
+            start,
+
+        end:
+            end,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    setJSON(
+        MEDICINE_KEY,
+        medicines
+    );
+
+
+    document.getElementById(
+        "medicineName"
+    ).value = "";
+
+    document.getElementById(
+        "medicineDose"
+    ).value = "";
+
+    document.getElementById(
+        "medicineTime"
+    ).value = "";
+
+    document.getElementById(
+        "medicineStart"
+    ).value = "";
+
+    document.getElementById(
+        "medicineEnd"
+    ).value = "";
+
+
+    renderMedicines();
+
+    updateNextReminder();
+
+
+    alert(
+        "✅ Medicine Reminder যোগ হয়েছে।"
+    );
+
+}
+
+
+
+function deleteMedicine(id){
+
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
+
+
+    const updated =
+        medicines.filter(
+            medicine =>
+                medicine.id !== id
+        );
+
+
+    setJSON(
+        MEDICINE_KEY,
+        updated
+    );
+
+
+    renderMedicines();
+
+    updateNextReminder();
+
+}
+
+
+
+function markMedicineTaken(id){
+
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
+
+
+    const today =
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+
+    const medicine =
+        medicines.find(
+            item =>
+                item.id === id
+        );
+
+
+    if(!medicine) return;
+
+
+    medicine.takenDate =
+        today;
+
+
+    medicine.takenAt =
+        new Date().toISOString();
+
+
+    setJSON(
+        MEDICINE_KEY,
+        medicines
+    );
+
+
+    renderMedicines();
+
+}
+
+
+
+function renderMedicines(){
+
+    const container =
+        document.getElementById(
+            "medicineList"
+        );
+
+    if(!container) return;
+
+
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
+
+
+    if(!medicines.length){
+
+        container.innerHTML =
+            '<div class="empty">কোনো Medicine Reminder নেই।</div>';
+
+        return;
+
+    }
+
+
+    const today =
+        new Date()
+        .toISOString()
+        .slice(0,10);
+
+
+    container.innerHTML =
+        medicines
+        .map(medicine => {
+
+            const taken =
+                medicine.takenDate === today;
+
+
+            return `
+
+            <div class="medicine-item ${taken ? "taken" : ""}">
+
+                <strong>
+                    💊 ${escapeHTML(medicine.name)}
+                </strong>
+
+                <div class="small">
+
+                    ডোজ:
+                    ${escapeHTML(medicine.dose)}
+
+                    <br>
+
+                    সময়:
+                    ${escapeHTML(medicine.time)}
+
+                    <br>
+
+                    নিয়ম:
+                    ${escapeHTML(medicine.foodRule)}
+
+                    ${
+                        medicine.start
+                        ?
+                        `<br>শুরু: ${escapeHTML(medicine.start)}`
+                        :
+                        ""
                     }
 
+                    ${
+                        medicine.end
+                        ?
+                        `<br>শেষ: ${escapeHTML(medicine.end)}`
+                        :
+                        ""
+                    }
 
-                    resultBox.style.display =
-                        "block";
-
-
-                } catch (error) {
-
-                    console.error(
-                        "OCR Error:",
-                        error
-                    );
-
-                    status.textContent =
-                        "OCR সম্পন্ন করা যায়নি।";
-
-                    reportText.value =
-                        "রিপোর্ট স্ক্যান করতে সমস্যা হয়েছে। পরিষ্কার ছবি দিয়ে আবার চেষ্টা করুন।";
-
-                    resultBox.style.display =
-                        "block";
-
-                }
+                </div>
 
 
-                scanBtn.disabled = false;
+                <div class="medicine-actions">
 
-            }
+                    <button
+                        class="green"
+                        onclick="markMedicineTaken(${medicine.id})"
+                        ${taken ? "disabled" : ""}
+                    >
+                        ${taken ? "✅ আজ নেওয়া হয়েছে" : "✅ Taken"}
+                    </button>
+
+
+                    <button
+                        class="red"
+                        onclick="deleteMedicine(${medicine.id})"
+                    >
+                        🗑️ Delete
+                    </button>
+
+                </div>
+
+            </div>
+
+            `;
+
+        })
+        .join("");
+
+}
+
+
+
+function updateNextReminder(){
+
+    const box =
+        document.getElementById(
+            "nextReminder"
         );
+
+    if(!box) return;
+
+
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
+
+
+    if(!medicines.length){
+
+        box.textContent =
+            "কোনো Reminder নেই";
+
+        return;
 
     }
 
 
-    /* =========================
-       COPY REPORT
-    ========================= */
-
-    if (copyBtn) {
-
-        copyBtn.addEventListener(
-            "click",
-            async function () {
-
-                const text =
-                    reportText.value.trim();
-
-                if (!text) {
-
-                    alert(
-                        "কপি করার মতো কোনো রিপোর্ট নেই।"
-                    );
-
-                    return;
-                }
+    const now =
+        new Date();
 
 
-                try {
-
-                    await navigator.clipboard.writeText(
-                        text
-                    );
-
-                    alert(
-                        "রিপোর্টের লেখা কপি হয়েছে।"
-                    );
-
-                } catch (error) {
-
-                    reportText.select();
-
-                    document.execCommand(
-                        "copy"
-                    );
-
-                    alert(
-                        "রিপোর্টের লেখা কপি হয়েছে।"
-                    );
-
-                }
-
-            }
-        );
-
-    }
+    const currentMinutes =
+        now.getHours() * 60 +
+        now.getMinutes();
 
 
-    /* =========================
-       SAVE REPORT
-    ========================= */
-
-    if (saveBtn) {
-
-        saveBtn.addEventListener(
-            "click",
-            function () {
-
-                const text =
-                    reportText.value.trim();
-
-                if (!text) {
-
-                    alert(
-                        "Save করার মতো কোনো রিপোর্ট নেই।"
-                    );
-
-                    return;
-                }
+    let upcoming = null;
 
 
-                const reportData = {
+    medicines.forEach(medicine => {
 
-                    type:
-                        "medical_report",
+        if(!medicine.time) return;
 
-                    createdAt:
-                        new Date().toISOString(),
 
-                    text:
-                        text
+        const parts =
+            medicine.time.split(":");
 
+
+        const minutes =
+            Number(parts[0]) * 60 +
+            Number(parts[1]);
+
+
+        if(
+            minutes >= currentMinutes
+        ){
+
+            if(
+                !upcoming ||
+                minutes <
+                upcoming.minutes
+            ){
+
+                upcoming = {
+                    medicine,
+                    minutes
                 };
 
-
-                let reports = [];
-
-                try {
-
-                    reports =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "medivoice_reports"
-                            )
-                        ) || [];
-
-                } catch (e) {
-
-                    reports = [];
-
-                }
-
-
-                reports.push(
-                    reportData
-                );
-
-
-                localStorage.setItem(
-                    "medivoice_reports",
-                    JSON.stringify(
-                        reports
-                    )
-                );
-
-
-                alert(
-                    "রিপোর্ট MediVoice-এ সংরক্ষণ হয়েছে।"
-                );
-
             }
-        );
+
+        }
+
+    });
+
+
+    if(!upcoming){
+
+        box.innerHTML =
+            "আজকের Reminder শেষ।";
+
+        return;
 
     }
 
 
-    /* =========================
-       CLEAR REPORT
-    ========================= */
+    box.innerHTML = `
 
-    if (clearBtn) {
+        💊 <strong>
+            ${escapeHTML(upcoming.medicine.name)}
+        </strong>
 
-        clearBtn.addEventListener(
-            "click",
-            function () {
+        <br>
 
-                selectedReportFile =
-                    null;
+        ⏰ ${escapeHTML(upcoming.medicine.time)}
 
-                preview.src = "";
+        <br>
+
+        <span class="small">
+            ${escapeHTML(upcoming.medicine.dose)}
+        </span>
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   HEALTH RECORD
+===================================================== */
+
+function saveHealthRecord(type,value){
+
+    const history =
+        getJSON(
+            HEALTH_KEY,
+            []
+        );
+
+
+    history.push({
+
+        id:
+            Date.now(),
+
+        type:
+            type,
+
+        value:
+            value,
+
+        createdAt:
+            new Date().toISOString()
+
+    });
+
+
+    setJSON(
+        HEALTH_KEY,
+        history
+    );
+
+
+    renderHealth();
+
+    updateHome();
+
+
+    alert(
+        "✅ Health record সংরক্ষণ হয়েছে।"
+    );
+
+}
+
+
+
+function saveBP(){
+
+    const sys =
+        Number(
+            document.getElementById(
+                "sys"
+            ).value
+        );
+
+    const dia =
+        Number(
+            document.getElementById(
+                "dia"
+            ).value
+        );
+
+
+    if(
+        !sys ||
+        !dia ||
+        sys <= 0 ||
+        dia <= 0
+    ){
+
+        alert(
+            "Systolic এবং Diastolic সঠিকভাবে দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "BP",
+        `${sys} / ${dia}`
+    );
+
+
+    document.getElementById(
+        "sys"
+    ).value = "";
+
+    document.getElementById(
+        "dia"
+    ).value = "";
+
+}
+
+
+
+function saveSPO(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "spo"
+            ).value
+        );
+
+
+    if(
+        !value ||
+        value <= 0 ||
+        value > 100
+    ){
+
+        alert(
+            "SpO₂ 1 থেকে 100-এর মধ্যে দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "SpO₂",
+        `${value}%`
+    );
+
+
+    document.getElementById(
+        "spo"
+    ).value = "";
+
+}
+
+
+
+function saveSugar(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "sugar"
+            ).value
+        );
+
+
+    if(
+        !value ||
+        value <= 0
+    ){
+
+        alert(
+            "Blood Sugar-এর সঠিক মান দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "Blood Sugar",
+        value
+    );
+
+
+    document.getElementById(
+        "sugar"
+    ).value = "";
+
+}
+
+
+
+function savePulse(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "pulse"
+            ).value
+        );
+
+
+    if(
+        !value ||
+        value <= 0
+    ){
+
+        alert(
+            "Pulse-এর সঠিক মান দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "Pulse",
+        `${value} BPM`
+    );
+
+
+    document.getElementById(
+        "pulse"
+    ).value = "";
+
+}
+
+
+
+function saveWeight(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "weight"
+            ).value
+        );
+
+
+    if(
+        !value ||
+        value <= 0
+    ){
+
+        alert(
+            "Weight-এর সঠিক মান দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "Weight",
+        `${value} kg`
+    );
+
+
+    document.getElementById(
+        "weight"
+    ).value = "";
+
+}
+
+
+
+function saveHeight(){
+
+    const value =
+        Number(
+            document.getElementById(
+                "height"
+            ).value
+        );
+
+
+    if(
+        !value ||
+        value <= 0
+    ){
+
+        alert(
+            "Height-এর সঠিক মান দিন।"
+        );
+
+        return;
+
+    }
+
+
+    saveHealthRecord(
+        "Height",
+        `${value} cm`
+    );
+
+
+    document.getElementById(
+        "height"
+    ).value = "";
+
+}
+
+
+
+function renderHealth(){
+
+    const historyBox =
+        document.getElementById(
+            "history"
+        );
+
+
+    if(!historyBox) return;
+
+
+    const history =
+        getJSON(
+            HEALTH_KEY,
+            []
+        );
+
+
+    if(!history.length){
+
+        historyBox.innerHTML =
+            '<div class="empty">এখনো কোনো Health Record নেই।</div>';
+
+    }else{
+
+        const latest =
+            [...history]
+            .reverse()
+            .slice(0,20);
+
+
+        historyBox.innerHTML =
+            latest
+            .map(item => {
+
+                const date =
+                    new Date(
+                        item.createdAt
+                    );
+
+
+                return `
+
+                <div class="record">
+
+                    <strong>
+                        ${escapeHTML(item.type)}
+                    </strong>
+
+                    :
+                    ${escapeHTML(String(item.value))}
+
+                    <br>
+
+                    <span class="small">
+                        ${date.toLocaleString("bn-BD")}
+                    </span>
+
+                </div>
+
+                `;
+
+            })
+            .join("");
+
+    }
+
+
+    calculateBMI();
+
+}
+
+
+
+function getLatestHealth(type){
+
+    const history =
+        getJSON(
+            HEALTH_KEY,
+            []
+        );
+
+
+    for(
+        let i =
+        history.length - 1;
+        i >= 0;
+        i--
+    ){
+
+        if(
+            history[i].type === type
+        ){
+
+            return history[i].value;
+
+        }
+
+    }
+
+
+    return null;
+
+}
+
+
+
+function calculateBMI(){
+
+    const weightRaw =
+        getLatestHealth(
+            "Weight"
+        );
+
+    const heightRaw =
+        getLatestHealth(
+            "Height"
+        );
+
+
+    const bmiBox =
+        document.getElementById(
+            "bmiBox"
+        );
+
+
+    if(!bmiBox) return;
+
+
+    if(
+        !weightRaw ||
+        !heightRaw
+    ){
+
+        bmiBox.className =
+            "status";
+
+        bmiBox.textContent =
+            "ওজন ও উচ্চতা দিলে BMI এখানে দেখা যাবে।";
+
+        return;
+
+    }
+
+
+    const weight =
+        parseFloat(
+            String(weightRaw)
+            .replace(/[^\d.]/g,"")
+        );
+
+
+    const heightCm =
+        parseFloat(
+            String(heightRaw)
+            .replace(/[^\d.]/g,"")
+        );
+
+
+    if(
+        !weight ||
+        !heightCm
+    ){
+
+        return;
+
+    }
+
+
+    const heightM =
+        heightCm / 100;
+
+
+    const bmi =
+        weight /
+        (heightM * heightM);
+
+
+    let label =
+        "BMI";
+
+
+    if(bmi < 18.5){
+
+        label =
+            "কম ওজন";
+
+    }
+    else if(bmi < 25){
+
+        label =
+            "স্বাভাবিক";
+
+    }
+    else if(bmi < 30){
+
+        label =
+            "অতিরিক্ত ওজন";
+
+    }
+    else{
+
+        label =
+            "স্থূলতার সীমা";
+
+    }
+
+
+    bmiBox.className =
+        bmi >= 18.5 && bmi < 25
+        ? "status bmi-good"
+        : "status bmi-warn";
+
+
+    bmiBox.innerHTML = `
+
+        <strong>
+            BMI: ${bmi.toFixed(1)}
+        </strong>
+
+        <br>
+
+        ${label}
+
+    `;
+
+}
+
+
+
+/* =====================================================
+   HOME UPDATE
+===================================================== */
+
+function updateHome(){
+
+    const bp =
+        getLatestHealth("BP");
+
+    const spo =
+        getLatestHealth("SpO₂");
+
+    const sugar =
+        getLatestHealth("Blood Sugar");
+
+    const pulse =
+        getLatestHealth("Pulse");
+
+    const weight =
+        getLatestHealth("Weight");
+
+    const height =
+        getLatestHealth("Height");
+
+
+    document.getElementById(
+        "homeBP"
+    ).textContent =
+        bp || "-- / --";
+
+
+    document.getElementById(
+        "homeSPO"
+    ).textContent =
+        spo || "--%";
+
+
+    document.getElementById(
+        "homeSugar"
+    ).textContent =
+        sugar || "--";
+
+
+    document.getElementById(
+        "homePulse"
+    ).textContent =
+        pulse || "-- BPM";
+
+
+    document.getElementById(
+        "homeWeight"
+    ).textContent =
+        weight || "-- kg";
+
+
+    document.getElementById(
+        "homeHeight"
+    ).textContent =
+        height || "-- cm";
+
+
+    updateBMIHome();
+
+}
+
+
+
+function updateBMIHome(){
+
+    const weightRaw =
+        getLatestHealth("Weight");
+
+    const heightRaw =
+        getLatestHealth("Height");
+
+
+    const homeBMI =
+        document.getElementById(
+            "homeBMI"
+        );
+
+
+    if(
+        !weightRaw ||
+        !heightRaw
+    ){
+
+        homeBMI.textContent =
+            "--";
+
+        return;
+
+    }
+
+
+    const weight =
+        parseFloat(
+            String(weightRaw)
+            .replace(/[^\d.]/g,"")
+        );
+
+
+    const height =
+        parseFloat(
+            String(heightRaw)
+            .replace(/[^\d.]/g,"")
+        );
+
+
+    if(
+        !weight ||
+        !height
+    ){
+
+        homeBMI.textContent =
+            "--";
+
+        return;
+
+    }
+
+
+    const heightM =
+        height / 100;
+
+
+    const bmi =
+        weight /
+        (heightM * heightM);
+
+
+    homeBMI.textContent =
+        bmi.toFixed(1);
+
+}
+
+
+
+/* =====================================================
+   REPORT SCANNER
+===================================================== */
+
+let selectedReportFile = null;
+
+
+const cameraInput =
+    document.getElementById(
+        "reportCamera"
+    );
+
+
+const galleryInput =
+    document.getElementById(
+        "reportGallery"
+    );
+
+
+const reportPreview =
+    document.getElementById(
+        "reportPreview"
+    );
+
+
+const reportImage =
+    document.getElementById(
+        "reportImage"
+    );
+
+
+const scanReportBtn =
+    document.getElementById(
+        "scanReportBtn"
+    );
+
+
+const ocrProgressBox =
+    document.getElementById(
+        "ocrProgressBox"
+    );
+
+
+const ocrProgress =
+    document.getElementById(
+        "ocrProgress"
+    );
+
+
+const ocrPercent =
+    document.getElementById(
+        "ocrPercent"
+    );
+
+
+const ocrStatus =
+    document.getElementById(
+        "ocrStatus"
+    );
+
+
+const reportResultBox =
+    document.getElementById(
+        "reportResultBox"
+    );
+
+
+const reportText =
+    document.getElementById(
+        "reportText"
+    );
+
+
+
+function handleReportFile(file){
+
+    if(!file) return;
+
+
+    if(
+        !file.type ||
+        !file.type.startsWith("image/")
+    ){
+
+        alert(
+            "শুধু রিপোর্টের ছবি নির্বাচন করুন।"
+        );
+
+        return;
+
+    }
+
+
+    selectedReportFile =
+        file;
+
+
+    const url =
+        URL.createObjectURL(file);
+
+
+    reportImage.src =
+        url;
+
+
+    reportPreview.style.display =
+        "block";
+
+
+    scanReportBtn.disabled =
+        false;
+
+
+    reportResultBox.style.display =
+        "none";
+
+
+    reportText.value =
+        "";
+
+
+    ocrProgressBox.style.display =
+        "none";
+
+
+    ocrProgress.style.width =
+        "0%";
+
+
+    ocrPercent.textContent =
+        "0%";
+
+
+    ocrStatus.textContent =
+        "রিপোর্ট স্ক্যান করার জন্য প্রস্তুত।";
+
+}
+
+
+
+cameraInput.addEventListener(
+    "change",
+    function(){
+
+        if(
+            this.files &&
+            this.files[0]
+        ){
+
+            handleReportFile(
+                this.files[0]
+            );
+
+        }
+
+    }
+);
+
+
+
+galleryInput.addEventListener(
+    "change",
+    function(){
+
+        if(
+            this.files &&
+            this.files[0]
+        ){
+
+            handleReportFile(
+                this.files[0]
+            );
+
+        }
+
+    }
+);
+
+
+
+scanReportBtn.addEventListener(
+    "click",
+    async function(){
+
+        if(!selectedReportFile){
+
+            alert(
+                "আগে রিপোর্টের ছবি নির্বাচন করুন।"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            typeof Tesseract ===
+            "undefined"
+        ){
+
+            alert(
+                "OCR engine পাওয়া যাচ্ছে না। Internet connection check করুন।"
+            );
+
+            return;
+
+        }
+
+
+        scanReportBtn.disabled =
+            true;
+
+
+        ocrProgressBox.style.display =
+            "block";
+
+
+        reportResultBox.style.display =
+            "none";
+
+
+        ocrProgress.style.width =
+            "0%";
+
+
+        ocrPercent.textContent =
+            "0%";
+
+
+        ocrStatus.textContent =
+            "OCR engine চালু হচ্ছে...";
+
+
+        try{
+
+            const result =
+                await Tesseract.recognize(
+                    selectedReportFile,
+                    "eng",
+                    {
+
+                        logger:function(info){
+
+                            if(
+                                info.status ===
+                                "recognizing text"
+                            ){
+
+                                const value =
+                                    Math.round(
+                                        (
+                                            info.progress ||
+                                            0
+                                        ) * 100
+                                    );
+
+
+                                ocrProgress.style.width =
+                                    value + "%";
+
+
+                                ocrPercent.textContent =
+                                    value + "%";
+
+
+                                ocrStatus.textContent =
+                                    "রিপোর্টের লেখা পড়া হচ্ছে...";
+
+                            }
+
+                        }
+
+                    }
+                );
+
+
+            const text =
+                (
+                    result.data.text ||
+                    ""
+                ).trim();
+
+
+            ocrProgress.style.width =
+                "100%";
+
+
+            ocrPercent.textContent =
+                "100%";
+
+
+            ocrStatus.textContent =
+                "রিপোর্ট পড়া সম্পন্ন হয়েছে।";
+
+
+            if(text){
 
                 reportText.value =
-                    "";
+                    text;
 
-                previewBox.style.display =
-                    "none";
+            }else{
 
-                progressBox.style.display =
-                    "none";
-
-                resultBox.style.display =
-                    "none";
-
-                scanBtn.disabled =
-                    true;
-
-                if (cameraInput) {
-
-                    cameraInput.value =
-                        "";
-
-                }
-
-                if (galleryInput) {
-
-                    galleryInput.value =
-                        "";
-
-                }
+                reportText.value =
+                    "রিপোর্ট থেকে কোনো লেখা শনাক্ত করা যায়নি। আরও পরিষ্কার ছবি দিয়ে চেষ্টা করুন।";
 
             }
+
+
+            reportResultBox.style.display =
+                "block";
+
+
+        }catch(error){
+
+            console.error(
+                "OCR Error:",
+                error
+            );
+
+
+            ocrStatus.textContent =
+                "OCR সম্পন্ন করা যায়নি।";
+
+
+            reportText.value =
+                "রিপোর্ট স্ক্যান করতে সমস্যা হয়েছে। Internet connection এবং ছবির quality পরীক্ষা করুন।";
+
+
+            reportResultBox.style.display =
+                "block";
+
+        }
+
+
+        scanReportBtn.disabled =
+            false;
+
+    }
+);
+
+
+
+/* =====================================================
+   COPY REPORT
+===================================================== */
+
+document.getElementById(
+    "copyReportBtn"
+).addEventListener(
+    "click",
+    async function(){
+
+        const text =
+            reportText.value.trim();
+
+
+        if(!text){
+
+            alert(
+                "কপি করার মতো কোনো রিপোর্ট নেই।"
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            await navigator.clipboard.writeText(
+                text
+            );
+
+
+            alert(
+                "✅ রিপোর্টের লেখা কপি হয়েছে।"
+            );
+
+        }catch(error){
+
+            reportText.select();
+
+            document.execCommand(
+                "copy"
+            );
+
+
+            alert(
+                "✅ রিপোর্টের লেখা কপি হয়েছে।"
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   SAVE REPORT
+===================================================== */
+
+document.getElementById(
+    "saveReportBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        const text =
+            reportText.value.trim();
+
+
+        if(!text){
+
+            alert(
+                "Save করার মতো কোনো রিপোর্ট নেই।"
+            );
+
+            return;
+
+        }
+
+
+        const reports =
+            getJSON(
+                REPORT_KEY,
+                []
+            );
+
+
+        reports.push({
+
+            id:
+                Date.now(),
+
+            text:
+                text,
+
+            createdAt:
+                new Date().toISOString()
+
+        });
+
+
+        setJSON(
+            REPORT_KEY,
+            reports
         );
+
+
+        alert(
+            "✅ রিপোর্ট MediVoice-এ সংরক্ষণ হয়েছে।"
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   CLEAR REPORT
+===================================================== */
+
+document.getElementById(
+    "clearReportBtn"
+).addEventListener(
+    "click",
+    function(){
+
+        selectedReportFile =
+            null;
+
+
+        reportImage.src =
+            "";
+
+
+        reportPreview.style.display =
+            "none";
+
+
+        reportText.value =
+            "";
+
+
+        reportResultBox.style.display =
+            "none";
+
+
+        ocrProgressBox.style.display =
+            "none";
+
+
+        ocrProgress.style.width =
+            "0%";
+
+
+        ocrPercent.textContent =
+            "0%";
+
+
+        scanReportBtn.disabled =
+            true;
+
+
+        cameraInput.value =
+            "";
+
+
+        galleryInput.value =
+            "";
+
+    }
+);
+
+
+
+/* =====================================================
+   DAILY MEDICINE NOTIFICATION
+===================================================== */
+
+function checkMedicineReminders(){
+
+    const medicines =
+        getJSON(
+            MEDICINE_KEY,
+            []
+        );
+
+
+    if(!medicines.length){
+
+        return;
 
     }
 
 
-})();
+    const now =
+        new Date();
+
+
+    const today =
+        now.toISOString()
+        .slice(0,10);
+
+
+    const currentTime =
+        now.toTimeString()
+        .slice(0,5);
+
+
+    medicines.forEach(
+        medicine => {
+
+
+            if(
+                medicine.start &&
+                today <
+                medicine.start
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                medicine.end &&
+                today >
+                medicine.end
+            ){
+
+                return;
+
+            }
+
+
+            if(
+                medicine.time !==
+                currentTime
+            ){
+
+                return;
+
+            }
+
+
+            const key =
+                "medivoice_notified_" +
+                today +
+                "_" +
+                medicine.id;
+
+
+            if(
+                localStorage.getItem(key)
+            ){
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                key,
+                "1"
+            );
+
+
+            if(
+                "Notification" in window &&
+                Notification.permission ===
+                "granted"
+            ){
+
+                new Notification(
+                    "💊 MediVoice Medicine Reminder",
+                    {
+                        body:
+                        medicine.name +
+                        " — " +
+                        medicine.dose
+                    }
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   HTML SECURITY HELPER
+===================================================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function initializeMediVoice(){
+
+    updateNotificationUI();
+
+    renderMedicines();
+
+    renderHealth();
+
+    updateHome();
+
+    updateNextReminder();
+
+    checkMedicineReminders();
+
+}
+
+
+initializeMediVoice();
+
+
+setInterval(
+    function(){
+
+        updateNextReminder();
+
+        checkMedicineReminders();
+
+    },
+    30000
+);
 
 </script>
 
