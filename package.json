@@ -1,0 +1,12 @@
+{
+  "name": "medivoice-backend",
+  "version": "1.0.0",
+  "description": "Medivoice patient and doctor backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
